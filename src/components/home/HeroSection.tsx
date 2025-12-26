@@ -205,7 +205,7 @@ export default function HeroSection() {
         </div>
 
         {/* Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+        <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 flex gap-3">
           {slides.map((_, index) => (
             <button
               key={index}

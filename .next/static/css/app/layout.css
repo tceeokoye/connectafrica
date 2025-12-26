@@ -822,6 +822,9 @@ a:hover,
 .top-1\/2 {
   top: 50%;
 }
+.top-10 {
+  top: 2.5rem;
+}
 .top-2 {
   top: 0.5rem;
 }
@@ -845,6 +848,9 @@ a:hover,
 }
 .top-full {
   top: 100%;
+}
+.-bottom-20 {
+  bottom: -5rem;
 }
 .z-0 {
   z-index: 0;
@@ -1895,6 +1901,12 @@ a:hover,
 }
 .bg-white\/90 {
   background-color: rgb(255 255 255 / 0.9);
+}
+.bg-earth\/60 {
+  background-color: hsl(var(--earth) / 0.6);
+}
+.bg-earth\/20 {
+  background-color: hsl(var(--earth) / 0.2);
 }
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
