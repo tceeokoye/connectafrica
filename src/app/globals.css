@@ -1,0 +1,9 @@
+@import '../index.css';
+
+/* Keep all existing styles from project, only override font */
+html, body, #__next {
+  height: 100%;
+}
+body {
+  font-family: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}

@@ -1,0 +1,181 @@
+/* Fonts loaded via index.html */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 99%;
+    --foreground: 0 0% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 15%;
+
+    --primary: 4 82% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 140 40% 96%;
+    --secondary-foreground: 0 0% 15%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 145 55% 38%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 4 82% 53%;
+
+    --radius: 0.75rem;
+
+    --earth: 145 55% 30%;
+    --earth-foreground: 0 0% 100%;
+
+    --gold: 38 95% 55%;
+    --gold-foreground: 0 0% 15%;
+
+    --terracotta: 4 82% 53%;
+    --terracotta-foreground: 0 0% 100%;
+
+    --sage: 145 55% 38%;
+    --sage-foreground: 0 0% 100%;
+
+    --sidebar-background: 145 55% 25%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 4 82% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 145 45% 30%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 145 40% 35%;
+    --sidebar-ring: 4 82% 53%;
+  }
+
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 4 82% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 145 30% 15%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 145 50% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 4 82% 58%;
+
+    --earth: 145 45% 20%;
+    --earth-foreground: 0 0% 95%;
+
+    --gold: 38 90% 50%;
+    --gold-foreground: 0 0% 10%;
+
+    --terracotta: 4 75% 50%;
+    --terracotta-foreground: 0 0% 100%;
+
+    --sage: 145 45% 40%;
+    --sage-foreground: 0 0% 100%;
+
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 4 82% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 145 30% 15%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 4 82% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body {
+    font-family: "Montserrat", system-ui, -apple-system, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  p,
+  span,
+  a,
+  button,
+  input,
+  textarea,
+  label,
+  li,
+  td,
+  th,
+  div {
+    font-family: "Montserrat", system-ui, -apple-system, sans-serif !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Montserrat", Georgia, serif !important;
+    @apply font-semibold;
+  }
+
+  a,
+  button {
+    @apply cursor-pointer outline-none
+  transition-transform duration-300 ease-out
+  hover:scale-[1.03];
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-terracotta to-gold;
+  }
+
+  .bg-gradient-hero {
+    @apply bg-gradient-to-br from-earth via-earth/90 to-earth/80;
+  }
+
+  .bg-gradient-warm {
+    @apply bg-gradient-to-br from-secondary via-background to-muted;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
