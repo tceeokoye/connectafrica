@@ -1,68 +1,51 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Package, Stethoscope, Baby, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import supply from "@/assets/hospitalSuply.jpeg";
 
-const supplies = [
-  { icon: Shield, text: "PPE: gloves, masks, and gowns" },
-  { icon: Stethoscope, text: "Diagnostic tools: BP cuffs, thermometers, pulse oximeters" },
-  { icon: Package, text: "Wound care and infection-control items" },
-  { icon: Baby, text: "Maternity and newborn delivery kits" },
-];
-
-export const CampaignSection = () => {
+export default function CampaignSection() {
   return (
-    <section className="py-20 bg-background">
+    <section className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
+            className="max-w-full lg:max-w-lg break-words"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 text-destructive text-sm font-medium mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 text-destructive text-sm font-medium mb-4 md:mb-6 break-words">
               <span className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
               Current Priority
             </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 md:mb-6 break-words">
               Urgent Medical Container Campaign
             </h2>
-            <p className="text-muted-foreground leading-relaxed mb-8">
-              Right now, Connect with Africa is preparing two containers of essential 
-              medical supplies for primary healthcare centers in Nigeria. These clinics 
-              lack gloves, basic diagnostic tools, wound care materials, and safe delivery 
-              supplies for mothers and newborns.
+
+            <p className="text-sm sm:text-base md:text-base text-muted-foreground mb-6 md:mb-8 break-words">
+              Right now, Connect with Africa is preparing two containers of
+              essential medical supplies for primary healthcare centers in
+              Nigeria. These clinics lack gloves, basic diagnostic tools, wound
+              care materials, and safe delivery supplies for mothers and
+              newborns.
             </p>
 
-            {/* <div className="space-y-4 mb-8">
-              <h4 className="font-semibold text-foreground">
-                Your support helps us send:
-              </h4>
-              {supplies.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.08, ease: "easeOut" }}
-                  className="flex items-center gap-3"
-                >
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <item.icon className="w-4 h-4 text-primary" />
-                  </div>
-                  <span className="text-muted-foreground">{item.text}</span>
-                </motion.div>
-              ))}
-            </div> */}
-
-            <Link href="/medical-container">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 transition-colors duration-200">
-                Support the Medical Container Campaign
+            <div className="w-full">
+              <Button
+                size="sm"
+                className="bg-primary transition-colors w-full "
+              >
+                Support the Campaign
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-            </Link>
+            </div>
           </motion.div>
 
           {/* Image */}
@@ -71,30 +54,34 @@ export const CampaignSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="relative"
+            className="relative w-full"
           >
-            <div className="relative rounded-2xl overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=800"
+            <div className="relative rounded-2xl overflow-hidden w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[500px]">
+              <Image
+                src={supply}
                 alt="Medical supplies and healthcare"
-                className="w-full h-[500px] object-cover"
+                fill
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-earth/60 to-transparent" />
             </div>
+
             {/* Progress Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
-              className="absolute -bottom-8 -left-8 bg-card p-6 rounded-xl shadow-xl max-w-[280px] hidden md:block"
+              className="absolute -bottom-6 left-0 md:left-[-32px] bg-card p-4 sm:p-6 rounded-xl shadow-xl max-w-[280px]"
             >
-              <div className="mb-4">
-                <div className="flex justify-between text-sm mb-2">
+              <div className="mb-3">
+                <div className="flex justify-between text-xs sm:text-sm mb-2">
                   <span className="text-muted-foreground">Progress</span>
-                  <span className="font-semibold text-foreground">65%</span>
+                  <span className="font-semibold text-foreground text-xs sm:text-sm">
+                    65%
+                  </span>
                 </div>
-                <div className="h-3 bg-muted rounded-full overflow-hidden">
+                <div className="h-2 sm:h-3 bg-muted rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: "65%" }}
@@ -104,9 +91,11 @@ export const CampaignSection = () => {
                   />
                 </div>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs sm:text-sm">
                 <span className="text-muted-foreground">Raised</span>
-                <span className="font-semibold text-primary">$32,500 / $50,000</span>
+                <span className="font-semibold text-primary text-xs sm:text-sm">
+                  $32,500 / $50,000
+                </span>
               </div>
             </motion.div>
           </motion.div>
@@ -114,6 +103,4 @@ export const CampaignSection = () => {
       </div>
     </section>
   );
-};
-
-export default CampaignSection;
+}

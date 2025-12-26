@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import Image from "next/image";
+import Founder from "@/assets/Founder.jpeg"
 
 export const FounderSection = () => {
   return (
@@ -15,11 +17,13 @@ export const FounderSection = () => {
           >
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-gold/20 to-accent/20 rounded-2xl blur-xl" />
-              <div className="relative rounded-2xl overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600"
+              <div className="relative rounded-2xl overflow-hidden w-full ">
+                <Image
+                  src={Founder}
                   alt="Cajetan Onu - Founder"
-                  className="w-full h-[500px] object-cover"
+                  width={500}
+                  height={400}
+                  className="w-full md:max-w-[80%] h-[400px] md:h-[600px]"
                 />
               </div>
             </div>

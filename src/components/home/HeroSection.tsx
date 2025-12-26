@@ -15,6 +15,14 @@ import { useState, useEffect } from "react";
 
 const slides = [
   {
+    // First slide is the "welcome" text only
+    title: "Welcome to Our Mission",
+    subtitle: "Making a Difference Together",
+    description:
+      "Join us as we support communities across Africa with healthcare, education, and sustainable development initiatives.",
+    icon: Heart, // optional icon
+  },
+  {
     image: "/assets/hero-img/hospitalSuply.jpeg",
     title: "Medical Supply Campaigns",
     subtitle: "Delivering Life-Saving Equipment",
@@ -52,7 +60,7 @@ const slides = [
   },
 ];
 
-export default function HeroSection(){
+export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -67,27 +75,31 @@ export default function HeroSection(){
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Animated Background Slides */}
-      <AnimatePresence mode="sync">
-        <motion.div
-          key={currentSlide}
-          initial={{ x: "100%", opacity: 1 }}
-          animate={{ x: "0%" }}
-          exit={{ x: "-100%" }}
-          transition={{ duration: 0.9, ease: "easeInOut" }}
-          className="absolute inset-0"
-        >
-          <motion.div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url('${slide.image}')` }}
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1.2, x: -40 }}
-            transition={{ duration: 6, ease: "linear" }}
-          />
+      {/* Background color for first slide */}
+      <div className="absolute inset-0 bg-earth w-full" />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-earth/70 via-earth/50 to-earth/30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-earth/60 via-transparent to-transparent" />
-        </motion.div>
+      {/* Only show background image for slides after the first */}
+      <AnimatePresence mode="sync">
+        {currentSlide !== 0 && (
+          <motion.div
+            key={currentSlide}
+            initial={{ x: "100%", opacity: 1 }}
+            animate={{ x: "0%" }}
+            exit={{ x: "-100%" }}
+            transition={{ duration: 0.9, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <motion.div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('${slide.image}')` }}
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1.2, x: -40 }}
+              transition={{ duration: 6, ease: "linear" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-earth/70 via-earth/50 to-earth/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-earth/60 via-transparent to-transparent" />
+          </motion.div>
+        )}
       </AnimatePresence>
 
       {/* Floating Elements */}
@@ -131,15 +143,7 @@ export default function HeroSection(){
                 transition={{ duration: 0.5 }}
                 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-earth-foreground leading-tight mb-6"
               >
-                {slide.title.split(" ").map((word, i) => (
-                  <span key={i}>
-                    {i === 0 ? (
-                      <span className="text-gold">{word}</span>
-                    ) : (
-                      ` ${word}`
-                    )}
-                  </span>
-                ))}
+                {slide.title}
               </motion.h1>
             </AnimatePresence>
 
@@ -157,41 +161,47 @@ export default function HeroSection(){
             </AnimatePresence>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/donate">
-                <Button size="lg" className="px-8 py-6 text-lg">
-                  Donate Now
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/medical-container">
-                <Button size="lg" className="px-8 py-6 text-lg bg-gold">
-                  View Our Campaigns
-                </Button>
-              </Link>
+              {currentSlide !== 0 && (
+                <>
+                  <Link href="/donate">
+                    <Button size="lg" className="px-8 py-6 text-lg hidden md:flex">
+                      Donate Now
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                  <Link href="/medical-container">
+                    <Button size="lg" className="px-8 py-6 text-lg bg-gold">
+                      View Our Campaigns
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
-          {/* Preview Card */}
-          <div className="hidden lg:block">
-            <motion.div className="bg-earth-foreground/10 backdrop-blur-md rounded-3xl p-8 border shadow-2xl">
-              <div className="aspect-video rounded-2xl overflow-hidden mb-6">
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-primary" />
+          {/* Preview Card: only for slides with images */}
+          {currentSlide !== 0 && (
+            <div className="hidden lg:block">
+              <motion.div className="bg-earth-foreground/10 backdrop-blur-md rounded-3xl p-8 border shadow-2xl">
+                <div className="aspect-video rounded-2xl overflow-hidden mb-6">
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <div>
-                  <div className="font-semibold">{slide.title}</div>
-                  <div className="text-sm opacity-70">Connect with Africa</div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">{slide.title}</div>
+                    <div className="text-sm opacity-70">Connect with Africa</div>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
+              </motion.div>
+            </div>
+          )}
         </div>
 
         {/* Indicators */}
@@ -209,6 +219,4 @@ export default function HeroSection(){
       </div>
     </section>
   );
-};
-
-
+}
