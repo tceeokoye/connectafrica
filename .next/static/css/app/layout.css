@@ -1153,15 +1153,6 @@ a:hover,
 .h-svh {
   height: 100svh;
 }
-.h-\[400px\] {
-  height: 400px;
-}
-.h-\[800px\] {
-  height: 800px;
-}
-.h-\[600px\] {
-  height: 600px;
-}
 .max-h-60 {
   max-height: 15rem;
 }
@@ -2008,10 +1999,6 @@ a:hover,
 }
 .fill-current {
   fill: currentColor;
-}
-.object-contain {
-  -o-object-fit: contain;
-     object-fit: contain;
 }
 .object-cover {
   -o-object-fit: cover;
@@ -3926,14 +3913,6 @@ a:hover,
 
   .md\:max-w-\[420px\] {
     max-width: 420px;
-  }
-
-  .md\:max-w-\[90\%\] {
-    max-width: 90%;
-  }
-
-  .md\:max-w-\[70\%\] {
-    max-width: 70%;
   }
 
   .md\:max-w-\[80\%\] {

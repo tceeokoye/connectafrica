@@ -23,7 +23,7 @@ export const FounderSection = () => {
                   alt="Cajetan Onu - Founder"
                   width={500}
                   height={400}
-                  className="w-full md:max-w-[80%] h-[400px] md:h-[600px]"
+                  className="w-full md:max-w-[80%] h-[500px] md:h-[600px]"
                 />
               </div>
             </div>
