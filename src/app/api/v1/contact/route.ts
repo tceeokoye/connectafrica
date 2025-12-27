@@ -5,7 +5,7 @@ import clientPromise from "@/lib/db";
 
 const ALLOWED_ORIGINS = [
   "http://localhost:3000",
-  "https://cohaaf2.vercel.app",
+  "https://connectafrica-fawn.vercel.app",
 ];
 
 function logError(err: any, context = "UNKNOWN") {

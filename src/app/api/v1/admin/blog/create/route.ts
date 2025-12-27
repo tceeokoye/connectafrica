@@ -23,7 +23,7 @@ function generateSlug(title: string) {
 }
 
 // allowed origins for CORS
-const ALLOWED_ORIGINS = ["http://localhost:3000", "https://cohaaf2.vercel.app"];
+const ALLOWED_ORIGINS = ["http://localhost:3000", "https://connectafrica-fawn.vercel.app"];
 
 export async function POST(req: NextRequest) {
   try {

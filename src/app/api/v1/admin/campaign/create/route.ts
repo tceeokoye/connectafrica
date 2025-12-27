@@ -4,7 +4,7 @@ import cloudinary from "@/lib/cloudinary";
 import jwt from "jsonwebtoken";
 
 
-const ALLOWED_ORIGINS = ["http://localhost:3000", "https://cohaaf2.vercel.app"];
+const ALLOWED_ORIGINS = ["http://localhost:3000", "https://connectafrica-fawn.vercel.app"];
 
 export async function POST(req: NextRequest) {
   try {
