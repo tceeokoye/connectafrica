@@ -1,147 +1,215 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import Layout from '../../components/layout/Layout'
-import { Button } from '../../components/ui/button'
-import { ArrowRight, TrendingUp } from 'lucide-react'
-
-const campaigns = [
-  {
-    id: 'medical-container',
-    title: 'Medical Container Campaign',
-    description: 'Equipping African healthcare centers with essential medical supplies and equipment to save lives.',
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=60',
-    raised: 32500,
-    goal: 50000,
-    progress: 65,
-    donors: 128,
-    status: 'active'
-  },
-  {
-    id: 'education',
-    title: 'School Building Initiative',
-    description: 'Building schools and providing learning materials to unlock potential of African youth.',
-    image: 'https://images.unsplash.com/photo-1427504494785-cdcd6c6ff4e4?w=800&auto=format&fit=crop&q=60',
-    raised: 18750,
-    goal: 40000,
-    progress: 47,
-    donors: 87,
-    status: 'active'
-  },
-  {
-    id: 'clean-water',
-    title: 'Clean Water Projects',
-    description: 'Installing wells and water purification systems for safe drinking water access.',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&auto=format&fit=crop&q=60',
-    raised: 24200,
-    goal: 35000,
-    progress: 69,
-    donors: 156,
-    status: 'active'
-  },
-  {
-    id: 'community-development',
-    title: 'Community Development',
-    description: 'Supporting sustainable community projects from housing to agricultural initiatives.',
-    image: 'https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?w=800&auto=format&fit=crop&q=60',
-    raised: 15600,
-    goal: 30000,
-    progress: 52,
-    donors: 94,
-    status: 'active'
-  },
-]
+import React, { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Layout from "../../components/layout/Layout";
+import { ArrowRight, TrendingUp, Filter } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setCampaigns } from "@/store/slices/campaignSlice";
 
 export default function CampaignsPage() {
+  const dispatch = useDispatch();
+  const campaigns = useSelector(
+    (state: RootState) => state.campaign.campaigns
+  );
+
+  const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [mounted, setMounted] = useState(false);
+
+  /** ✅ Fix hydration mismatch */
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  /** Fetch campaigns */
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/v1/admin/campaign/get");
+        const data = await res.json();
+        if (data.success) dispatch(setCampaigns(data.campaigns));
+      } catch (err) {
+        console.error("Failed to fetch campaigns:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCampaigns();
+  }, [dispatch]);
+
+  /** Categories */
+  const categories = useMemo(() => {
+    const cats = campaigns.map((c) => c.category).filter(Boolean);
+    return ["All", ...Array.from(new Set(cats))];
+  }, [campaigns]);
+
+  /** Filtered campaigns */
+  const filteredCampaigns =
+    selectedCategory === "All"
+      ? campaigns
+      : campaigns.filter((c) => c.category === selectedCategory);
+
+  /** Prevent SSR mismatch */
+  if (!mounted) {
+    return (
+      <Layout>
+        <section className="py-20 container mx-auto px-4" />
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <section className="py-20 container mx-auto px-4">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl mx-auto text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="max-w-3xl mx-auto text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Active Campaigns</h1>
-          <p className="text-lg text-muted-foreground">Support our ongoing initiatives to make a real difference in African communities.</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Active Campaigns
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            Support initiatives transforming African communities.
+          </p>
         </motion.div>
 
-        {/* Campaigns Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {campaigns.map((campaign, index) => (
-            <motion.article
-              key={campaign.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-            >
-              {/* Campaign Image */}
-              <div className="relative h-48 overflow-hidden bg-muted">
-                <img 
-                  src={campaign.image} 
-                  alt={campaign.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                <div className="absolute top-4 right-4">
-                  <span className="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full">
-                    {campaign.status === 'active' ? 'Active' : 'Ended'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="font-bold text-xl mb-2 text-foreground">{campaign.title}</h3>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{campaign.description}</p>
-
-                {/* Progress Bar */}
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-semibold text-foreground">Fundraising Progress</span>
-                    <span className="text-sm font-bold text-primary">{campaign.progress}%</span>
-                  </div>
-                  <div className="w-full h-3 bg-secondary rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${campaign.progress}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, delay: index * 0.1 }}
-                      className="h-full bg-gradient-to-r from-primary to-gold rounded-full"
-                    />
-                  </div>
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-2 gap-4 py-4 border-y border-border">
-                  <div>
-                    <div className="text-2xl font-bold text-primary">${(campaign.raised / 1000).toFixed(1)}K</div>
-                    <div className="text-xs text-muted-foreground">Raised</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-foreground">${(campaign.goal / 1000).toFixed(0)}K</div>
-                    <div className="text-xs text-muted-foreground">Goal</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-muted-foreground py-4 border-b border-border">
-                  <TrendingUp className="w-4 h-4 text-green-500" />
-                  <span><strong>{campaign.donors}</strong> donors supporting this campaign</span>
-                </div>
-
-                {/* CTA */}
-                <button className="w-full mt-4 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
-                  Contribute Now
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.article>
-          ))}
+        {/* 🔒 Sticky Category Filter */}
+        <div className="sticky top-20 z-30 bg-background/80 backdrop-blur border-b mb-14">
+          <div className="flex flex-wrap justify-center gap-3 py-4">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  selectedCategory === cat
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/70"
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  {cat === "All" && <Filter size={14} />}
+                  {cat}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Campaigns / Empty State */}
+        <AnimatePresence mode="wait">
+          {loading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20 text-muted-foreground"
+            >
+              Loading campaigns…
+            </motion.div>
+          ) : filteredCampaigns.length === 0 ? (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="text-center py-24 text-muted-foreground"
+            >
+              <p className="text-lg font-medium">
+                {selectedCategory === "All"
+                  ? "No campaigns available right now."
+                  : `No campaigns under "${selectedCategory}".`}
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="grid"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.12 } },
+              }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {filteredCampaigns.map((campaign) => {
+                const progress =
+                  (campaign.donatedAmount / campaign.amount) * 100;
+
+                return (
+                  <motion.article
+                    key={campaign._id}
+                    variants={{
+                      hidden: { opacity: 0, y: 30 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                    whileHover={{ y: -6 }}
+                    className="bg-card rounded-xl overflow-hidden border shadow-sm hover:shadow-lg transition-all"
+                  >
+                    {/* Image */}
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={campaign.imageUrl || ""}
+                        alt={campaign.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                      />
+                      <div className="absolute top-4 right-4">
+                        <span className="px-3 py-1 text-xs rounded-full bg-primary text-primary-foreground">
+                          {campaign.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2">
+                        {campaign.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                        {campaign.description}
+                      </p>
+
+                      {/* Progress */}
+                      <div className="mb-4">
+                        <div className="flex justify-between text-xs mb-1">
+                          <span>Progress</span>
+                          <span>{progress.toFixed(0)}%</span>
+                        </div>
+                        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${progress}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="h-full bg-primary"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Stats */}
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                        <TrendingUp size={16} className="text-green-500" />
+                        <span>{campaign.volunteers} supporters</span>
+                      </div>
+
+                      <button className="w-full mt-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg flex items-center justify-center gap-2 hover:bg-primary/90">
+                        Contribute
+                        <ArrowRight size={16} />
+                      </button>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
     </Layout>
-  )
+  );
 }

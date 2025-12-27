@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { X, ChevronDown } from "lucide-react";
+import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import DatePicker from "react-datepicker";
@@ -19,10 +19,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Campaign } from "@/types/global";
+
 interface JwtPayload {
   exp: number;
 }
-
 
 const categories = [
   "Education",
@@ -35,6 +35,7 @@ const categories = [
   "Events",
   "Others",
   "Food",
+  "Emergency",
 ];
 
 interface CampaignModalProps {
@@ -56,23 +57,13 @@ export default function CampaignModal({
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const token = useSelector((state: RootState) => state.token.token);
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [category, setCategory] = useState("");
 
+  const token = useSelector((state: RootState) => state.token.token);
   const router = useRouter();
-
-  const days = Array.from({ length: 31 }, (_, i) =>
-    String(i + 1).padStart(2, "0")
-  );
-  const months = Array.from({ length: 12 }, (_, i) =>
-    String(i + 1).padStart(2, "0")
-  );
-  const years = Array.from({ length: 50 }, (_, i) =>
-    String(new Date().getFullYear() - i)
-  );
 
   useEffect(() => {
     if (campaign) {
@@ -103,55 +94,25 @@ export default function CampaignModal({
     }
   };
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
-    // --- JWT Verification ---
 
     if (!token) {
       setLoading(false);
       onClose();
       toast.error("Login expired, redirecting...");
-      router.push("/admin/auth/login");
-      return;
-    }
-    
-
-    try {
-      const decoded: JwtPayload = jwtDecode(token);
-      if (decoded.exp * 1000 < Date.now()) {
-        setLoading(false);
-        onClose();
-        toast.error("Session expired, redirecting...");
-        router.push("/admin/auth/login");
-        return;
-      }
-    } catch (err) {
-      setLoading(false);
-      onClose();
-      toast.error("Invalid token, redirecting...");
-      router.push("/admin/auth/login");
+      router.push("/admin/login");
       return;
     }
 
-    // --- Validate Fields ---
-    if (
-      !title ||
-      !description ||
-      !amount ||
-      !startDate ||
-      !endDate ||
-      !category ||
-      (!campaign && !image)
-    ) {
+
+
+    if (!title || !description || !amount || !startDate || !endDate || !category || (!campaign && !image)) {
       setLoading(false);
       toast.error("All fields including image and amount are required");
       return;
     }
-
-    console.log("my category option", category)
 
     try {
       // Convert image to Base64
@@ -172,6 +133,19 @@ export default function CampaignModal({
         ? `/api/v1/admin/campaign/edit/${campaign._id}`
         : "/api/v1/admin/campaign/create";
 
+      // Optional: Check if another Emergency campaign exists
+      if (!campaign && category === "Emergency") {
+        const checkRes = await fetch("/api/v1/admin/campaign/emergency-check", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const checkData = await checkRes.json();
+        if (checkData.exists) {
+          toast.error("Only one active Emergency campaign is allowed.");
+          setLoading(false);
+          return;
+        }
+      }
+
       const res = await fetch(url, {
         method,
         headers: {
@@ -191,11 +165,8 @@ export default function CampaignModal({
 
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
-      console.log("data:", data);
 
-      toast.success(
-        campaign ? "Campaign updated!" : "Campaign created successfully!"
-      );
+      toast.success(campaign ? "Campaign updated!" : "Campaign created successfully!");
       if (onSave) await onSave();
       onClose();
     } catch (err: any) {
@@ -235,9 +206,7 @@ export default function CampaignModal({
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Title */}
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">
-                  Title
-                </label>
+                <label className="block text-sm font-medium text-foreground mb-1">Title</label>
                 <input
                   type="text"
                   value={title}
@@ -249,9 +218,7 @@ export default function CampaignModal({
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">
-                  Description
-                </label>
+                <label className="block text-sm font-medium text-foreground mb-1">Description</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -263,9 +230,7 @@ export default function CampaignModal({
 
               {/* Amount */}
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">
-                  Project Amount
-                </label>
+                <label className="block text-sm font-medium text-foreground mb-1">Project Amount</label>
                 <input
                   type="number"
                   value={amount}
@@ -274,19 +239,15 @@ export default function CampaignModal({
                   className="w-full px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 />
               </div>
+
+              {/* Category */}
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-
-                <SelectContent
-                  position="popper"
-                  className="max-h-60 overflow-y-auto"
-                >
+                <SelectContent position="popper" className="max-h-60 overflow-y-auto">
                   {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {cat}
-                    </SelectItem>
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -294,9 +255,7 @@ export default function CampaignModal({
               {/* Start & End Dates */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">
-                    Start Date
-                  </label>
+                  <label className="block text-sm font-medium text-foreground mb-1">Start Date</label>
                   <DatePicker
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -307,9 +266,7 @@ export default function CampaignModal({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">
-                    End Date
-                  </label>
+                  <label className="block text-sm font-medium text-foreground mb-1">End Date</label>
                   <DatePicker
                     selected={endDate}
                     onChange={(date) => setEndDate(date)}
@@ -322,9 +279,7 @@ export default function CampaignModal({
 
               {/* Image */}
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">
-                  Campaign Image
-                </label>
+                <label className="block text-sm font-medium text-foreground mb-1">Campaign Image</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -340,12 +295,7 @@ export default function CampaignModal({
                 )}
               </div>
 
-              <Button
-                type="submit"
-                variant="default"
-                className="w-full mt-4"
-                disabled={loading}
-              >
+              <Button type="submit" variant="default" className="w-full mt-4" disabled={loading}>
                 {loading
                   ? campaign
                     ? "Updating..."

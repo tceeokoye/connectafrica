@@ -15,8 +15,8 @@ import { useState, useEffect } from "react";
 
 const slides = [
   {
-    // First slide is the "welcome" text only
-    title: "Welcome to Our Mission",
+    image: "/assets/logo.jpg",
+    title: "Welcome to Connect Africa",
     subtitle: "Making a Difference Together",
     description:
       "Join us as we support communities across Africa with healthcare, education, and sustainable development initiatives.",
@@ -62,10 +62,39 @@ const slides = [
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [typedText, setTypedText] = useState("");
+  const [showPuzzle, setShowPuzzle] = useState(false);
+
+  useEffect(() => {
+    if (!showWelcome) return;
+
+    const text = slides[0]?.title ?? "";
+    let index = 0;
+    setTypedText("");
+
+    const interval = setInterval(() => {
+      setTypedText((prev) => prev + text[index]);
+      index++;
+      if (index === text.length) {
+        clearInterval(interval);
+        setTimeout(() => {
+          setShowWelcome(false); // typing finished
+          setShowPuzzle(true); // show puzzle animation
+          setTimeout(() => {
+            setShowPuzzle(false);
+            setCurrentSlide(1); // finally move to slide 1
+          }, 1200);
+        }, 1200);
+      }
+    }, 80);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1 >= slides.length ? 1 : prev + 1));
     }, 6000);
     return () => clearInterval(timer);
   }, []);
@@ -76,11 +105,67 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background color for first slide */}
-      <div className="absolute inset-0 bg-earth w-full" />
+      <div
+        className={`absolute inset-0 w-full transition-colors duration-700 ${
+          showWelcome ? "bg-earth" : "bg-transparent"
+        }`}
+      />
+
+      <AnimatePresence>
+        {showPuzzle && (
+          <motion.div
+            className="absolute inset-0 z-0"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* TOP */}
+            <motion.div
+              className="absolute top-0 left-0 w-full h-1/2 bg-cover bg-center"
+              style={{ backgroundImage: `url('${slides[1].image}')` }}
+              initial={{ y: "-100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            />
+
+            {/* BOTTOM */}
+            <motion.div
+              className="absolute bottom-0 left-0 w-full h-1/2 bg-cover bg-center"
+              style={{ backgroundImage: `url('${slides[1].image}')` }}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            />
+
+            {/* LEFT */}
+            <motion.div
+              className="absolute top-0 left-0 w-1/2 h-full bg-cover bg-center"
+              style={{ backgroundImage: `url('${slides[1].image}')` }}
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            />
+
+            {/* RIGHT */}
+            <motion.div
+              className="absolute top-0 right-0 w-1/2 h-full bg-cover bg-center"
+              style={{ backgroundImage: `url('${slides[1].image}')` }}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            />
+
+            {/* OVERLAY */}
+            <div className="absolute inset-0 bg-gradient-to-r from-earth/70 via-earth/50 to-earth/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-earth/60 via-transparent to-transparent" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Only show background image for slides after the first */}
       <AnimatePresence mode="sync">
-        {currentSlide !== 0 && (
+        {!showWelcome && !showPuzzle && currentSlide !== 0 && (
           <motion.div
             key={currentSlide}
             initial={{ x: "100%", opacity: 1 }}
@@ -127,10 +212,15 @@ export default function HeroSection() {
                 transition={{ duration: 0.4 }}
                 className="mb-6"
               >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 text-gold text-sm font-medium backdrop-blur-sm border border-gold/30">
-                  <IconComponent className="w-4 h-4" />
-                  {slide.subtitle}
-                </span>
+                {" "}
+                {!showWelcome && (
+                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 text-gold text-sm font-medium backdrop-blur-sm border border-gold/30">
+                    <>
+                      {IconComponent && <IconComponent className="w-4 h-4" />}
+                      {slide.subtitle}
+                    </>
+                  </span>
+                )}
               </motion.div>
             </AnimatePresence>
 
@@ -143,7 +233,7 @@ export default function HeroSection() {
                 transition={{ duration: 0.5 }}
                 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-earth-foreground leading-tight mb-6"
               >
-                {slide.title}
+                {showWelcome ? typedText : slide.title}
               </motion.h1>
             </AnimatePresence>
 
@@ -164,7 +254,10 @@ export default function HeroSection() {
               {currentSlide !== 0 && (
                 <>
                   <Link href="/donate">
-                    <Button size="lg" className="px-8 py-6 text-lg hidden md:flex">
+                    <Button
+                      size="lg"
+                      className="px-8 py-6 text-lg hidden md:flex"
+                    >
                       Donate Now
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
@@ -196,7 +289,9 @@ export default function HeroSection() {
                   </div>
                   <div>
                     <div className="font-semibold">{slide.title}</div>
-                    <div className="text-sm opacity-70">Connect with Africa</div>
+                    <div className="text-sm opacity-70">
+                      Connect with Africa
+                    </div>
                   </div>
                 </div>
               </motion.div>

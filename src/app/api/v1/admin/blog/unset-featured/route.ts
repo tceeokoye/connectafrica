@@ -22,7 +22,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const client = await clientPromise;
-    const db = client.db("ngo");
+    const db = client.db("connect_africa");
     const blogs = db.collection("blogs");
 
     await blogs.updateMany({ featured: true }, { $set: { featured: false } });

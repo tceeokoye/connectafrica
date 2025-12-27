@@ -35,7 +35,7 @@ export default function DeleteBlogModal({
       if (!token) {
         onClose();
         toast.error("Login expired, redirecting...");
-        router.push("/admin/auth/login"); // or /admin/dashboard
+        router.push("/admin/login"); // or /admin/dashboard
         return; // stop execution
       }
 
@@ -48,7 +48,7 @@ export default function DeleteBlogModal({
         // Token invalid or expired
         onClose();
         toast.error("Session expired, redirecting...");
-        router.push("/admin/auth/login"); // redirect
+        router.push("/admin/login"); // redirect
         return;
       }
 

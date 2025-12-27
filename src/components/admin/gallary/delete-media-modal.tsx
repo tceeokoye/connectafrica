@@ -37,7 +37,7 @@ export default function DeleteGallaryModal({
       if (!token) {
         onClose();
         toast.error("Login expired, redirecting...");
-        router.push("/admin/auth/login");
+        router.push("/admin/login");
         return;
       }
 
@@ -50,7 +50,7 @@ export default function DeleteGallaryModal({
         // Token invalid or expired
         onClose();
         toast.error("Session expired, redirecting...");
-        router.push("/admin/auth/login"); // redirect
+        router.push("/admin/login"); // redirect
         return;
       }
 

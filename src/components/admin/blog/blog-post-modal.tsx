@@ -107,7 +107,7 @@ export default function BlogPostModal({
 
     if (!token) {
       toast.error("Your session expired. Please login again.");
-      router.push("/admin/auth/login");
+      router.push("/admin/login");
       setLoading(false);
       return;
     }
@@ -118,12 +118,12 @@ export default function BlogPostModal({
       setLoading(false);
       onClose();
       toast.error("Login expired, redirecting...");
-      router.push("/admin/auth/login");
+      router.push("/admin/login");
       return;
     }
     } catch {
       toast.error("Authentication failed. Please login again.");
-      router.push("/admin/auth/login");
+      router.push("/admin/login");
       setLoading(false);
       return;
     }
@@ -194,7 +194,7 @@ export default function BlogPostModal({
 
       if (res.status === 401) {
         toast.error("Session expired. Please login again.");
-        router.push("/admin/auth/login");
+        router.push("/admin/login");
         setLoading(false);
         return;
       }

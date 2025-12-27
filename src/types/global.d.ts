@@ -21,7 +21,7 @@ export interface Blog {
   author: string;
   readTime: string;
   category: string;
-  tags?: string[];   
+  tags?: string[];
   featured?: boolean;
   image?: string;
   createdAt: string;
@@ -38,6 +38,7 @@ export interface MediaItem {
 interface Campaign {
   _id: string;
   title: string;
+  priority: boolean;
   description: string;
   amount: number;
   startDate: string;
@@ -46,7 +47,7 @@ interface Campaign {
   createdAt: string;
   category: string;
   volunteers: number;
-  status: "inprogress" | "completed" | "suspended"
+  status: "inprogress" | "completed" | "suspended";
   donatedAmount?: number; // optional for progress tracking
 }
 export type MediaItem = {

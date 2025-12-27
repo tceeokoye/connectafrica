@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Founder from "@/assets/Founder.jpeg"
 
-export const FounderSection = () => {
+export default function FounderSection(){
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -77,4 +77,4 @@ export const FounderSection = () => {
   );
 };
 
-export default FounderSection;
+
