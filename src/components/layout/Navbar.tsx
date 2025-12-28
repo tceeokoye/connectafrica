@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
@@ -20,6 +20,7 @@ const navLinks = [
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname() || '/';
+  const router = useRouter()
 
   return (
     <motion.header
@@ -47,7 +48,7 @@ export const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="relative group">
+              <button key={link.href} onClick={()=> router.push(link.href)} className="relative group">
                 <span
                   className={`text-sm font-medium transition-colors ${
                     pathname === link.href
@@ -64,7 +65,7 @@ export const Navbar = () => {
                   whileHover={{ width: "100%" }}
                   transition={{ duration: 0.3 }}
                 />
-              </Link>
+              </button>
             ))}
           </div>
 

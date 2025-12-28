@@ -12,6 +12,7 @@ import { WaysToHelpSection } from '../components/home/WaysToHelpSection'
 
 export default function Home() {
   return (
+    
     <Layout className="overflow-x-hidden" >
       <HeroSection />
       <AboutSection />
