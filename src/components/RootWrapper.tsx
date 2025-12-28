@@ -1,49 +1,52 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import FirstVisitLoader from './FirstVisitLoader'
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import FirstVisitLoader from "./FirstVisitLoader";
 
-export default function RootWrapper({ children }: { children: React.ReactNode }) {
-  const [showLoader, setShowLoader] = useState(false)
-  const [hydrated, setHydrated] = useState(false)
+export default function RootWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [hydrated, setHydrated] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
-    setHydrated(true)
+    setHydrated(true);
+
     try {
-      const seen = typeof window !== 'undefined' && localStorage.getItem('cwa_seen_first_visit')
+      const seen = localStorage.getItem("cwa_seen_first_visit");
       if (!seen) {
-        setShowLoader(true)
+        setShowLoader(true);
       }
-    } catch (e) {
-      // ignore
-    }
-  }, [])
+    } catch {}
+  }, []);
 
   const handleComplete = () => {
     try {
-      if (typeof window !== 'undefined') localStorage.setItem('cwa_seen_first_visit', '1')
-    } catch (e) {}
-    setShowLoader(false)
-  }
+      localStorage.setItem("cwa_seen_first_visit", "1");
+    } catch {}
+    setShowLoader(false);
+  };
 
-  // While server-rendered, don't attempt client-only UI until hydrated
-  if (!hydrated) return <>{children}</>
+  if (!hydrated) return null; // important: render nothing until ready
 
   return (
     <>
-      {showLoader && <FirstVisitLoader onComplete={handleComplete} />}
-      {!showLoader && (
+      {showLoader ? (
+        <FirstVisitLoader onComplete={handleComplete} />
+      ) : (
         <motion.div
           key="page"
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.45, ease: 'easeOut' }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
         >
           {children}
         </motion.div>
       )}
     </>
-  )
+  );
 }

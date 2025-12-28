@@ -20,7 +20,7 @@ const slides = [
     subtitle: "Making a Difference Together",
     description:
       "Join us as we support communities across Africa with healthcare, education, and sustainable development initiatives.",
-    icon: Heart, // optional icon
+    icon: Heart,
   },
   {
     image: "/assets/hero-img/hospitalSuply.jpeg",
@@ -29,7 +29,6 @@ const slides = [
     description:
       "Equipping African clinics with essential medical supplies, equipment, and resources to save lives and strengthen healthcare systems.",
     icon: Stethoscope,
-    stat: { value: "15+", label: "Partner Clinics" },
   },
   {
     image: "/assets/hero-img/education-support-hero.jpg",
@@ -38,7 +37,6 @@ const slides = [
     description:
       "Providing schools with learning materials, infrastructure support, and scholarship programs to unlock the potential of African youth.",
     icon: GraduationCap,
-    stat: { value: "5K+", label: "Students Reached" },
   },
   {
     image: "/assets/hero-img/community-development-hero.jpg",
@@ -47,7 +45,6 @@ const slides = [
     description:
       "Supporting sustainable community projects that create lasting change, from housing to agricultural initiatives across Africa.",
     icon: Home,
-    stat: { value: "20+", label: "Communities" },
   },
   {
     image: "/assets/hero-img/clean-water-hero.jpg",
@@ -56,260 +53,191 @@ const slides = [
     description:
       "Installing wells and water purification systems to provide clean, safe drinking water to communities in need.",
     icon: Droplets,
-    stat: { value: "10K+", label: "Lives Impacted" },
   },
 ];
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showWelcome, setShowWelcome] = useState(true);
-  const [typedText, setTypedText] = useState("");
   const [showPuzzle, setShowPuzzle] = useState(false);
+  const [typedText, setTypedText] = useState("");
 
+  /* ---------------- TYPEWRITER ---------------- */
   useEffect(() => {
     if (!showWelcome) return;
 
-    const text = slides[0]?.title ?? "";
+    const text = slides[0].title;
     let index = 0;
-    setTypedText("");
 
     const interval = setInterval(() => {
-      setTypedText((prev) => prev + text[index]);
+      setTypedText(text.slice(0, index + 1));
       index++;
+
       if (index === text.length) {
         clearInterval(interval);
+
         setTimeout(() => {
-          setShowWelcome(false); // typing finished
-          setShowPuzzle(true); // show puzzle animation
+          setShowPuzzle(true);
+
           setTimeout(() => {
+            setShowWelcome(false);
+            setCurrentSlide(1);
             setShowPuzzle(false);
-            setCurrentSlide(1); // finally move to slide 1
           }, 1200);
-        }, 1200);
+        }, 800);
       }
     }, 80);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [showWelcome]);
 
+  /* ---------------- SLIDE ROTATION ---------------- */
   useEffect(() => {
+    if (showWelcome || showPuzzle) return;
+
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1 >= slides.length ? 1 : prev + 1));
+      setCurrentSlide((prev) =>
+        prev + 1 >= slides.length ? 1 : prev + 1
+      );
     }, 6000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [showWelcome, showPuzzle]);
 
   const slide = slides[currentSlide];
-  const IconComponent = slide.icon;
+  const Icon = slide.icon;
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background color for first slide */}
+      {/* Background base */}
       <div
-        className={`absolute inset-0 w-full transition-colors duration-700 ${
+        className={`absolute inset-0 transition-colors duration-700 ${
           showWelcome ? "bg-earth" : "bg-transparent"
         }`}
       />
 
+      {/* PUZZLE TRANSITION (GROWS FROM WELCOME) */}
       <AnimatePresence>
         {showPuzzle && (
           <motion.div
-            className="absolute inset-0 z-0"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
+            className="absolute inset-0 z-20"
+            initial={{ scale: 0.2 }}
+            animate={{ scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 1.1, ease: "easeInOut" }}
           >
-            {/* TOP */}
-            <motion.div
-              className="absolute top-0 left-0 w-full h-1/2 bg-cover bg-center"
+            <div
+              className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: `url('${slides[1].image}')` }}
-              initial={{ y: "-100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
             />
-
-            {/* BOTTOM */}
-            <motion.div
-              className="absolute bottom-0 left-0 w-full h-1/2 bg-cover bg-center"
-              style={{ backgroundImage: `url('${slides[1].image}')` }}
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            />
-
-            {/* LEFT */}
-            <motion.div
-              className="absolute top-0 left-0 w-1/2 h-full bg-cover bg-center"
-              style={{ backgroundImage: `url('${slides[1].image}')` }}
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            />
-
-            {/* RIGHT */}
-            <motion.div
-              className="absolute top-0 right-0 w-1/2 h-full bg-cover bg-center"
-              style={{ backgroundImage: `url('${slides[1].image}')` }}
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            />
-
-            {/* OVERLAY */}
-            <div className="absolute inset-0 bg-gradient-to-r from-earth/70 via-earth/50 to-earth/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-earth/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-earth/60" />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Only show background image for slides after the first */}
+      {/* SLIDE BACKGROUND */}
       <AnimatePresence mode="sync">
         {!showWelcome && !showPuzzle && currentSlide !== 0 && (
           <motion.div
             key={currentSlide}
-            initial={{ x: "100%", opacity: 1 }}
+            className="absolute inset-0"
+            initial={{ x: "100%" }}
             animate={{ x: "0%" }}
             exit={{ x: "-100%" }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-            className="absolute inset-0"
+            transition={{ duration: 1, ease: "easeInOut" }}
           >
             <motion.div
               className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: `url('${slide.image}')` }}
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1.2, x: -40 }}
-              transition={{ duration: 6, ease: "linear" }}
+              initial={{ scale: 1.2 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 6, ease: "easeOut" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-earth/70 via-earth/50 to-earth/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-earth/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-earth/60" />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Floating Elements */}
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 right-20 w-40 h-40 rounded-full bg-gold/10 blur-3xl hidden lg:block"
-      />
-      <motion.div
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 left-20 w-48 h-48 rounded-full bg-primary/10 blur-3xl hidden lg:block"
-      />
-
+      {/* CONTENT */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Text Content */}
+          {/* LEFT TEXT */}
           <div className="max-w-2xl">
-            <AnimatePresence mode="wait">
+            {!showWelcome && (
               <motion.div
-                key={`badge-${currentSlide}`}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
                 className="mb-6"
               >
-                {" "}
-                {!showWelcome && (
-                  <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 text-gold text-sm font-medium backdrop-blur-sm border border-gold/30">
-                    <>
-                      {IconComponent && <IconComponent className="w-4 h-4" />}
-                      {slide.subtitle}
-                    </>
-                  </span>
-                )}
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 text-gold text-sm font-medium">
+                  {Icon && <Icon className="w-4 h-4" />}
+                  {slide.subtitle}
+                </span>
               </motion.div>
-            </AnimatePresence>
+            )}
 
-            <AnimatePresence mode="wait">
-              <motion.h1
-                key={`title-${currentSlide}`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.5 }}
-                className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-earth-foreground leading-tight mb-6"
-              >
-                {showWelcome ? typedText : slide.title}
-              </motion.h1>
-            </AnimatePresence>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-earth-foreground mb-6">
+              {showWelcome ? typedText : slide.title}
+            </h1>
 
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={`desc-${currentSlide}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5 }}
-                className="text-lg md:text-xl text-earth-foreground/90 mb-8"
-              >
+            {!showWelcome && (
+              <p className="text-lg md:text-xl text-earth-foreground/90 mb-8">
                 {slide.description}
-              </motion.p>
-            </AnimatePresence>
+              </p>
+            )}
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              {currentSlide !== 0 && (
-                <>
-                  <Link href="/donate">
-                    <Button
-                      size="lg"
-                      className="px-8 py-6 text-lg hidden md:flex"
-                    >
-                      Donate Now
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </Link>
-                  <Link href="/medical-container">
-                    <Button size="lg" className="px-8 py-6 text-lg bg-gold">
-                      View Our Campaigns
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </div>
+            {currentSlide !== 0 && (
+              <div className="flex gap-4">
+                <Link href="/donate">
+                  <Button size="lg" className="hidden md:flex">
+                    Donate Now
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/medical-container">
+                  <Button size="lg" className="bg-gold">
+                    View Our Campaigns
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
 
-          {/* Preview Card: only for slides with images */}
+          {/* RIGHT PREVIEW CARD */}
           {currentSlide !== 0 && (
             <div className="hidden lg:block">
-              <motion.div className="bg-earth-foreground/10 backdrop-blur-md rounded-3xl p-8 border shadow-2xl">
-                <div className="aspect-video rounded-2xl overflow-hidden mb-6">
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Heart className="w-5 h-5 text-primary" />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                  transition={{ duration: 0.5 }}
+                  className="bg-earth-foreground/10 backdrop-blur-md rounded-3xl p-8 border shadow-2xl"
+                >
+                  <div className="aspect-video rounded-2xl overflow-hidden mb-6">
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <div>
-                    <div className="font-semibold">{slide.title}</div>
-                    <div className="text-sm opacity-70">
-                      Connect with Africa
+
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                      <Heart className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <div className="font-semibold">{slide.title}</div>
+                      <div className="text-sm opacity-70">
+                        Connect with Africa
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </AnimatePresence>
             </div>
           )}
-        </div>
-
-        {/* Indicators */}
-        <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 flex gap-3">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentSlide ? "w-8 bg-gold" : "w-2 bg-white/40"
-              }`}
-            />
-          ))}
         </div>
       </div>
     </section>
