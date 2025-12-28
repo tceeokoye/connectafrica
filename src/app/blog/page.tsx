@@ -26,7 +26,8 @@ export default function BlogPage() {
     try {
       const res = await fetch("/api/v1/admin/blog/get");
       const data = await res.json();
-      if (!data.success) throw new Error(data.message || "Failed to fetch blogs");
+      if (!data.success)
+        throw new Error(data.message || "Failed to fetch blogs");
       dispatch(setBlogs(data.blogs));
     } catch (err: any) {
       toast.error(err.message || "Failed to load blogs");
@@ -46,7 +47,12 @@ export default function BlogPage() {
 
   const allTags = Array.from(new Set(blogs.flatMap((b) => b.tags || [])));
 
-  if (!mounted) return <Layout><section className="py-20 container mx-auto px-4" /></Layout>;
+  if (!mounted)
+    return (
+      <Layout>
+        <section className="py-20 container mx-auto px-4" />
+      </Layout>
+    );
 
   return (
     <Layout>
@@ -63,34 +69,39 @@ export default function BlogPage() {
           </p>
         </motion.div>
 
-        {/* Sticky Tags Filter */}
-        {allTags.length > 0 && (
-          <div className="sticky top-20 z-40 bg-muted/50 backdrop-blur-md py-4 mb-8 flex flex-wrap justify-center gap-3 rounded-lg shadow-sm">
-            <button
-              onClick={() => setSelectedTag(null)}
-              className={`px-3 py-1 rounded-full ${
-                !selectedTag
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground"
-              }`}
+        <div className="sticky top-[70px] md:top-20  md:flex md:justify-center z-30 w-full overflow-x-auto">
+          {allTags.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex gap-3 py-3 px-4 bg-background/80 backdrop-blur-sm justify-center shadow-sm w-full"
             >
-              All
-            </button>
-            {allTags.map((tag) => (
               <button
-                key={tag}
-                onClick={() => setSelectedTag(tag)}
+                onClick={() => setSelectedTag(null)}
                 className={`px-3 py-1 rounded-full ${
-                  selectedTag === tag
+                  !selectedTag
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted text-muted-foreground"
                 }`}
               >
-                {tag}
+                All
               </button>
-            ))}
-          </div>
-        )}
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedTag(tag)}
+                  className={`px-3 py-1 rounded-full ${
+                    selectedTag === tag
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </motion.div>
+          )}{" "}
+        </div>
 
         {/* Blog Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -113,12 +124,15 @@ export default function BlogPage() {
               </div>
               <div className="p-6">
                 <div className="text-xs text-muted-foreground mb-2">
-                  {new Date(post.createdAt).toLocaleDateString()} • {post.author}
+                  {new Date(post.createdAt).toLocaleDateString()} •{" "}
+                  {post.author}
                 </div>
                 <h3 className="font-semibold text-xl mb-2 text-foreground">
                   {post.title}
                 </h3>
-                <p className="text-muted-foreground text-sm mb-4">{post.excerpt}</p>
+                <p className="text-muted-foreground text-sm mb-4">
+                  {post.excerpt}
+                </p>
                 <div className="flex items-center justify-between">
                   <div className="flex gap-2">
                     {post.tags?.map((tag: string) => (

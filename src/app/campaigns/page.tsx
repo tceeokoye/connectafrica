@@ -10,9 +10,7 @@ import { setCampaigns } from "@/store/slices/campaignSlice";
 
 export default function CampaignsPage() {
   const dispatch = useDispatch();
-  const campaigns = useSelector(
-    (state: RootState) => state.campaign.campaigns
-  );
+  const campaigns = useSelector((state: RootState) => state.campaign.campaigns);
 
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -81,8 +79,12 @@ export default function CampaignsPage() {
         </motion.div>
 
         {/* 🔒 Sticky Category Filter */}
-        <div className="sticky top-20 z-30 bg-background/80 backdrop-blur border-b mb-14">
-          <div className="flex flex-wrap justify-center gap-3 py-4">
+        <div className="sticky top-[70px] md:top-20  md:flex md:justify-center z-30 w-full overflow-x-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex gap-3 py-3 px-4 bg-background/80 backdrop-blur-sm justify-center shadow-sm w-full"
+          >
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -99,7 +101,7 @@ export default function CampaignsPage() {
                 </span>
               </button>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Campaigns / Empty State */}
