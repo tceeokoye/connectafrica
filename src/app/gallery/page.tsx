@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -61,12 +61,14 @@ export default function GalleryPage() {
       : selectedCategory === "Videos"
       ? mediaItems.filter((item) => item.type === "video")
       : mediaItems.filter(
-          (item) => item.category.toLowerCase() === selectedCategory.toLowerCase() && item.type === "image"
+          (item) =>
+            item.category.toLowerCase() === selectedCategory.toLowerCase() &&
+            item.type === "image"
         );
 
   return (
     <Layout>
-      <section className="py-20 container mx-auto px-4">
+      <section className="py-20 container mx-auto px-4 w-full">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -79,26 +81,27 @@ export default function GalleryPage() {
           </p>
         </motion.div>
 
-        {/* Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="sticky top-20 z-30 flex flex-wrap gap-3 justify-center mb-6 bg-background/80 backdrop-blur-sm py-3 px-4 rounded-md shadow-sm"
-        >
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                selectedCategory === category
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-foreground hover:bg-secondary/80"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </motion.div>
+        <div className="sticky top-[70px] md:top-20  md:flex md:justify-center z-30 w-full overflow-x-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex gap-3 py-3 px-4 bg-background/80 backdrop-blur-sm w-max shadow-sm"
+          >
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                  selectedCategory === category
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </motion.div>
+        </div>
 
         {/* Gallery Grid */}
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
@@ -192,7 +195,9 @@ export default function GalleryPage() {
               )}
 
               <div className="mt-4 text-white">
-                <h2 className="text-2xl font-bold mb-2">{previewMedia.title}</h2>
+                <h2 className="text-2xl font-bold mb-2">
+                  {previewMedia.title}
+                </h2>
                 {/* <p className="text-gray-200">{previewMedia.description}</p> */}
               </div>
             </motion.div>
