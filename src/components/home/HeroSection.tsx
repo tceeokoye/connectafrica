@@ -1,17 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowRight,
-  Heart,
-  Stethoscope,
-  GraduationCap,
-  Home,
-  Droplets,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const slides = [
   {
@@ -19,174 +11,153 @@ const slides = [
     title: "Medical Supply Campaigns",
     subtitle: "Delivering Life-Saving Equipment",
     description:
-      "Equipping African clinics with essential medical supplies, equipment, and resources to save lives and strengthen healthcare systems.",
-    icon: Stethoscope,
+      "Equipping African clinics with essential medical supplies, equipment, and resources to save lives.",
   },
   {
     image: "/assets/hero-img/education-support-hero.jpg",
     title: "Education Support",
     subtitle: "Empowering Future Leaders",
     description:
-      "Providing schools with learning materials, infrastructure support, and scholarship programs to unlock the potential of African youth.",
-    icon: GraduationCap,
+      "Providing learning materials, infrastructure, and scholarships to unlock youth potential.",
   },
   {
     image: "/assets/hero-img/community-development-hero.jpg",
     title: "Community Development",
     subtitle: "Building Stronger Communities",
     description:
-      "Supporting sustainable community projects that create lasting change, from housing to agricultural initiatives across Africa.",
-    icon: Home,
+      "Supporting sustainable projects from housing to agriculture across Africa.",
   },
   {
     image: "/assets/hero-img/clean-water-hero.jpg",
     title: "Clean Water Projects",
     subtitle: "Access to Safe Water",
     description:
-      "Installing wells and water purification systems to provide clean, safe drinking water to communities in need.",
-    icon: Droplets,
+      "Installing wells and purification systems for safe drinking water in communities.",
   },
 ];
 
-export default function HeroSection() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [showPuzzle, setShowPuzzle] = useState(true);
+export default function HeroSectionModern3D() {
+  const [index, setIndex] = useState(0);
 
-  /* ---------------- SLIDE ROTATION ---------------- */
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) =>
-        prev + 1 >= slides.length ? 0 : prev + 1
-      );
-    }, 6000);
-
-    return () => clearInterval(timer);
+    const id = setInterval(() => {
+      setIndex((p) => (p + 1) % slides.length);
+    }, 7000);
+    return () => clearInterval(id);
   }, []);
 
-  const slide = slides[currentSlide];
-  const Icon = slide.icon;
+  const slide = slides[index];
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background base */}
-      <div className="absolute inset-0 transition-colors duration-700 bg-earth" />
-
-      {/* PUZZLE / FIRST SLIDE BG */}
-      <AnimatePresence>
-        {showPuzzle && (
+    <section className="relative h-screen w-full overflow-hidden bg-black text-white">
+      {/* Background image with slow cinematic motion */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={slide.image}
+          initial={{ opacity: 0, scale: 1.3, rotate: -3 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 1.4, ease: "easeInOut" }}
+          className="absolute inset-0"
+        >
           <motion.div
-            className="absolute inset-0 z-10"
-            initial={{ scale: 0.2 }}
-            animate={{ scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.1, ease: "easeInOut" }}
-            onAnimationComplete={() => setShowPuzzle(false)}
-          >
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${slide.image}')` }}
-            />
-            <div className="absolute inset-0 bg-earth/60" />
-          </motion.div>
-        )}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url('${slide.image}')` }}
+            animate={{ x: [-10, 10, -10], y: [-5, 5, -5] }}
+            transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
+          />
+          {/* Green overlay */}
+          <div className="absolute inset-0 bg-emerald-400/10 " />
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
+        </motion.div>
       </AnimatePresence>
 
-      {/* SLIDE BACKGROUND */}
-      <AnimatePresence mode="sync">
-        {!showPuzzle && (
+      {/* Floating gradient orbs */}
+      <motion.div
+        className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-3xl"
+        animate={{ y: [0, 40, 0], x: [0, 30, 0] }}
+        transition={{ repeat: Infinity, duration: 12 }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-orange-500/30 rounded-full blur-3xl"
+        animate={{ y: [0, -40, 0], x: [0, -30, 0] }}
+        transition={{ repeat: Infinity, duration: 10 }}
+      />
+
+      {/* Content */}
+      <div className="relative z-20 h-full flex items-center">
+        <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Text */}
           <motion.div
-            key={currentSlide}
-            className="absolute inset-0"
-            initial={{ x: "100%" }}
-            animate={{ x: "0%" }}
-            exit={{ x: "-100%" }}
-            transition={{ duration: 1, ease: "easeInOut" }}
+            key={slide.title}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
           >
-            <motion.div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${slide.image}')` }}
-              initial={{ scale: 1.2 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 6, ease: "easeOut" }}
-            />
-            <div className="absolute inset-0 bg-earth/60" />
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-sm">
+              <Sparkles className="w-4 h-4 text-yellow-400" />
+              {slide.subtitle}
+            </span>
 
-      {/* CONTENT (always rendered) */}
-      <div className="container mx-auto px-4 relative z-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* LEFT TEXT */}
-          <div className="max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6"
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/20 text-gold text-sm font-medium">
-                {Icon && <Icon className="w-4 h-4" />}
-                {slide.subtitle}
-              </span>
-            </motion.div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-earth-foreground mb-6">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
               {slide.title}
             </h1>
 
-            <p className="text-lg md:text-xl text-earth-foreground/90 mb-8">
+            <p className="text-lg text-white/80 max-w-xl">
               {slide.description}
             </p>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col md:flex-row mb-12 md:mb-0 gap-4">
               <Link href="/donate">
-                <Button size="lg" className="hidden md:flex">
+                <button className="px-8 py-4 bg-white text-black rounded-xl font-semibold flex items-center gap-2 hover:scale-105 transition">
                   Donate Now
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
               </Link>
+
               <Link href="/medical-container">
-                <Button size="lg" className="bg-gold">
-                  View Our Campaigns
-                </Button>
+                <button className="px-8 py-4 border border-white/40 rounded-xl hover:bg-white/10 transition">
+                  View Campaigns
+                </button>
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          {/* RIGHT PREVIEW CARD */}
-          <div className="hidden lg:block">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                transition={{ duration: 0.5 }}
-                className="bg-earth-foreground/10 backdrop-blur-md rounded-3xl p-8 border shadow-2xl"
-              >
-                <div className="aspect-video rounded-2xl overflow-hidden mb-6">
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Heart className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">{slide.title}</div>
-                    <div className="text-sm opacity-70">
-                      Connect with Africa
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+          {/* Right 3D Glass Card */}
+          <div className="hidden lg:flex justify-center perspective-1000">
+            <motion.div
+              key={slide.image + "card"}
+              initial={{ rotateY: -20, opacity: 0 }}
+              animate={{ rotateY: 0, opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="w-[420px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl"
+              style={{ transformStyle: "preserve-3d" }}
+            >
+              <div className="rounded-2xl overflow-hidden mb-6">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="w-full h-64 object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">{slide.title}</h3>
+              <p className="text-sm text-white/70">Impact across Africa</p>
+            </motion.div>
           </div>
         </div>
+      </div>
+
+      {/* Slide Indicators */}
+      <div className="absolute  bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-30">
+        {slides.map((_, i) => (
+          <div
+            key={i}
+            className={`h-2 w-8 rounded-full transition-all duration-300 ${
+              i === index ? "bg-white" : "bg-white/30"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );

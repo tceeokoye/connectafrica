@@ -30,7 +30,7 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-earth text-earth-foreground">
+    <footer className="bg-gradient-to-r from-black/80 via-emerald-900/40 to-black/80 backdrop-blur-xltext-earth-foreground">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
