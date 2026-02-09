@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FileText, Shield, TrendingUp, Users, DollarSign, Award } from "lucide-react";
+import { FileText, Shield, TrendingUp, Users, DollarSign, Award, Download } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useState } from "react";
 
 const transparencyItems = [
   {
@@ -33,6 +34,34 @@ const transparencyItems = [
 ];
 
 export const TransparencySection = () => {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownloadReport = async (year: string = "2024") => {
+    try {
+      setDownloading(true);
+      const response = await fetch(`/api/v1/admin/reports/download?year=${year}`);
+      
+      if (!response.ok) {
+        throw new Error("Failed to download report");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Connect_Africa_Annual_Report_${year}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading report:", error);
+      alert("Failed to download report. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <section className="relative py-20 md:py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
       {/* Background elements */}
@@ -99,20 +128,35 @@ export const TransparencySection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-3xl p-12 md:p-16 text-white text-center"
         >
-          <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">Request Detailed Reports</h3>
-          <p className="text-emerald-100 mb-8 max-w-2xl mx-auto">
-            Access our complete financial records, impact assessments, and governance documents to verify our work.
+          <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">Download Annual Reports</h3>
+          <p className="text-emerald-100 mb-10 max-w-2xl mx-auto">
+            Access our complete financial records, impact assessments, and governance documents to verify our work and see the difference your donations are making.
           </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            <button
+              onClick={() => handleDownloadReport("2024")}
+              disabled={downloading}
+              className="inline-flex items-center justify-center gap-2 bg-white text-emerald-600 hover:bg-emerald-50 px-8 py-3 rounded-xl font-bold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Download className="w-5 h-5" />
+              {downloading ? "Downloading..." : "2024 Report"}
+            </button>
+            <button
+              onClick={() => handleDownloadReport("2023")}
+              disabled={downloading}
+              className="inline-flex items-center justify-center gap-2 border-2 border-white/50 text-white hover:border-white px-8 py-3 rounded-xl font-bold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Download className="w-5 h-5" />
+              2023 Report
+            </button>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">
-              <Button variant="secondary" className="hover:scale-105 transition-transform">
-                Download Annual Report
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button className="bg-white text-emerald-600 hover:bg-emerald-50 hover:scale-105 transition-transform">
-                Contact Our Team
-              </Button>
+              <button className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white px-8 py-3 rounded-xl font-bold transition-all hover:scale-105">
+                Request More Documents
+              </button>
             </Link>
           </div>
         </motion.div>

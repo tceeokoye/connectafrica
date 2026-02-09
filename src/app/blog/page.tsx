@@ -63,13 +63,21 @@ export default function BlogPage() {
   return (
     <Layout>
       {/* ================= HERO ================= */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 text-white">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />
+      <section className="relative pt-40 pb-24 overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-900/60 to-slate-900">
+        <div className="absolute inset-0 opacity-10">
+          <motion.div 
+            animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
+            transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" 
+          />
+          <motion.div 
+            animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+            transition={{ duration: 10, repeat: Infinity, delay: 1 }}
+            className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl" 
+          />
         </div>
         
-        <div className="relative z-10 container mx-auto px-4 max-w-4xl">
+        <div className="relative z-10 container mx-auto px-4 max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,16 +88,15 @@ export default function BlogPage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-block px-4 py-2 rounded-full bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 text-sm font-semibold mb-6"
+              className="inline-block px-5 py-2 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-200 text-sm font-semibold mb-8"
             >
               Resources & Stories
             </motion.span>
-            <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
               Impact Stories & Insights
             </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Discover real stories from the field, research insights, and updates on how we're creating sustainable change 
-              across African communities.
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Discover real stories from the field, research insights, and updates on how we're creating sustainable change across African communities.
             </p>
           </motion.div>
         </div>

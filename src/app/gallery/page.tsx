@@ -82,13 +82,21 @@ export default function GalleryPage() {
   return (
     <Layout>
       {/* ================= HERO ================= */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 text-white">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />
+      <section className="relative pt-40 pb-24 overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-900/60 to-slate-900">
+        <div className="absolute inset-0 opacity-10">
+          <motion.div 
+            animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
+            transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" 
+          />
+          <motion.div 
+            animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+            transition={{ duration: 10, repeat: Infinity, delay: 1 }}
+            className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl" 
+          />
         </div>
         
-        <div className="relative z-10 container mx-auto px-4 max-w-4xl">
+        <div className="relative z-10 container mx-auto px-4 max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -99,49 +107,54 @@ export default function GalleryPage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-block px-4 py-2 rounded-full bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 text-sm font-semibold mb-6"
+              className="inline-block px-5 py-2 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-200 text-sm font-semibold mb-8"
             >
+              <ImageIcon className="w-4 h-4 inline mr-2" />
               Visual Impact Stories
             </motion.span>
-            <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
               Our Work in Action
             </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              See the real impact of your support through photos and videos from communities and healthcare facilities 
-              across Africa where we're making a difference.
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              See the transformative impact of our initiatives through photos and videos from communities and healthcare facilities across Africa where we're making a real difference in people's lives.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* ================= GALLERY ================= */}
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           {/* Filter Bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-16 flex flex-wrap gap-3 justify-center"
+            className="mb-20"
           >
-            <div className="flex items-center gap-3 mb-4 w-full justify-center text-sm text-gray-600">
-              <Filter className="w-5 h-5" />
-              <span className="font-semibold">Filter by category:</span>
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <Filter className="w-5 h-5 text-emerald-600" />
+                <span className="font-bold text-gray-900 text-lg">Filter Gallery</span>
+              </div>
+              <span className="text-sm text-gray-500">{filteredItems.length} items</span>
             </div>
-            {categories.map((category) => (
-              <motion.button
-                key={category}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                  selectedCategory === category
-                    ? "bg-emerald-600 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {category}
-              </motion.button>
-            ))}
+            <div className="flex flex-wrap gap-3">
+              {categories.map((category) => (
+                <motion.button
+                  key={category}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-6 py-3 rounded-full font-semibold transition-all transform ${
+                    selectedCategory === category
+                      ? "bg-emerald-600 text-white shadow-lg scale-105"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {category}
+                </motion.button>
+              ))}
+            </div>
           </motion.div>
 
           {/* Gallery Grid */}
@@ -152,15 +165,22 @@ export default function GalleryPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="text-center py-24"
+                className="text-center py-32"
               >
-                <div className="text-6xl mb-4">📷</div>
-                <p className="text-xl text-gray-600 mb-4">
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="text-7xl mb-6 inline-block"
+                >
+                  📷
+                </motion.div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-3">No Content Available</h3>
+                <p className="text-lg text-gray-600 mb-2">
                   {selectedCategory === "All"
-                    ? "No media available at the moment."
-                    : `No ${selectedCategory.toLowerCase()} content found.`}
+                    ? "No media items have been added to the gallery yet."
+                    : `No ${selectedCategory.toLowerCase()} content found in our collection.`}
                 </p>
-                <p className="text-gray-500">Check back soon for new updates!</p>
+                <p className="text-gray-500">Check back soon for new updates from our work across Africa.</p>
               </motion.div>
             ) : (
               <motion.div
@@ -169,144 +189,131 @@ export default function GalleryPage() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
               >
                 {filteredItems.map((item, index) => (
                   <motion.div
                     key={item._id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.05 }}
-                    whileHover={{ y: -8 }}
+                    initial={{ opacity: 0, scale: 0.85, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ 
+                      delay: index * 0.08,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
+                    whileHover={{ y: -12 }}
                     onClick={() => setPreviewMedia(item)}
-                    className="group relative h-64 overflow-hidden rounded-2xl cursor-pointer bg-gradient-to-br from-emerald-100 to-blue-100 shadow-lg hover:shadow-2xl transition-all"
+                    className="group relative h-72 overflow-hidden rounded-2xl cursor-pointer bg-gradient-to-br from-emerald-50 to-blue-50 shadow-md hover:shadow-2xl transition-all"
                   >
                     <img
                       src={item.type === "video" ? item.thumbnail : item.src}
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-700 ease-out"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        whileHover={{ scale: 1 }}
-                        className="flex items-center justify-center"
-                      >
-                        {item.type === "video" ? (
-                          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/40">
-                            <Play size={28} className="text-white fill-white" />
-                          </div>
-                        ) : (
-                          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/40">
-                            <ImageIcon size={28} className="text-white" />
-                          </div>
-                        )}
-                      </motion.div>
-                    </div>
+                    
+                    {/* Gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* Play/Image icon - centered */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileHover={{ scale: 1 }}
+                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      {item.type === "video" ? (
+                        <div className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-md border-2 border-white/60 hover:bg-white/50 transition-all">
+                          <Play size={32} className="text-white fill-white ml-1" />
+                        </div>
+                      ) : (
+                        <div className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-md border-2 border-white/60 hover:bg-white/50 transition-all">
+                          <ImageIcon size={32} className="text-white" />
+                        </div>
+                      )}
+                    </motion.div>
 
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-white/90 text-gray-900 text-xs font-bold rounded-full backdrop-blur-sm">
+                    {/* Category and Type badges */}
+                    <div className="absolute top-3 left-3 z-20">
+                      <span className="px-3 py-1 bg-emerald-600/90 backdrop-blur-md rounded-full text-xs font-semibold text-white">
+                        {item.type === "video" ? "📹 Video" : "📷 Photo"}
+                      </span>
+                    </div>
+                    
+                    <div className="absolute top-3 right-3 z-20">
+                      <span className="px-4 py-2 bg-white/95 backdrop-blur-md rounded-full text-xs font-bold text-emerald-600 shadow-lg">
                         {item.category}
                       </span>
                     </div>
 
-                    {/* Title Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white font-semibold line-clamp-2">{item.title}</p>
+                    {/* Title overlay at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                      <p className="text-white font-bold text-sm line-clamp-2">{item.title}</p>
+                      {item.description && (
+                        <p className="text-gray-200 text-xs line-clamp-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                          {item.description}
+                        </p>
+                      )}
                     </div>
                   </motion.div>
                 ))}
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Stats */}
-          {filteredItems.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mt-16 pt-16 border-t border-gray-200 text-center"
-            >
-              <p className="text-gray-600">
-                Showing <span className="font-bold text-emerald-600">{filteredItems.length}</span> of <span className="font-bold text-emerald-600">{mediaItems.length}</span> items
-              </p>
-            </motion.div>
-          )}
         </div>
       </section>
 
-      {/* ================= PREVIEW MODAL ================= */}
+      {/* ================= MEDIA PREVIEW MODAL ================= */}
       <AnimatePresence>
         {previewMedia && (
           <motion.div
-            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={() => setPreviewMedia(null)}
-            className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
           >
             <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-5xl w-full max-h-[90vh] overflow-hidden rounded-3xl bg-white shadow-2xl"
+              className="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full"
             >
-              {/* Close Button */}
-              <motion.button
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
+              <button
                 onClick={() => setPreviewMedia(null)}
-                className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg hover:bg-white transition-all"
+                className="absolute -top-4 -right-4 z-10 w-12 h-12 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110"
               >
-                <X className="w-6 h-6 text-gray-900" />
-              </motion.button>
+                <X className="w-6 h-6" />
+              </button>
 
-              {/* Content */}
-              <div className="overflow-y-auto max-h-[90vh]">
-                {previewMedia.type === "video" ? (
-                  <div className="bg-black">
-                    {previewMedia.src.includes("youtube") ? (
-                      <iframe
-                        src={convertYouTubeURL(previewMedia.src)}
-                        className="w-full aspect-video"
-                        allowFullScreen
-                      />
-                    ) : (
-                      <video
-                        src={previewMedia.src}
-                        controls
-                        autoPlay
-                        className="w-full aspect-video"
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <div className="bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center min-h-[500px]">
-                    <img
-                      src={previewMedia.src}
-                      alt={previewMedia.title}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                )}
+              {previewMedia.type === "video" ? (
+                <div className="relative w-full pt-[56.25%] bg-black rounded-3xl overflow-hidden">
+                  <iframe
+                    src={convertYouTubeURL(previewMedia.src)}
+                    title={previewMedia.title}
+                    className="absolute inset-0 w-full h-full"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                <img
+                  src={previewMedia.src}
+                  alt={previewMedia.title}
+                  className="w-full h-auto rounded-3xl"
+                />
+              )}
 
-                {/* Info */}
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-bold">
+              <div className="p-8">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">{previewMedia.title}</h2>
+                    <span className="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold">
                       {previewMedia.category}
                     </span>
-                    <span className="text-sm text-gray-600">
-                      {previewMedia.type === "video" ? "📹 Video" : "📷 Photo"}
-                    </span>
                   </div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                    {previewMedia.title}
-                  </h2>
                 </div>
+                {previewMedia.description && (
+                  <p className="text-gray-600 text-lg leading-relaxed">{previewMedia.description}</p>
+                )}
               </div>
             </motion.div>
           </motion.div>

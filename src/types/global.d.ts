@@ -34,6 +34,7 @@ export interface MediaItem {
   thumbnail?: string;
   title: string;
   category: string;
+  description?: string;
 }
 interface Campaign {
   _id: string;
@@ -50,11 +51,3 @@ interface Campaign {
   status: "inprogress" | "completed" | "suspended";
   donatedAmount?: number; // optional for progress tracking
 }
-export type MediaItem = {
-  id: number;
-  type: "image" | "video";
-  src: string;
-  thumbnail?: string;
-  title: string;
-  category: string;
-};

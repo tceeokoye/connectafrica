@@ -38,6 +38,11 @@ export default function DonatePage() {
       return
     }
 
+    if (amount < 10) {
+      toast({ title: 'Error', description: 'Minimum donation amount is ₦10', variant: 'destructive' })
+      return
+    }
+
     setLoading(true)
     try {
       const response = await fetch('/api/v1/user/donations/initiate', {
@@ -55,13 +60,23 @@ export default function DonatePage() {
 
       const data = await response.json()
       
-      if (data.success && data.checkoutUrl) {
+      if (data.success && data.checkoutUrl && data.reference) {
+        // Save donation reference to localStorage
+        localStorage.setItem('donation_reference', JSON.stringify({
+          reference: data.reference,
+          timestamp: Date.now(),
+          amount,
+          email: formData.email,
+        }))
+        
         toast({ 
           title: 'Redirecting to payment...', 
           description: `Processing your ${donationType} donation of ₦${amount.toLocaleString()}` 
         })
         // Redirect to Monnify checkout
-        window.location.href = data.checkoutUrl
+        setTimeout(() => {
+          window.location.href = data.checkoutUrl
+        }, 1500)
       } else {
         toast({ 
           title: 'Error', 
@@ -82,7 +97,7 @@ export default function DonatePage() {
   }
 
   return (
-    <Layout>
+    <Layout className='overflow-x-hidden'>
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0">
@@ -276,7 +291,7 @@ export default function DonatePage() {
                 <Button 
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-4 text-lg mt-4 rounded-lg transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r px-2 from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-4 text-lg mt-4 rounded-lg transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>
@@ -293,7 +308,7 @@ export default function DonatePage() {
                     </>
                   ) : (
                     <>
-                      <Heart className="w-5 h-5 mr-2 inline" />
+                      <Heart className="w-5 h-5 mr-2  hidden md:inline"/>
                       Complete Donation – ₦{(Number(customAmount || selectedAmount || 0)).toLocaleString()}
                     </>
                   )}
@@ -399,7 +414,7 @@ export default function DonatePage() {
               deliveries, read stories from clinics, and see how your contribution saved lives.
             </p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-10 py-3 text-lg rounded-lg font-semibold">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white px-10 py-3 text-lg rounded-lg font-semibold w-full md:w-fit">
                 View Recent Impact Stories →
               </Button>
             </motion.div>

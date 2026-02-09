@@ -65,62 +65,50 @@ export default function CampaignsPage() {
 
   return (
     <Layout>
-      <section className="pt-32 pb-20 container mx-auto px-4">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto text-center mb-16"
-        >
-          <span className="inline-block px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold mb-6">
-            Our Active Initiatives
-          </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Projects Making Real Impact
-          </h1>
-          <p className="text-lg text-gray-600 mb-4">
-            Every campaign is community-driven, transparent, and designed for measurable, sustainable impact. 
-            See where your contributions are going and the difference they're making.
-          </p>
-          
-          {/* Impact Summary */}
-          <div className="grid md:grid-cols-4 gap-6 mt-12 pt-8 border-t border-gray-200">
-            <div>
-              <div className="text-3xl font-bold text-emerald-600">
-                {campaigns.filter((c) => {
-                  const endDate = new Date(c.endDate);
-                  const now = new Date();
-                  return endDate >= now;
-                }).length}
-              </div>
-              <p className="text-gray-600 text-sm">Active Campaigns</p>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-red-600">
-                {campaigns.filter((c) => {
-                  const endDate = new Date(c.endDate);
-                  const now = new Date();
-                  return endDate < now;
-                }).length}
-              </div>
-              <p className="text-gray-600 text-sm">Expired Campaigns</p>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-600">
-                {campaigns.length}
-              </div>
-              <p className="text-gray-600 text-sm">Total Campaigns</p>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-emerald-600">
-                ₦{(filteredCampaigns.reduce((sum, c) => sum + (c.donatedAmount || 0), 0) || 0).toLocaleString()}
-              </div>
-              <p className="text-gray-600 text-sm">Funds Raised</p>
-            </div>
-          </div>
-        </motion.div>
+      {/* ================= HERO ================= */}
+      <section className="relative pt-40 pb-24 overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-900/60 to-slate-900">
+        <div className="absolute inset-0 opacity-10">
+          <motion.div 
+            animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
+            transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" 
+          />
+          <motion.div 
+            animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+            transition={{ duration: 10, repeat: Infinity, delay: 1 }}
+            className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl" 
+          />
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-4 max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <motion.span
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-block px-5 py-2 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-200 text-sm font-semibold mb-8"
+            >
+              <TrendingUp className="w-4 h-4 inline mr-2" />
+              Our Active Initiatives
+            </motion.span>
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
+              Projects Making Real Impact
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Every campaign is community-driven, transparent, and designed for measurable, sustainable impact. 
+              See where your contributions are going and the difference they're making.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
+      <section className="w-full bg-white">
+        <div className="pt-12 pb-20 container mx-auto px-4">
         {/* 🔒 Sticky Category Filter */}
         <div className="sticky top-[70px] md:top-20 z-30 w-full mb-8">
           <motion.div
@@ -299,6 +287,7 @@ export default function CampaignsPage() {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </section>
 
       {/* Campaign Donation Modal */}
