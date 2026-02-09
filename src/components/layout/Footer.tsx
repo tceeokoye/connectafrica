@@ -1,23 +1,29 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Mail, Globe, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Mail, Globe, Facebook, Twitter, Instagram, Linkedin, FileText, Shield } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const footerLinks = {
   quickLinks: [
     { href: "/", label: "Home" },
     { href: "/about", label: "About Us" },
-    { href: "/campaigns", label: "Campaigns" },
-    { href: "/gallery", label: "Gallery" },
-    { href: "/blog", label: "Blog" },
+    { href: "/campaigns", label: "Our Work" },
+    { href: "/blog", label: "Blog & Resources" },
     { href: "/donate", label: "Donate" },
     { href: "/contact", label: "Contact" },
   ],
-  campaigns: [
-    { href: "/medical-container-campaign", label: "Medical Container Campaign" },
-    { href: "/campaigns", label: "Healthcare Support" },
-    { href: "/campaigns", label: "Community Partnerships" },
+  resources: [
+    { href: "/", label: "Annual Reports" },
+    { href: "/", label: "Financial Statements" },
+    { href: "/", label: "Audit Reports" },
+    { href: "/", label: "Impact Stories" },
+  ],
+  compliance: [
+    { href: "/", label: "Privacy Policy" },
+    { href: "/", label: "Terms of Service" },
+    { href: "/", label: "Compliance" },
+    { href: "/", label: "Governance" },
   ],
 };
 
@@ -30,35 +36,52 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-black/80 via-emerald-900/40 to-black/80 backdrop-blur-xltext-earth-foreground">
+    <footer className="bg-gradient-to-b from-gray-900 to-black text-gray-100">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="lg:col-span-2"
           >
             <Link href="/" className="block mb-4">
               <Image 
                 src={logo} 
                 alt="Connect with Africa" 
-                className="h-14 w-auto bg-white rounded-lg p-1"
+                className="h-12 w-auto bg-white rounded-lg p-1"
                 priority={false}
               />
             </Link>
-            <p className="text-earth-foreground/80 text-sm leading-relaxed mb-6">
-              Bridging global generosity with local needs across African communities. 
-              Together, we can save lives with dignity.
+            <p className="text-gray-400 text-sm leading-relaxed mb-8">
+              Bridging global generosity with local needs. We deliver essential resources 
+              to underserved communities across Africa with integrity and transparency.
             </p>
+            
+            {/* Organization Info */}
+            <div className="mb-8 space-y-3 text-sm">
+              <div className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-emerald-500" />
+                <a href="mailto:connectwithafrica@gmail.com" className="hover:text-emerald-400 transition-colors">
+                  connectwithafrica@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <Globe className="w-5 h-5 text-emerald-500" />
+                <span>Organization Registration #: CWA-2024-001</span>
+              </div>
+            </div>
+
             <div className="flex gap-4">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
                   whileHover={{ scale: 1.1, y: -2 }}
-                  className="w-10 h-10 rounded-full bg-earth-foreground/10 flex items-center justify-center hover:bg-primary transition-colors"
+                  title={social.label}
+                  className="w-10 h-10 rounded-full bg-gray-800 hover:bg-emerald-600 flex items-center justify-center transition-colors"
                 >
                   <social.icon className="w-5 h-5" />
                 </motion.a>
@@ -73,13 +96,16 @@ export const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="font-display text-lg font-semibold mb-6">Quick Links</h4>
+            <h4 className="font-semibold text-white mb-6 flex items-center gap-2">
+              <span className="w-1 h-6 bg-emerald-500 rounded" />
+              Navigation
+            </h4>
             <ul className="space-y-3">
               {footerLinks.quickLinks.map((link) => (
                 <li key={link.href + link.label}>
                   <Link
                     href={link.href}
-                    className="text-earth-foreground/80 hover:text-gold transition-colors text-sm"
+                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -88,20 +114,23 @@ export const Footer = () => {
             </ul>
           </motion.div>
 
-          {/* Campaigns */}
+          {/* Resources & Transparency */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="font-display text-lg font-semibold mb-6">Our Work</h4>
+            <h4 className="font-semibold text-white mb-6 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-emerald-500" />
+              Transparency
+            </h4>
             <ul className="space-y-3">
-              {footerLinks.campaigns.map((link, index) => (
+              {footerLinks.resources.map((link, index) => (
                 <li key={index}>
                   <Link
                     href={link.href}
-                    className="text-earth-foreground/80 hover:text-gold transition-colors text-sm"
+                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -110,58 +139,75 @@ export const Footer = () => {
             </ul>
           </motion.div>
 
-          {/* Contact */}
+          {/* Compliance & Legal */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="font-display text-lg font-semibold mb-6">Contact Us</h4>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-gold" />
-                <a
-                  href="mailto:connectwithafrica@gmail.com"
-                  className="text-earth-foreground/80 hover:text-gold transition-colors text-sm"
-                >
-                  connectwithafrica@gmail.com
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Globe className="w-5 h-5 text-gold" />
-                <span className="text-earth-foreground/80 text-sm">
-                  www.connectwithafrica.org
-                </span>
-              </li>
+            <h4 className="font-semibold text-white mb-6 flex items-center gap-2">
+              <Shield className="w-4 h-4 text-emerald-500" />
+              Compliance
+            </h4>
+            <ul className="space-y-3">
+              {footerLinks.compliance.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </motion.div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Certifications & Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 pt-8 border-t border-earth-foreground/20"
+          className="mt-12 pt-8 border-t border-gray-800"
         >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-earth-foreground/60 text-sm">
-              © {new Date().getFullYear()} Connect with Africa. All rights reserved.
+          <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
+            <div className="flex flex-wrap gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full" />
+                <span className="text-gray-400">ISO 9001:2015 Certified</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full" />
+                <span className="text-gray-400">Tax Exempt NGO</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4 border-t border-gray-800">
+            <p className="text-gray-500 text-sm">
+              © {new Date().getFullYear()} Connect with Africa. All rights reserved. | Registered 501(c)(3) Organization
             </p>
-            <div className="flex gap-6">
+            <div className="flex gap-6 text-sm">
               <Link
-                href="/privacy"
-                className="text-earth-foreground/60 hover:text-gold transition-colors text-sm"
+                href="/"
+                className="text-gray-500 hover:text-emerald-400 transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
-                href="/terms"
-                className="text-earth-foreground/60 hover:text-gold transition-colors text-sm"
+                href="/"
+                className="text-gray-500 hover:text-emerald-400 transition-colors"
               >
                 Terms of Service
+              </Link>
+              <Link
+                href="/"
+                className="text-gray-500 hover:text-emerald-400 transition-colors"
+              >
+                Sitemap
               </Link>
             </div>
           </div>

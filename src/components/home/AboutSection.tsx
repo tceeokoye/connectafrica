@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Heart, Users, Globe } from "lucide-react";
+import Image from "next/image";
+import aboutImage from "@/assets/aboutImage.jpeg"
 
 export const AboutSection = () => {
   const features = [
@@ -29,11 +31,12 @@ export const AboutSection = () => {
               transition={{ duration: 0.5 }}
               className="relative rounded-3xl overflow-hidden shadow-2xl"
             >
-              <img
+             < Image src={aboutImage} alt="about image" width={500} height={560} className="w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[460px] object-cover"/>
+              {/* <img
                 src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200"
                 alt="Healthcare workers in Africa"
                 className="w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[460px] object-cover"
-              />
+              /> */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             </motion.div>
 

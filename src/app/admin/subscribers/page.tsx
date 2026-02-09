@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import  AdminLayout  from "@/components/AdminLayout";
 import { Input } from "@/components/ui/input";
@@ -8,19 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Search, Download, Mail, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const initialSubscribers = [
-  { id: 1, email: "john.smith@email.com", name: "John Smith", date: "2024-01-15", status: "active" },
-  { id: 2, email: "sarah.johnson@email.com", name: "Sarah Johnson", date: "2024-01-14", status: "active" },
-  { id: 3, email: "michael.brown@email.com", name: "Michael Brown", date: "2024-01-13", status: "active" },
-  { id: 4, email: "emily.davis@email.com", name: "Emily Davis", date: "2024-01-12", status: "active" },
-  { id: 5, email: "robert.wilson@email.com", name: "Robert Wilson", date: "2024-01-11", status: "unsubscribed" },
-  { id: 6, email: "jennifer.lee@email.com", name: "Jennifer Lee", date: "2024-01-10", status: "active" },
-  { id: 7, email: "david.martinez@email.com", name: "David Martinez", date: "2024-01-09", status: "active" },
-  { id: 8, email: "lisa.anderson@email.com", name: "Lisa Anderson", date: "2024-01-08", status: "active" },
-];
 export default function Subscribers() {
   const { toast } = useToast();
-  const [subscribers, setSubscribers] = useState(initialSubscribers);
+  const [subscribers, setSubscribers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
 
@@ -35,10 +27,52 @@ export default function Subscribers() {
 
   const activeCount = subscribers.filter((s) => s.status === "active").length;
 
-  const handleDelete = (id: number) => {
-    setSubscribers(subscribers.filter((s) => s.id !== id));
-    toast({ title: "Subscriber Removed", description: "The subscriber has been removed from the list." });
+  const fetchSubscribers = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch('/api/v1/admin/subscribers/get?limit=500');
+      const data = await res.json();
+      if (data.success) {
+        // map to expected shape
+        const mapped = data.data.map((s: any, i: number) => ({
+          id: s._id || i,
+          email: s.email,
+          name: s.name || '',
+          date: s.subscribedAt ? new Date(s.subscribedAt).toLocaleDateString() : '',
+          status: s.status || 'active'
+        }));
+        setSubscribers(mapped);
+      } else {
+        setError(data.message || 'Failed to load subscribers');
+      }
+    } catch (err: any) {
+      console.error('Fetch subscribers error:', err);
+      setError(err?.message || 'Failed to load subscribers');
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleDelete = async (subscriberIdOrEmail: any) => {
+    const email = typeof subscriberIdOrEmail === 'string' ? subscriberIdOrEmail : (subscriberIdOrEmail.email || '');
+    try {
+      const encoded = encodeURIComponent(email);
+      const res = await fetch(`/api/v1/admin/subscribers/delete/${encoded}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        toast({ title: 'Subscriber Removed', description: data.message });
+        fetchSubscribers();
+      } else {
+        toast({ title: 'Error', description: data.message || 'Failed to remove subscriber', variant: 'destructive' });
+      }
+    } catch (err: any) {
+      console.error('Delete subscriber error', err);
+      toast({ title: 'Error', description: err?.message || 'Failed to remove subscriber', variant: 'destructive' });
+    }
+  };
+
+  useEffect(() => { fetchSubscribers(); }, []);
 
   return (
     <AdminLayout>

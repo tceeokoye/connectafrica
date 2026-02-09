@@ -241,9 +241,9 @@ export default function CampaignModal({
               </div>
 
               {/* Category */}
-              <Select value={category} onValueChange={setCategory}>
+              <Select value={category || ""} onValueChange={setCategory}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder={category || "Select category"} />
                 </SelectTrigger>
                 <SelectContent position="popper" className="max-h-60 overflow-y-auto">
                   {categories.map((cat) => (

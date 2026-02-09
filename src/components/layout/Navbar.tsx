@@ -11,11 +11,15 @@ import logo from "../../assets/logo.png";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/campaigns", label: "Campaigns" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About Us" },
+  { href: "/campaigns", label: "Our Work" },
+  { href: "/blog", label: "Resources" },
   { href: "/contact", label: "Contact" },
+];
+
+const secondaryLinks = [
+  { href: "/gallery", label: "Gallery" },
+  { href: "/donate", label: "Donate", highlight: true },
 ];
 
 export const Navbar = () => {

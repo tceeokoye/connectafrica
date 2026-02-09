@@ -1,39 +1,59 @@
 "use client";
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import AdminLayout from "@/components/AdminLayout";
 import { Input } from "@/components/ui/input";
 import { Search, Download, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const donations = [
-  { id: 1, name: "John Smith", email: "john@email.com", amount: 250, campaign: "Medical Container", date: "2024-01-15", status: "completed" },
-  { id: 2, name: "Sarah Johnson", email: "sarah@email.com", amount: 100, campaign: "General Fund", date: "2024-01-14", status: "completed" },
-  { id: 3, name: "Michael Brown", email: "michael@email.com", amount: 50, campaign: "Healthcare Support", date: "2024-01-14", status: "completed" },
-  { id: 4, name: "Emily Davis", email: "emily@email.com", amount: 500, campaign: "Medical Container", date: "2024-01-13", status: "completed" },
-  { id: 5, name: "Robert Wilson", email: "robert@email.com", amount: 75, campaign: "General Fund", date: "2024-01-12", status: "completed" },
-  { id: 6, name: "Jennifer Lee", email: "jennifer@email.com", amount: 150, campaign: "Medical Container", date: "2024-01-11", status: "completed" },
-  { id: 7, name: "David Martinez", email: "david@email.com", amount: 200, campaign: "Healthcare Support", date: "2024-01-10", status: "completed" },
-  { id: 8, name: "Lisa Anderson", email: "lisa@email.com", amount: 1000, campaign: "Medical Container", date: "2024-01-09", status: "completed" },
-];
-
+let initialDonations: any[] = [];
 
 export default function Donations() {
+  const [donations, setDonations] = useState<any[]>(initialDonations);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  useEffect(() => { fetchDonations(); }, []);
+
+  async function fetchDonations() {
+    setLoading(true); setError("");
+    try {
+      const res = await fetch('/api/v1/admin/donations/get?limit=500');
+      const json = await res.json();
+      if (json.success) {
+        const mapped = json.data.map((d:any) => ({
+          id: d._id,
+          name: d.name || `${d.firstName || ''} ${d.lastName || ''}`.trim(),
+          email: d.email,
+          amount: d.amount,
+          campaign: d.campaignId || d.designation || 'General Fund',
+          date: d.createdAt ? new Date(d.createdAt).toLocaleDateString() : '',
+          status: d.status || 'pending'
+        }));
+        setDonations(mapped);
+      } else {
+        setError(json.message || 'Failed to load donations');
+      }
+    } catch (err:any) {
+      console.error('Fetch donations error:', err);
+      setError(err?.message || 'Failed to load donations');
+    } finally { setLoading(false); }
+  }
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCampaign, setFilterCampaign] = useState("all");
-
+  
   const filteredDonations = donations.filter((donation) => {
     const matchesSearch =
-      donation.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      donation.email.toLowerCase().includes(searchTerm.toLowerCase());
+      donation.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      donation.email?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCampaign =
       filterCampaign === "all" || donation.campaign === filterCampaign;
     return matchesSearch && matchesCampaign;
   });
 
-  const totalDonations = filteredDonations.reduce((sum, d) => sum + d.amount, 0);
+  const totalDonations = filteredDonations.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
 
   return (
     <AdminLayout>
