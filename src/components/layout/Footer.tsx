@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Mail, Globe, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 const footerLinks = {
   quickLinks: [

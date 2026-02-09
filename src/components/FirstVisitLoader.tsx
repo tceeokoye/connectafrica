@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 interface FirstVisitLoaderProps {
   onComplete: () => void;

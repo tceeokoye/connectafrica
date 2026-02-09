@@ -51,7 +51,7 @@ export default function HeroSectionModern3D() {
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black text-white">
       {/* Background image with slow cinematic motion */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence >
         <motion.div
           key={slide.image}
           initial={{ opacity: 0, scale: 1.3, rotate: -3 }}
@@ -68,18 +68,18 @@ export default function HeroSectionModern3D() {
           />
           {/* Green overlay */}
           <div className="absolute inset-0 bg-emerald-400/10 " />
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
         </motion.div>
       </AnimatePresence>
 
       {/* Floating gradient orbs */}
       <motion.div
-        className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-3xl"
+        className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-emerald-400/10 rounded-full blur-3xl"
         animate={{ y: [0, 40, 0], x: [0, 30, 0] }}
         transition={{ repeat: Infinity, duration: 12 }}
       />
       <motion.div
-        className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-orange-500/30 rounded-full blur-3xl"
+        className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-black/80 rounded-full blur-3xl"
         animate={{ y: [0, -40, 0], x: [0, -30, 0] }}
         transition={{ repeat: Infinity, duration: 10 }}
       />

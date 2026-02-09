@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Heart } from "lucide-react";
 import { Button } from "../ui/button";
-import logo from "../../assets/logo.jpg";
+import logo from "../../assets/logo.png";
 
 const navLinks = [
   { href: "/", label: "Home" },
