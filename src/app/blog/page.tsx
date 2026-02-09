@@ -371,7 +371,7 @@ export default function BlogPage() {
             <p className="text-emerald-50 text-lg mb-8">
               Subscribe to our newsletter for monthly impact updates and stories from the field.
             </p>
-            <div className="flex-col md:flex-row gap-3">
+            <div className="flex-col md:flex-row gap-3 space-y-3 ">
               <input
                 type="email"
                 placeholder="Enter your email"
