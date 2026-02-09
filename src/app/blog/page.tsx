@@ -61,7 +61,7 @@ export default function BlogPage() {
     );
 
   return (
-    <Layout>
+    <Layout className="overflow-x-hidden">
       {/* ================= HERO ================= */}
       <section className="relative pt-40 pb-24 overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-900/60 to-slate-900">
         <div className="absolute inset-0 opacity-10">
@@ -371,7 +371,7 @@ export default function BlogPage() {
             <p className="text-emerald-50 text-lg mb-8">
               Subscribe to our newsletter for monthly impact updates and stories from the field.
             </p>
-            <div className="flex gap-3">
+            <div className="flex-col md:flex-row gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
