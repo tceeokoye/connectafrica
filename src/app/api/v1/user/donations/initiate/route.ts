@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import crypto from "crypto";
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 // allowed origins for CORSimport { ALLOWED_ORIGINS } from "@/config/cors";
 
