@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
-
-const ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "https://connectafrica-fawn.vercel.app"];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function GET(req: NextRequest) {
   try {

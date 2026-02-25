@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 import { newsletterConfirmationTemplate } from "@/lib/emailTemplates";
 
 // allowed origins for CORS
-const ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "https://connectafrica-fawn.vercel.app"];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function POST(req: NextRequest) {
   try {

@@ -2,5 +2,5 @@
 export const ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "https://connectafrica-fawn.vercel.app",
-  "connectwithafrica.org"
+  "https://www.connectwithafrica.org/"
 ];

@@ -3,12 +3,7 @@ import fs from "fs";
 import path from "path";
 
 // allowed origins for CORS
-const ALLOWED_ORIGINS = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://localhost:3002",
-  "https://connectafrica-fawn.vercel.app",
-];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function GET(req: NextRequest) {
   try {
@@ -28,8 +23,9 @@ export async function GET(req: NextRequest) {
     // In production, you would fetch from a database or cloud storage
     
     const reportContent = generateAnnualReportPDF(year);
-
-    return new NextResponse(reportContent, {
+    // Convert Buffer to Uint8Array for NextResponse compatibility
+    const pdfArray = new Uint8Array(reportContent);
+    return new NextResponse(pdfArray, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
@@ -75,7 +71,7 @@ BT
 (Financial Summary) Tj
 0 -30 Td
 /F1 10 Tf
-(Total Funds Raised: ₦50,000,000) Tj
+(Total Funds Raised: $50,000,000) Tj
 0 -20 Td
 (Programs Implemented: 15) Tj
 0 -20 Td
