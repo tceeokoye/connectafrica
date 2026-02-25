@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
 // allowed origins for CORS
-const ALLOWED_ORIGINS = ["http://localhost:3000", "https://connectafrica-fawn.vercel.app"];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function DELETE(
   req: NextRequest,

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import cloudinary from "@/lib/cloudinary";
 import jwt from "jsonwebtoken";
-
+import { ALLOWED_ORIGINS } from "@/config/cors";
 const ALLOWED_CATEGORIES = [
   "Outreach",
   "Team",
@@ -16,9 +16,6 @@ const ALLOWED_CATEGORIES = [
   "Events",
   "Others",
 ];
-
-// allowed origins for CORS
-const ALLOWED_ORIGINS = ["http://localhost:3000", "https://connectafrica-fawn.vercel.app"];
 
 export async function POST(req: NextRequest) {
   try {

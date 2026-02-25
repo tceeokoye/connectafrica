@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 
 // allowed origins for CORS
-const ALLOWED_ORIGINS = ["http://localhost:3000", "https://connectafrica-fawn.vercel.app"];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function PUT(
   req: NextRequest,
