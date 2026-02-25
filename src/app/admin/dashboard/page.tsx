@@ -4,44 +4,59 @@ import { motion } from "framer-motion";
 import AdminLayout from "@/components/AdminLayout";
 import { useState, useEffect } from "react";
 import { useHttp } from "@/hooks/useHttp";
+// import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+// import CampaignModal from "@/components/admin/campeign/create-campeign-modal";
 import {
   DollarSign,
   Users,
-  FileText,
-  TrendingUp,
   ArrowUpRight,
   ArrowDownRight,
   CheckCircle,
   AlertCircle,
   Layers,
 } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useRouter } from "next/navigation";
 
-const Dashboard = () => {
+export default function Dashboard() {
   const { sendRequest } = useHttp();
+
   const [stats, setStats] = useState<any[]>([]);
   const [recentDonations, setRecentDonations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const router = useRouter();
+  const token = useSelector((state: RootState) => state.token.token);
   useEffect(() => {
+    console.log("Fetching dashboard data with token:", token);
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
+
         setError(null);
+        if (!token) {
+          toast.error("Login expired, redirecting...");
+          router.push("/admin/login");
+          return;
+        }
 
         // Fetch dashboard stats
         const statsResponse = await sendRequest({
           url: "/api/v1/admin/dashboard/stats",
+          headers: { Authorization: `Bearer ${token}` },
           method: "GET",
         });
 
         if (statsResponse.success) {
           const data = statsResponse.data;
+          console.log("Dashboard stats data:", data);
           const statsData = [
             {
               title: "Total Donations",
-              value: `₦${(data.totalDonations || 0).toLocaleString()}`,
-              change: `${data.donationGrowth >= 0 ? '+' : ''}${data.donationGrowth.toFixed(1)}%`,
+              value: `$${data.totalDonations?.toLocaleString() || 0}`,
+              change: `${data.donationGrowth >= 0 ? "+" : ""}${data.donationGrowth.toFixed(1)}%`,
               trend: data.donationGrowth >= 0 ? "up" : "down",
               icon: DollarSign,
             },
@@ -62,18 +77,23 @@ const Dashboard = () => {
             {
               title: "Total Campaigns",
               value: data.totalCampaigns || "0",
-              change: `${(data.activeCampaigns || 0) + (data.expiredCampaigns || 0) ? "Ongoing projects" : "No campaigns"}`,
+              change: `${
+                (data.activeCampaigns || 0) + (data.expiredCampaigns || 0)
+                  ? "Ongoing projects"
+                  : "No campaigns"
+              }`,
               trend: data.totalCampaigns > 0 ? "up" : "down",
               icon: Layers,
             },
             {
               title: "Subscribers",
               value: (data.totalSubscribers || 0).toLocaleString(),
-              change: `${data.subscriberGrowth >= 0 ? '+' : ''}${data.subscriberGrowth.toFixed(1)}%`,
+              change: `${data.subscriberGrowth >= 0 ? "+" : ""}${data.subscriberGrowth.toFixed(1)}%`,
               trend: data.subscriberGrowth >= 0 ? "up" : "down",
               icon: Users,
             },
           ];
+
           setStats(statsData);
         }
 
@@ -81,25 +101,39 @@ const Dashboard = () => {
         const donationsResponse = await sendRequest({
           url: "/api/v1/admin/donations/get",
           method: "GET",
+           headers: { Authorization: `Bearer ${token}` },
           params: { limit: 5, skip: 0 },
         });
 
         if (donationsResponse.success) {
-          const formattedDonations = donationsResponse.data.map((donation: any) => ({
-            id: donation._id,
-            name: donation.name,
-            amount: `₦${(donation.amount || 0).toLocaleString()}`,
-            date: new Date(donation.createdAt).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
+          const formattedDonations = donationsResponse.data.map(
+            (donation: any) => ({
+              id: donation._id,
+              name: donation.name,
+              amount: `$${donation.amount?.toLocaleString() || 0}`,
+              date: new Date(donation.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              }),
+              campaign:
+                donation.designation === "medical-container"
+                  ? "Medical Container"
+                  : "General Fund",
             }),
-            campaign: donation.designation === "medical-container" ? "Medical Container" : "General Fund",
-          }));
+          );
+
           setRecentDonations(formattedDonations);
         }
       } catch (err: any) {
         console.error("Failed to fetch dashboard data:", err);
+
+        if (err?.response?.status === 401) {
+          toast.error("Session expired, please login again");
+          router.push("/admin/login");
+          return;
+        }
+
         setError(err?.message || "Failed to fetch dashboard data");
       } finally {
         setLoading(false);
@@ -107,7 +141,7 @@ const Dashboard = () => {
     };
 
     fetchDashboardData();
-  }, [sendRequest]);
+  }, [sendRequest, token]);
 
   if (loading) {
     return (
@@ -225,8 +259,12 @@ const Dashboard = () => {
                     <td className="p-4 text-primary font-semibold">
                       {donation.amount}
                     </td>
-                    <td className="p-4 text-muted-foreground">{donation.campaign}</td>
-                    <td className="p-4 text-muted-foreground">{donation.date}</td>
+                    <td className="p-4 text-muted-foreground">
+                      {donation.campaign}
+                    </td>
+                    <td className="p-4 text-muted-foreground">
+                      {donation.date}
+                    </td>
                   </motion.tr>
                 ))}
               </tbody>
@@ -242,22 +280,33 @@ const Dashboard = () => {
           className="grid sm:grid-cols-3 gap-6"
         >
           {[
-            { title: "Add New Project", description: "Create a new campaign or initiative" },
-            { title: "Export Reports", description: "Download donation and activity reports" },
-            { title: "Send Newsletter", description: "Communicate with your subscribers" },
+            {
+              title: "Add New Project",
+              description: "Create a new campaign or initiative",
+            },
+            {
+              title: "Export Reports",
+              description: "Download donation and activity reports",
+            },
+            {
+              title: "Send Newsletter",
+              description: "Communicate with your subscribers",
+            },
           ].map((action, index) => (
             <div
               key={index}
               className="bg-card p-6 rounded-xl border border-border hover:border-primary/50 transition-colors cursor-pointer"
             >
-              <h3 className="font-semibold text-foreground mb-1">{action.title}</h3>
-              <p className="text-muted-foreground text-sm">{action.description}</p>
+              <h3 className="font-semibold text-foreground mb-1">
+                {action.title}
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                {action.description}
+              </p>
             </div>
           ))}
         </motion.div>
       </div>
     </AdminLayout>
   );
-};
-
-export default Dashboard;
+}

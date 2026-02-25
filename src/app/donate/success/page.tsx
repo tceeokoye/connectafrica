@@ -22,7 +22,7 @@ export default function DonationSuccessPage() {
       try {
         setLoading(true);
 
-        // Get the full URL to handle malformed query strings (Monnify adds extra ?)
+        // Get the full URL to handle malformed query strings (PayPal callback)
         const fullUrl = window.location.href;
         console.log("🔗 Full URL:", fullUrl);
 
@@ -95,7 +95,7 @@ export default function DonationSuccessPage() {
 
           // If donation is still pending, try to confirm payment with Monnify
           if (data.donation.status === "pending") {
-            console.log("⏳ Donation is pending, confirming payment with Monnify...");
+            console.log("⏳ Donation is pending, processing PayPal confirmation...");
             try {
               const confirmResponse = await fetch(
                 "/api/v1/user/donations/confirm-payment",
@@ -328,7 +328,7 @@ export default function DonationSuccessPage() {
             <p className="text-xl text-gray-600 text-center mb-8">
               {donation.status === "completed"
                 ? "Your donation has been successfully processed"
-                : "We're confirming your payment with Monnify. This usually takes a few seconds..."}
+                : "We're confirming your payment with PayPal. This usually takes a few seconds..."}
             </p>
 
             {/* Donation Details */}
@@ -343,7 +343,7 @@ export default function DonationSuccessPage() {
                 <div className="flex items-center justify-between pb-4 border-b border-gray-200">
                   <span className="text-gray-700 font-semibold">Donation Amount</span>
                   <span className="text-emerald-600 font-bold text-2xl">
-                    ₦{(donation.amount || 0).toLocaleString()}
+                    ${(donation.amount || 0).toLocaleString()}
                   </span>
                 </div>
                 <div className="flex items-center justify-between pb-4 border-b border-gray-200">
@@ -386,7 +386,7 @@ export default function DonationSuccessPage() {
                 Your Impact
               </h3>
               <p className="text-blue-800">
-                Your generous donation of ₦{(donation.amount || 0).toLocaleString()} will directly
+                Your generous donation of ${donation.amount?.toLocaleString() || 0} will directly
                 support essential medical supplies and healthcare initiatives across Africa. 
                 You'll receive a receipt and updates on the impact of your contribution via email at{" "}
                 <span className="font-semibold">{donation.email}</span>.
@@ -405,7 +405,7 @@ export default function DonationSuccessPage() {
                   </Link>
                   <button
                     onClick={() => {
-                      const text = `I just donated ₦${(donation.amount || 0).toLocaleString()} to support crucial medical initiatives in Africa through Connect Africa! 🤝❤️ #ConnectAfrica #GlobalHealth`;
+                      const text = `I just donated $${donation.amount?.toLocaleString() || 0} to support crucial medical initiatives in Africa through Connect Africa! 🤝❤️ #ConnectAfrica #GlobalHealth`;
                       const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.origin)}`;
                       window.open(url, "_blank");
                     }}

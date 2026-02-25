@@ -111,6 +111,32 @@ export async function POST(req: NextRequest) {
 
     const createdCampaign = await collection.findOne({ _id: result.insertedId });
 
+    // Send notification to all active newsletter subscribers
+    try {
+      const notifyResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000"}/api/v1/user/newsletter/notify-campaign`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            campaignTitle: title,
+            campaignDescription: description,
+            campaignImage: uploadResponse.secure_url,
+            campaignId: result.insertedId.toString(),
+          }),
+        }
+      );
+
+      const notifyData = await notifyResponse.json();
+      console.log("Campaign notification result:", notifyData);
+    } catch (notifyErr) {
+      console.error("Error sending campaign notifications:", notifyErr);
+      // Don't fail the campaign creation if notifications fail
+    }
+
     return NextResponse.json({
       success: true,
       message: "Campaign created!",

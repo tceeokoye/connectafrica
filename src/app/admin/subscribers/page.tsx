@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import  AdminLayout  from "@/components/AdminLayout";
+import AdminLayout from "@/components/AdminLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Download, Mail, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
 export default function Subscribers() {
   const { toast } = useToast();
@@ -15,13 +16,13 @@ export default function Subscribers() {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const filteredSubscribers = subscribers.filter((sub) => {
     const matchesSearch =
       sub.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       sub.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      filterStatus === "all" || sub.status === filterStatus;
+    const matchesStatus = filterStatus === "all" || sub.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
@@ -31,48 +32,73 @@ export default function Subscribers() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch('/api/v1/admin/subscribers/get?limit=500');
+      const res = await fetch("/api/v1/admin/subscribers/get?limit=500");
       const data = await res.json();
       if (data.success) {
         // map to expected shape
         const mapped = data.data.map((s: any, i: number) => ({
           id: s._id || i,
           email: s.email,
-          name: s.name || '',
-          date: s.subscribedAt ? new Date(s.subscribedAt).toLocaleDateString() : '',
-          status: s.status || 'active'
+          name: s.name || "",
+          date: s.subscribedAt
+            ? new Date(s.subscribedAt).toLocaleDateString()
+            : "",
+          status: s.status || "active",
         }));
         setSubscribers(mapped);
       } else {
-        setError(data.message || 'Failed to load subscribers');
+        setError(data.message || "Failed to load subscribers");
       }
     } catch (err: any) {
-      console.error('Fetch subscribers error:', err);
-      setError(err?.message || 'Failed to load subscribers');
+      console.error("Fetch subscribers error:", err);
+      setError(err?.message || "Failed to load subscribers");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (subscriberIdOrEmail: any) => {
-    const email = typeof subscriberIdOrEmail === 'string' ? subscriberIdOrEmail : (subscriberIdOrEmail.email || '');
+  const handleDelete = async (email: string) => {
+    console.log("DELETE CLICKED", email);
+
     try {
+      setDeletingId(email); // 👈 start loading
+
       const encoded = encodeURIComponent(email);
-      const res = await fetch(`/api/v1/admin/subscribers/delete/${encoded}`, { method: 'DELETE' });
+      const res = await fetch(`/api/v1/admin/subscribers/delete/${encoded}`, {
+        method: "DELETE",
+      });
+
       const data = await res.json();
+
       if (data.success) {
-        toast({ title: 'Subscriber Removed', description: data.message });
-        fetchSubscribers();
+        toast({
+          title: "Subscriber Removed",
+          description: data.message,
+        });
+
+        // Optimistic update (better UX than refetching)
+        setSubscribers((prev) => prev.filter((sub) => sub.email !== email));
       } else {
-        toast({ title: 'Error', description: data.message || 'Failed to remove subscriber', variant: 'destructive' });
+        toast({
+          title: "Error",
+          description: data.message || "Failed to remove subscriber",
+          variant: "destructive",
+        });
       }
     } catch (err: any) {
-      console.error('Delete subscriber error', err);
-      toast({ title: 'Error', description: err?.message || 'Failed to remove subscriber', variant: 'destructive' });
+      console.error("Delete subscriber error", err);
+      toast({
+        title: "Error",
+        description: err?.message || "Failed to remove subscriber",
+        variant: "destructive",
+      });
+    } finally {
+      setDeletingId(null); 
     }
   };
-
-  useEffect(() => { fetchSubscribers(); }, []);
+  useEffect(() => {
+    fetchSubscribers();
+  }, []);
 
   return (
     <AdminLayout>
@@ -110,7 +136,9 @@ export default function Subscribers() {
           className="grid sm:grid-cols-3 gap-6"
         >
           <div className="bg-card p-6 rounded-xl border border-border">
-            <div className="text-muted-foreground text-sm">Total Subscribers</div>
+            <div className="text-muted-foreground text-sm">
+              Total Subscribers
+            </div>
             <div className="font-display text-2xl font-bold text-foreground mt-1">
               {subscribers.length}
             </div>
@@ -167,9 +195,7 @@ export default function Subscribers() {
             <table className="w-full">
               <thead className="bg-muted/50">
                 <tr>
-                  <th className="text-left p-4 text-sm font-medium text-muted-foreground">
-                    Name
-                  </th>
+              
                   <th className="text-left p-4 text-sm font-medium text-muted-foreground">
                     Email
                   </th>
@@ -193,9 +219,7 @@ export default function Subscribers() {
                     transition={{ delay: 0.3 + index * 0.03 }}
                     className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors"
                   >
-                    <td className="p-4 text-foreground font-medium">
-                      {subscriber.name}
-                    </td>
+                 
                     <td className="p-4 text-muted-foreground">
                       {subscriber.email}
                     </td>
@@ -217,10 +241,10 @@ export default function Subscribers() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleDelete(subscriber.id)}
+                        onClick={() => handleDelete(subscriber.email)}
                         className="text-destructive hover:bg-destructive/10"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        {deletingId === subscriber.email ? <LoadingSpinner color="border-destructive"/>:<Trash2 className="w-4 h-4" />}
                       </Button>
                     </td>
                   </motion.tr>
@@ -232,5 +256,4 @@ export default function Subscribers() {
       </div>
     </AdminLayout>
   );
-};
-
+}

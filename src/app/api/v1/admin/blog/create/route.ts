@@ -1,3 +1,4 @@
+import { ALLOWED_ORIGINS } from "@/config/cors";
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import cloudinary from "@/lib/cloudinary";
@@ -22,8 +23,6 @@ function generateSlug(title: string) {
     .replace(/(^-|-$)+/g, "");
 }
 
-// allowed origins for CORS
-const ALLOWED_ORIGINS = ["http://localhost:3000", "https://connectafrica-fawn.vercel.app"];
 
 export async function POST(req: NextRequest) {
   try {

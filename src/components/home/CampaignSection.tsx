@@ -162,7 +162,7 @@ export default function CampaignSection() {
                   <div className="flex justify-between text-sm sm:text-base">
                     <span className="text-muted-foreground">Raised</span>
                     <span className="font-semibold text-primary">
-                      ₦{(urgentCampaign.donatedAmount || 0).toLocaleString()} / ₦{(urgentCampaign.amount || 0).toLocaleString()}
+                      ${urgentCampaign.donatedAmount?.toLocaleString() || 0} / ${urgentCampaign.amount?.toLocaleString() || 0}
                     </span>
                   </div>
                 </motion.div>

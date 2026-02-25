@@ -19,11 +19,11 @@ interface CampaignDonationModalProps {
 }
 
 const AMOUNT_PRESETS = [
-  { amount: 25, label: "₦25" },
-  { amount: 50, label: "₦50" },
-  { amount: 100, label: "₦100" },
-  { amount: 250, label: "₦250" },
-  { amount: 500, label: "₦500" },
+  { amount: 25, label: "$25" },
+  { amount: 50, label: "$50" },
+  { amount: 100, label: "$100" },
+  { amount: 250, label: "$250" },
+  { amount: 500, label: "$500" },
 ];
 
 export default function CampaignDonationModal({
@@ -70,7 +70,7 @@ export default function CampaignDonationModal({
       return;
     }
     if (finalAmount < 10) {
-      setError("Minimum donation amount is ₦10");
+      setError("Minimum donation amount is $10");
       return;
     }
     setError(null);
@@ -157,7 +157,7 @@ export default function CampaignDonationModal({
         );
 
         console.log("✅ Donation initiated, redirecting to checkout");
-        // Redirect to Monnify
+        // Redirect to PayPal
         window.location.href = data.checkoutUrl;
       } else {
         setError(data.message || "Failed to process donation. Please try again.");
@@ -201,9 +201,9 @@ export default function CampaignDonationModal({
               <h3 className="font-bold text-emerald-900 mb-2">{campaign.title}</h3>
               <div className="text-sm text-emerald-700">
                 <p>
-                  Target: ₦{(campaign.amount || 0).toLocaleString()}
+                  Target: ${(campaign.amount || 0).toLocaleString()}
                 </p>
-                <p>Raised: ₦{(campaign.donatedAmount || 0).toLocaleString()}</p>
+                <p>Raised: ${(campaign.donatedAmount || 0).toLocaleString()}</p>
               </div>
             </div>
 
@@ -253,7 +253,7 @@ export default function CampaignDonationModal({
                     or Enter Custom Amount
                   </Label>
                   <div className="relative">
-                    <span className="absolute left-3 top-3 text-gray-600 font-semibold">₦</span>
+                    <span className="absolute left-3 top-3 text-gray-600 font-semibold">$</span>
                     <Input
                       id="customAmount"
                       type="number"
@@ -285,7 +285,7 @@ export default function CampaignDonationModal({
                 className="space-y-4"
               >
                 <div className="bg-blue-50 rounded-lg p-3 text-sm text-blue-700 font-semibold">
-                  Donation Amount: ₦{finalAmount?.toLocaleString()}
+                  Donation Amount: ${finalAmount?.toLocaleString()}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">

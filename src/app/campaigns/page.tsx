@@ -252,8 +252,8 @@ export default function CampaignsPage() {
                           />
                         </div>
                         <div className="flex justify-between mt-2 text-xs text-gray-600">
-                          <span>₦{(campaign.donatedAmount || 0).toLocaleString()}</span>
-                          <span>₦{(campaign.amount || 0).toLocaleString()}</span>
+                          <span>${campaign.donatedAmount?.toLocaleString() || 0}</span>
+                          <span>${campaign.amount?.toLocaleString() || 0}</span>
                         </div>
                       </div>
 

@@ -7,3 +7,11 @@ html, body, #__next {
 body {
   font-family: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-fast-spin {
+  animation: spin 0.3s linear infinite;
+}

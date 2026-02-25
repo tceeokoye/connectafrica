@@ -1,34 +1,71 @@
 import { NextRequest, NextResponse } from "next/server";
-import crypto from "crypto";
 import clientPromise from "@/lib/db";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
 import nodemailer from "nodemailer";
 
-// Security: Webhook signature verification
-function verifyMonnifySignature(req: NextRequest, rawBody: string): boolean {
-  const signature = req.headers.get("monnify-signature");
-  if (!signature) {
-    console.error("No signature header found");
+// Verify PayPal webhook signature
+async function verifyPayPalWebhook(
+  req: NextRequest,
+  rawBody: string
+): Promise<boolean> {
+  try {
+    const transmissionId = req.headers.get("paypal-transmission-id");
+    const transmissionTime = req.headers.get("paypal-transmission-time");
+    const certUrl = req.headers.get("paypal-cert-url");
+    const transmissionSig = req.headers.get("paypal-transmission-sig");
+    const webhookId = process.env.PAYPAL_WEBHOOK_ID; 
+
+    if (!transmissionId || !transmissionTime || !certUrl || !transmissionSig || !webhookId) {
+      console.error("Missing PayPal webhook headers");
+      return false;
+    }
+
+    const auth = Buffer.from(
+      `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
+    ).toString("base64");
+
+    const tokenResponse = await fetch(
+      `${process.env.PAYPAL_API_URL}/v1/oauth2/token`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${auth}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "grant_type=client_credentials",
+      }
+    );
+
+    const tokenData = await tokenResponse.json();
+    const accessToken = tokenData.access_token;
+
+    // Verify webhook with PayPal
+    const verifyResponse = await fetch(
+      `${process.env.PAYPAL_API_URL}/v1/notifications/verify-webhook-signature`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          transmission_id: transmissionId,
+          transmission_time: transmissionTime,
+          cert_url: certUrl,
+          auth_algo: "SHA256withRSA",
+          transmission_sig: transmissionSig,
+          webhook_id: webhookId,
+          webhook_event: JSON.parse(rawBody),
+        }),
+      }
+    );
+
+    const verifyData = await verifyResponse.json();
+    return verifyData.verification_status === "SUCCESS";
+  } catch (error) {
+    console.error("PayPal webhook verification error:", error);
     return false;
   }
-
-  const secretKey = process.env.MONNIFY_SECRET_KEY;
-  if (!secretKey) {
-    console.error("MONNIFY_SECRET_KEY not configured");
-    return false;
-  }
-
-  // Create HMAC-SHA512 hash
-  const hash = crypto
-    .createHmac("sha512", secretKey)
-    .update(rawBody)
-    .digest("hex");
-
-  const isValid = signature === hash;
-  if (!isValid) {
-    console.error("Signature verification failed", { signature, hash });
-  }
-  return isValid;
 }
 
 export async function POST(req: NextRequest) {
@@ -36,8 +73,10 @@ export async function POST(req: NextRequest) {
   try {
     /* ================= Verify Signature ================= */
     rawBody = await req.text();
-    if (!verifyMonnifySignature(req, rawBody)) {
-      console.error("Invalid Monnify signature");
+    const isValid = await verifyPayPalWebhook(req, rawBody);
+
+    if (!isValid) {
+      console.error("Invalid PayPal webhook signature");
       return NextResponse.json(
         { success: false, message: "Invalid signature" },
         { status: 401 }
@@ -47,16 +86,16 @@ export async function POST(req: NextRequest) {
     const event = JSON.parse(rawBody);
 
     /* ================= Validate Event ================= */
-    if (event.eventType !== "SUCCESSFUL_TRANSACTION") {
-      console.log("Ignoring event type:", event.eventType);
+    // PayPal sends "CHECKOUT.ORDER.COMPLETED" event
+    if (event.event_type !== "CHECKOUT.ORDER.COMPLETED") {
+      console.log("Ignoring event type:", event.event_type);
       return NextResponse.json({ message: "Event type ignored" });
     }
 
-    const { paymentReference, amountPaid } = event.eventData;
-
-    if (!paymentReference || !amountPaid) {
+    const order = event.resource;
+    if (!order || !order.id) {
       return NextResponse.json(
-        { success: false, message: "Missing required payment data" },
+        { success: false, message: "Missing order data" },
         { status: 400 }
       );
     }
@@ -66,43 +105,35 @@ export async function POST(req: NextRequest) {
     const db = client.db("connect_africa");
     const donations = db.collection("donations");
 
-    // Find the pending donation
+    // Find the pending donation by PayPal Order ID
     const donation = await donations.findOne({
-      reference: paymentReference,
-      status: { $ne: "completed" }, // Only process non-completed donations
+      paypalOrderId: order.id,
+      status: { $ne: "completed" },
     });
 
     if (!donation) {
-      console.log("Donation not found or already processed:", paymentReference);
+      console.log("Donation not found or already processed:", order.id);
       return NextResponse.json({ message: "Donation not found or already processed" });
     }
 
-    // Security: Verify amount matches
-    if (Number(amountPaid) !== Number(donation.amount)) {
-      console.error("Amount mismatch for donation:", {
-        expected: donation.amount,
-        received: amountPaid,
-      });
-      return NextResponse.json(
-        { success: false, message: "Amount mismatch" },
-        { status: 400 }
-      );
-    }
+    // Get the payout amount from the order
+    const amount = order.purchase_units?.[0]?.amount?.value || donation.amount;
 
     // Update donation status to completed
     const updateResult = await donations.updateOne(
-      { reference: paymentReference },
+      { paypalOrderId: order.id },
       {
         $set: {
           status: "completed",
           completedAt: new Date(),
-          amountPaid: Number(amountPaid),
+          amountPaid: Number(amount),
+          paypalStatus: order.status,
         },
       }
     );
 
     if (updateResult.modifiedCount === 0) {
-      console.error("Failed to update donation:", paymentReference);
+      console.error("Failed to update donation:", order.id);
       return NextResponse.json(
         { success: false, message: "Failed to update donation" },
         { status: 500 }
@@ -119,7 +150,7 @@ export async function POST(req: NextRequest) {
           { _id: new ObjectId(donation.campaignId) },
           {
             $inc: {
-              donatedAmount: Number(amountPaid),
+              donatedAmount: Number(amount),
               volunteers: 1, // Increment supporter count
             },
           }
@@ -144,8 +175,8 @@ export async function POST(req: NextRequest) {
         name: donation.firstName
           ? `${donation.firstName} ${donation.lastName}`
           : donation.name || "Friend",
-        reference: paymentReference,
-        amountPaid: Number(amountPaid),
+        reference: order.id,
+        amountPaid: Number(amount),
         donationType: donation.donationType || "one-time",
         designation: donation.designation || "where-most-needed",
       });
@@ -166,7 +197,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Donation processed successfully",
-      reference: paymentReference,
+      reference: order.id,
     });
   } catch (err: any) {
     console.error("Donation webhook error:", err);

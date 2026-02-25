@@ -1,9 +1,9 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
-
-const ALLOWED_ORIGINS = ["http://localhost:3000", "https://connectafrica-fawn.vercel.app"];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {

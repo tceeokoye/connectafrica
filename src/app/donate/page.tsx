@@ -39,7 +39,7 @@ export default function DonatePage() {
     }
 
     if (amount < 10) {
-      toast({ title: 'Error', description: 'Minimum donation amount is ₦10', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Minimum donation amount is $10', variant: 'destructive' })
       return
     }
 
@@ -71,9 +71,9 @@ export default function DonatePage() {
         
         toast({ 
           title: 'Redirecting to payment...', 
-          description: `Processing your ${donationType} donation of ₦${amount.toLocaleString()}` 
+          description: `Processing your ${donationType} donation of $${amount.toLocaleString()}` 
         })
-        // Redirect to Monnify checkout
+        // Redirect to PayPal checkout
         setTimeout(() => {
           window.location.href = data.checkoutUrl
         }, 1500)
@@ -171,7 +171,7 @@ export default function DonatePage() {
                     <Check className="w-6 h-6 text-emerald-600" />
                   )}
                 </div>
-                <div className="font-display text-3xl font-bold text-gray-900 mb-2">₦{item.amount}</div>
+                <div className="font-display text-3xl font-bold text-gray-900 mb-2">${item.amount}</div>
                 <h3 className="font-semibold text-gray-900 mb-2">{item.title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
               </motion.div>
@@ -182,7 +182,7 @@ export default function DonatePage() {
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="max-w-md mx-auto mb-12">
             <Label htmlFor="custom-amount" className="text-gray-700 font-semibold mb-3 block">Or enter a custom amount</Label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-lg">₦</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-lg">$</span>
               <Input 
                 id="custom-amount" 
                 type="number" 
@@ -309,7 +309,7 @@ export default function DonatePage() {
                   ) : (
                     <>
                       <Heart className="w-5 h-5 mr-2  hidden md:inline"/>
-                      Complete Donation – ₦{(Number(customAmount || selectedAmount || 0)).toLocaleString()}
+                      Complete Donation – ${Number(customAmount || selectedAmount || 0).toLocaleString()}
                     </>
                   )}
                 </Button>

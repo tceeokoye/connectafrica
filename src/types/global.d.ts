@@ -51,3 +51,7 @@ interface Campaign {
   status: "inprogress" | "completed" | "suspended";
   donatedAmount?: number; // optional for progress tracking
 }
+export type LoadingSpinnerProps = {
+  size?: number;
+  color?: string;
+};

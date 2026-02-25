@@ -15,7 +15,7 @@ const axiosInstance = Axios.create({
 axiosInstance.interceptors.request.use((config) => {
   console.log(`📤 [${config.method?.toUpperCase()}] ${config.url}`, config.data);
   const state = store.getState();
-  const token = state.token; // adjust if your slice is named differently
+  const token = state.token.token; // adjust if your slice is named differently
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
