@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import crypto from "crypto";
 
-// allowed origins for CORS
-const ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "https://connectafrica-fawn.vercel.app"];
+// allowed origins for CORSimport { ALLOWED_ORIGINS } from "@/config/cors";
 
 // Get PayPal access token
 async function getPayPalAccessToken(): Promise<string> {
