@@ -4,12 +4,7 @@ import { ObjectId } from "mongodb";
 import nodemailer from "nodemailer";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
 
-const ALLOWED_ORIGINS = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://localhost:3002",
-  "https://connectafrica-fawn.vercel.app",
-];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function POST(req: NextRequest) {
   try {

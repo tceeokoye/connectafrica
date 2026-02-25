@@ -4,12 +4,7 @@ import crypto from "crypto";
 import { ObjectId } from "mongodb";
 
 // allowed origins for CORS
-const ALLOWED_ORIGINS = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://localhost:3002",
-  "https://connectafrica-fawn.vercel.app",
-];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 // Get PayPal access token
 async function getPayPalAccessToken(): Promise<string> {

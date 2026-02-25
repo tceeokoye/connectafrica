@@ -2,12 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 
-const ALLOWED_ORIGINS = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://localhost:3002",
-  "https://connectafrica-fawn.vercel.app",
-];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 // Security: Rate limiting map (in-memory, would use Redis in production)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();

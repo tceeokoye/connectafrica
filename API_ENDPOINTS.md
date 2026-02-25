@@ -2,7 +2,7 @@
 
 ## Base URL
 - Development: `http://localhost:3001` or `http://localhost:3002`
-- Production: `https://connectafrica-fawn.vercel.app`
+- Production: `https://connectwithafrica.org`
 
 ---
 

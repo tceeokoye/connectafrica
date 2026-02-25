@@ -2,11 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 import clientPromise from "@/lib/db";
-
-const ALLOWED_ORIGINS = [
-  "http://localhost:3000",
-  "https://connectafrica-fawn.vercel.app",
-];
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 function logError(err: any, context = "UNKNOWN") {
   console.error("========== API ERROR ==========");
