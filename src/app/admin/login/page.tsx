@@ -117,9 +117,7 @@ export default function AdminLogin() {
             </button>
           </div>
         </form>
-        <p className="text-gray-500 text-center text-sm mt-6">
-          Use <span className="font-medium">admin@cohaaf.org</span> / <span className="font-medium">password</span> for demo
-        </p>
+       
       </div>
     </section>
   );
