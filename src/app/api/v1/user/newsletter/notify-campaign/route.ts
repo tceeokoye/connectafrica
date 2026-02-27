@@ -8,6 +8,19 @@ export const dynamic = "force-dynamic";
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  const allowOrigin = origin && ALLOWED_ORIGINS.includes(origin) ? origin : "*";
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": allowOrigin,
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     /* ================= CORS ================= */

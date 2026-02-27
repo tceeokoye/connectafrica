@@ -3,6 +3,8 @@ import clientPromise from "@/lib/db";
 import cloudinary from "@/lib/cloudinary";
 import jwt from "jsonwebtoken";
 
+export const dynamic = "force-dynamic";
+
 
 import { ALLOWED_ORIGINS } from "@/config/cors";
 

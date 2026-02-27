@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": origin || "*",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+
 export const dynamic = "force-dynamic";
 
 import { ALLOWED_ORIGINS } from "@/config/cors";

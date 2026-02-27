@@ -3,6 +3,18 @@ import clientPromise from "@/lib/db";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
 import nodemailer from "nodemailer";
 
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": origin || "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+
 export const dynamic = "force-dynamic";
 
 // Verify PayPal webhook signature

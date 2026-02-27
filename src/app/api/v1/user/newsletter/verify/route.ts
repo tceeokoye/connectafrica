@@ -3,6 +3,18 @@ import clientPromise from "@/lib/db";
 import nodemailer from "nodemailer";
 import { newsletterWelcomeTemplate } from "@/lib/emailTemplates";
 
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": origin || "*",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
