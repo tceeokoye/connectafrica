@@ -17,7 +17,6 @@ export const AboutSection = () => {
 
       <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
-          
           {/* Image Side */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -31,15 +30,9 @@ export const AboutSection = () => {
               transition={{ duration: 0.5 }}
               className="relative rounded-3xl overflow-hidden shadow-2xl"
             >
-             < Image src={aboutImage} alt="about image" width={500} height={560} className="w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[460px] object-cover"/>
-              {/* <img
-                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200"
-                alt="Healthcare workers in Africa"
-                className="w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[460px] object-cover"
-              /> */}
+              <Image src={aboutImage} alt="about image" width={500} height={560} className="w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[460px] object-cover"/>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             </motion.div>
-
             {/* Floating Glass Card */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -83,19 +76,11 @@ export const AboutSection = () => {
             </h2>
 
             <p className="text-muted-foreground leading-relaxed mb-5 text-base md:text-lg">
-              Connect with Africa is a humanitarian initiative dedicated to bridging
-              global generosity with local needs across African communities. We work
-              alongside clinics, community leaders, and development partners to deliver
-              medical supplies, support healthcare workers, and create pathways for
-              long-term change.
+              Connect with Africa is a humanitarian initiative dedicated to bridging global generosity with local needs across African communities. We work alongside clinics, community leaders, and development partners to deliver medical supplies, support healthcare workers, and create pathways for long-term change.
             </p>
 
             <p className="text-muted-foreground leading-relaxed mb-8 text-base md:text-lg">
-              From primary healthcare centers in Nigeria to rural communities with
-              limited access to care, our mission is simple:{" "}
-              <span className="text-foreground font-semibold">
-                equip those who serve on the frontlines so they can save lives with dignity.
-              </span>
+              From primary healthcare centers in Nigeria to rural communities with limited access to care, our mission is simple: <span className="text-foreground font-semibold">equip those who serve on the frontlines so they can save lives with dignity.</span>
             </p>
 
             {/* Features */}
@@ -123,7 +108,6 @@ export const AboutSection = () => {
               ))}
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

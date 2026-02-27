@@ -123,7 +123,6 @@ export default function CampaignDonationModal({
         amount: finalAmount,
       };
 
-      console.log("📤 Sending donation payload:", payload);
 
       const response = await fetch("/api/v1/user/campaigns/donate/initiate", {
         method: "POST",

@@ -8,31 +8,27 @@ import { useEffect, useState } from "react";
 const slides = [
   {
     image: "/assets/hero-img/hospitalSuply.jpeg",
-    title: "Medical Supply Campaigns",
-    subtitle: "Delivering Life-Saving Equipment",
-    description:
-      "Equipping African clinics with essential medical supplies, equipment, and resources to save lives.",
+    title: "Connecting Compassion to Communities in Need",
+    subtitle: "Strengthening African clinics, schools, and communities with life-saving supplies, sustainable partnerships, and hope in action.",
+    description: "",
   },
   {
     image: "/assets/hero-img/education-support-hero.jpg",
-    title: "Education Support",
-    subtitle: "Empowering Future Leaders",
-    description:
-      "Providing learning materials, infrastructure, and scholarships to unlock youth potential.",
+    title: "Education & Training (Future Focus)",
+    subtitle: "Supporting capacity building, health education, and partnerships that strengthen systems beyond a single shipment.",
+    description: "",
   },
   {
     image: "/assets/hero-img/community-development-hero.jpg",
-    title: "Community Development",
-    subtitle: "Building Stronger Communities",
-    description:
-      "Supporting sustainable projects from housing to agriculture across Africa.",
+    title: "Community Partnerships",
+    subtitle: "Working directly with local leaders, nurses, and administrators to ensure supplies reach the people who need them most.",
+    description: "",
   },
   {
     image: "/assets/hero-img/clean-water-hero.jpg",
-    title: "Clean Water Projects",
-    subtitle: "Access to Safe Water",
-    description:
-      "Installing wells and purification systems for safe drinking water in communities.",
+    title: "Diaspora & Global Engagement",
+    subtitle: "Connecting individuals, companies, and institutions around the world to meaningful, trackable projects in Africa.",
+    description: "",
   },
 ];
 
@@ -116,9 +112,9 @@ export default function HeroSectionModern3D() {
                 </button>
               </Link>
 
-              <Link href="/medical-container">
+              <Link href="/about">
                 <button className="px-8 py-4 border border-white/40 rounded-xl hover:bg-white/10 transition">
-                  View Campaigns
+                  Learn About Our Work
                 </button>
               </Link>
             </div>

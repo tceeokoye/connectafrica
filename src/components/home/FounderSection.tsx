@@ -46,15 +46,7 @@ export default function FounderSection() {
               Meet Our Founder
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-3">
-              <span className="font-semibold text-foreground">Cajetan Onu, JD</span>, 
-              is the Founder and Executive Director of Connect with Africa. With expertise 
-              in law, compliance, and community development, he has dedicated his work to 
-              bridging global partners with underserved African communities.
-            </p>
-            <p className="text-muted-foreground leading-relaxed mb-5">
-              His recent visits to primary healthcare centers in Nigeria inform every aspect 
-              of this mission. Through firsthand experience, he has witnessed both the challenges 
-              and the incredible resilience of healthcare workers.
+              Cajetan Onu, JD, is the Founder and Executive Director of Connect with Africa. With a background in law, compliance, and community development, he has dedicated his work to building bridges between global partners and underserved African communities. His recent visits to primary healthcare centers in Nigeria inform and guide every aspect of this mission.
             </p>
 
             {/* Quote Card */}

@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
 
     // Create PayPal Order
     const reference = `GEN_DON_${Date.now()}_${crypto.randomUUID()}`;
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://connectwithafrica.org";
 
     const orderResponse = await fetch(
       `${process.env.PAYPAL_API_URL}/v2/checkout/orders`,

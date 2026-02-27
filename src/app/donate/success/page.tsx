@@ -346,7 +346,7 @@ export default function DonationSuccessPage() {
                     ${(donation.amount || 0).toLocaleString()}
                   </span>
                 </div>
-                <div className="flex items-center justify-between pb-4 border-b border-gray-200">
+                <div className="flex md:flex-row flex-col text-left md:items-center md:justify-between pb-4 border-b border-gray-200">
                   <span className="text-gray-700 font-semibold">Email Address</span>
                   <span className="text-gray-900 underline">{donation.email}</span>
                 </div>
@@ -370,9 +370,9 @@ export default function DonationSuccessPage() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex md:flex-row flex-col text-left md:items-center md:justify-between">
                   <span className="text-gray-700 font-semibold">Reference ID</span>
-                  <span className="text-gray-900 font-mono text-sm bg-white px-3 py-1 rounded border border-gray-200">
+                  <span className="text-gray-900 font-mono w-full text-wrap text-xs bg-white px-3 py-1 rounded border border-gray-200">
                     {donation.reference}
                   </span>
                 </div>

@@ -18,7 +18,7 @@ const focusAreas = [
   },
   {
     icon: GraduationCap,
-    title: "Education & Training",
+    title: "Education & Training (Future Focus)",
     description:
       "Supporting capacity building, health education, and partnerships that strengthen systems beyond a single shipment.",
     color: "terracotta",

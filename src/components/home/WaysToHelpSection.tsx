@@ -12,7 +12,7 @@ const waysToHelp = [
     description:
       "Help cover the cost of supplies, shipping, and distribution to clinics in need.",
     cta: "Make a Donation",
-    href: "/campaigns",
+    href: "/donate",
     color: "primary",
   },
   {

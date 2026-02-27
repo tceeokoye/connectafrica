@@ -47,8 +47,7 @@ export const ImpactStorySection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-8 leading-tight text-white"
           >
-            "Now We Can Treat Our Patients with{" "}
-            <span className="text-gold">Dignity</span>"
+            “Now We Can Treat Our Patients with Dignity”
           </motion.h2>
 
           {/* Story Paragraphs */}
@@ -60,19 +59,12 @@ export const ImpactStorySection = () => {
             className="space-y-6 text-lg sm:text-xl leading-relaxed text-white/80"
           >
             <p>
-              Last year, Connect with Africa coordinated the delivery of a container 
-              of medical supplies to Northern Nigeria. As the nurses unpacked the boxes, 
-              many of them wept.
+              Last year, Connect with Africa coordinated the delivery of a container of medical supplies to Northern Nigeria. As the nurses unpacked the boxes, many of them wept.
             </p>
-
             <p className="italic">"Now we can treat our patients with dignity," they said.</p>
-
             <p>
-              What seemed like simple items — gloves, dressings, basic tools — became 
-              the difference between turning patients away and providing safe, respectful care.
-              <span className="block mt-4 text-gold font-semibold">
-                Your support makes stories like this possible.
-              </span>
+              What seemed like simple items — gloves, dressings, basic tools — became the difference between turning patients away and providing safe, respectful care.
+              <span className="block mt-4 text-gold font-semibold">Your support makes stories like this possible.</span>
             </p>
           </motion.div>
         </motion.div>
