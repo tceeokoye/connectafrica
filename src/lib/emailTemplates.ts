@@ -52,7 +52,7 @@ export function donationReceiptTemplate({ name, reference, amountPaid, donationT
 
 export function newsletterWelcomeTemplate({ unsubscribeToken }:{ unsubscribeToken:string }){
   const subject = 'Welcome — Connect Africa Newsletter';
-  const unsubscribeUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '#') + `/newsletter/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`;
+  const unsubscribeUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'https://www.connectwithafrica.org') + `/newsletter/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`;
   const html = `
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.5;">
     <!-- Header with Logo -->
@@ -82,7 +82,7 @@ export function newsletterWelcomeTemplate({ unsubscribeToken }:{ unsubscribeToke
 
       <hr style="border:none;border-top:1px solid #f1f5f9;margin:24px 0" />
       <p style="font-size:12px;color:#6b7280;margin:0;">
-        <strong>Have questions?</strong> Reply to this email or visit <a href="${process.env.NEXT_PUBLIC_BACKEND_URL || '#'}" style="color:#059669;text-decoration:none;">our website</a>.<br/>
+        <strong>Have questions?</strong> Reply to this email or visit <a href="${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://www.connectwithafrica.org'}" style="color:#059669;text-decoration:none;">our website</a>.<br/>
         <strong>Want to unsubscribe?</strong> Click <a href="${unsubscribeUrl}" style="color:#059669;text-decoration:none;">here</a>.
       </p>
     </div>
@@ -132,7 +132,7 @@ export function newsletterConfirmationTemplate({ verificationToken }:{ verificat
 
 export function campaignNotificationTemplate({ campaignTitle, campaignDescription, campaignImage, campaignLink, unsubscribeToken }:{ campaignTitle:string; campaignDescription:string; campaignImage?:string; campaignLink:string; unsubscribeToken:string }){
   const subject = `New Campaign: ${campaignTitle} — Connect Africa`;
-  const unsubscribeUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '#') + `/newsletter/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`;
+  const unsubscribeUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'https://www.connectwithafrica.org') + `/newsletter/unsubscribe?token=${encodeURIComponent(unsubscribeToken)}`;
   const html = `
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.5;">
     <!-- Header with Logo -->
@@ -165,7 +165,7 @@ export function campaignNotificationTemplate({ campaignTitle, campaignDescriptio
 
       <hr style="border:none;border-top:1px solid #f1f5f9;margin:24px 0" />
       <p style="font-size:12px;color:#6b7280;margin:0;">
-        <strong>Have questions?</strong> Reply to this email or visit <a href="${process.env.NEXT_PUBLIC_BACKEND_URL || '#'}" style="color:#059669;text-decoration:none;">our website</a>.<br/>
+        <strong>Have questions?</strong> Reply to this email or visit <a href="${process.env.NEXT_PUBLIC_BACKEND_URL || 'https://www.connectwithafrica.org'}" style="color:#059669;text-decoration:none;">our website</a>.<br/>
         <strong>Want to unsubscribe?</strong> Click <a href="${unsubscribeUrl}" style="color:#059669;text-decoration:none;">here</a>.
       </p>
     </div>
