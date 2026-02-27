@@ -93,7 +93,7 @@ export function newsletterWelcomeTemplate({ unsubscribeToken }:{ unsubscribeToke
 
 export function newsletterConfirmationTemplate({ verificationToken }:{ verificationToken:string }){
   const subject = 'Confirm Your Email — Connect Africa Newsletter';
-  const verificationUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '#') + `/newsletter/verify?token=${encodeURIComponent(verificationToken)}`;
+  const verificationUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'https://www.connectwithafrica.org') + `/newsletter/verify?token=${encodeURIComponent(verificationToken)}`;
   const html = `
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.5;">
     <!-- Header with Logo -->
