@@ -1,10 +1,6 @@
 {
   "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/api/v1/admin/campaign/get/route": "app/api/v1/admin/campaign/get/route.js",
-  "/api/v1/admin/gallary/get/route": "app/api/v1/admin/gallary/get/route.js",
-  "/about/page": "app/about/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/campaigns/page": "app/campaigns/page.js",
-  "/gallery/page": "app/gallery/page.js",
-  "/donate/success/page": "app/donate/success/page.js"
+  "/api/v1/user/newsletter/subscribe/route": "app/api/v1/user/newsletter/subscribe/route.js"
 }
