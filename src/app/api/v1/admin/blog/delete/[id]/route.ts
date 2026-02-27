@@ -1,9 +1,10 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import { ALLOWED_ORIGINS } from "@/config/cors";
+
+export const dynamic = "force-dynamic";
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {

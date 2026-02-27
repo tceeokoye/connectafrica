@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/api/v1/admin/dashboard/stats":{}}}
+{"version":1,"functions":{"/api/v1/admin/blog/edit/[id]":{},"/api/v1/admin/blog/unset-featured":{},"/api/v1/admin/dashboard/stats":{},"/api/v1/admin/blog/create":{},"/api/v1/admin/blog/get":{},"/api/v1/admin/blog/delete/[id]":{}}}

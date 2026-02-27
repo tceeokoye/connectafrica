@@ -3,6 +3,8 @@ import clientPromise from "@/lib/db";
 import nodemailer from "nodemailer";
 import { newsletterWelcomeTemplate } from "@/lib/emailTemplates";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;

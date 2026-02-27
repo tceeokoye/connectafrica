@@ -24,6 +24,8 @@ function generateSlug(title: string) {
 }
 
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     /* ================= CORS ================= */

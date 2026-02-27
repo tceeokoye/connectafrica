@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
+export const dynamic = "force-dynamic";
+
 // allowed origins for CORSimport { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function GET(req: NextRequest) {

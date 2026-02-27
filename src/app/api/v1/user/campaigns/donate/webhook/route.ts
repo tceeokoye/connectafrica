@@ -4,6 +4,8 @@ import { ObjectId } from "mongodb";
 import nodemailer from "nodemailer";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
 
+export const dynamic = "force-dynamic";
+
 // Verify PayPal webhook signature
 async function verifyPayPalWebhook(
   req: NextRequest,

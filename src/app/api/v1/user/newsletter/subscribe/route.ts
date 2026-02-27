@@ -3,6 +3,8 @@ import clientPromise from "@/lib/db";
 import nodemailer from "nodemailer";
 import { newsletterConfirmationTemplate } from "@/lib/emailTemplates";
 
+export const dynamic = "force-dynamic";
+
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
 

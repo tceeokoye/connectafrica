@@ -3,6 +3,8 @@ import clientPromise from "@/lib/db";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
 import nodemailer from "nodemailer";
 
+export const dynamic = "force-dynamic";
+
 // Verify PayPal webhook signature
 async function verifyPayPalWebhook(
   req: NextRequest,

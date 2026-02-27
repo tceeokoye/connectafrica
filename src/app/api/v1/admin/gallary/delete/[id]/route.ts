@@ -4,6 +4,8 @@ import cloudinary from "@/lib/cloudinary";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
+export const dynamic = "force-dynamic";
+
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
 

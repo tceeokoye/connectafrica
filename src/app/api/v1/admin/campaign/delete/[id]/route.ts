@@ -3,6 +3,8 @@ import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 
+export const dynamic = "force-dynamic";
+
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
 

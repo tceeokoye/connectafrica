@@ -1,5 +1,7 @@
 export const runtime = "nodejs";
 
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import jwt from "jsonwebtoken";

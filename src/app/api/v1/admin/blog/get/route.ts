@@ -4,6 +4,8 @@ import clientPromise from "@/lib/db";
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   try {
     /* ================= CORS ================= */

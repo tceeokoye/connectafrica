@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
+export const dynamic = "force-dynamic";
+
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     /* ================= CORS ================= */

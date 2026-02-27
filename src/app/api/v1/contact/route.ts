@@ -4,6 +4,8 @@ import nodemailer from "nodemailer";
 import clientPromise from "@/lib/db";
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
+export const dynamic = "force-dynamic";
+
 function logError(err: any, context = "UNKNOWN") {
   console.error("========== API ERROR ==========");
   console.error("Context:", context);

@@ -3,6 +3,8 @@ import clientPromise from "@/lib/db";
 import crypto from "crypto";
 import { ObjectId } from "mongodb";
 
+export const dynamic = "force-dynamic";
+
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
 

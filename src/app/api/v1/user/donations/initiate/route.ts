@@ -3,6 +3,8 @@ import clientPromise from "@/lib/db";
 import crypto from "crypto";
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
+export const dynamic = "force-dynamic";
+
 // allowed origins for CORSimport { ALLOWED_ORIGINS } from "@/config/cors";
 
 // Get PayPal access token

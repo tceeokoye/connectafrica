@@ -4,6 +4,8 @@ import { ObjectId } from "mongodb";
 import nodemailer from "nodemailer";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
 
+export const dynamic = "force-dynamic";
+
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export async function POST(req: NextRequest) {

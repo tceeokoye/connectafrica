@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
+export const dynamic = "force-dynamic";
+
 export async function PUT(req: NextRequest) {
   try {
     const origin = req.headers.get("origin");

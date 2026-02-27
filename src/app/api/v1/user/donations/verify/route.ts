@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 
+export const dynamic = "force-dynamic";
+
 import { ALLOWED_ORIGINS } from "@/config/cors";
 
 // Security: Rate limiting map (in-memory, would use Redis in production)
