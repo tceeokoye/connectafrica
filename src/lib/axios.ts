@@ -3,7 +3,7 @@ import store from "@/store"; // your Redux store
 
 // Use relative base URL to avoid CORS on same-domain Next.js API routes
 const axiosInstance = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "/api", // fallback to relative API path
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "https://www.connectwithafrica.org", // fallback to relative API path
   maxBodyLength: Infinity,
   headers: {
     Accept: "application/json",
