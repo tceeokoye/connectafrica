@@ -1,9 +1,9 @@
 import Axios from "axios";
-import store from "@/store";// your Redux store
-import { tokenActions } from "@/store/slices/authSlice";
+import store from "@/store"; // your Redux store
 
+// Use relative base URL to avoid CORS on same-domain Next.js API routes
 const axiosInstance = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "/api", // fallback to relative API path
   maxBodyLength: Infinity,
   headers: {
     Accept: "application/json",
@@ -12,24 +12,41 @@ const axiosInstance = Axios.create({
 });
 
 // Attach token from Redux to requests
-axiosInstance.interceptors.request.use((config) => {
-  console.log(`📤 [${config.method?.toUpperCase()}] ${config.url}`, config.data);
-  const state = store.getState();
-  const token = state.token.token; // adjust if your slice is named differently
-  if (token && config.headers) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-}, (error) => Promise.reject(error));
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const state = store.getState();
+    const token = state.token?.token; // adjust if your slice is named differently
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
-// Add response interceptors for debugging
+    console.log(
+      `📤 [${config.method?.toUpperCase()}] ${config.baseURL || ""}${config.url}`,
+      config.data
+    );
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Add response interceptors with detailed logging
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log(`✅ Response [${response.status}]:`, response.data);
+    console.log(
+      `✅ Response [${response.status}] ${response.config.url}:`,
+      response.data
+    );
     return response;
   },
   (error) => {
-    console.error(`❌ Error [${error.response?.status}]:`, error.response?.data || error.message);
+    console.error("❌ Axios Error:", {
+      message: error.message,
+      code: error.code,
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
     return Promise.reject(error);
   }
 );
