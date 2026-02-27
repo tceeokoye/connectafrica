@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const categories = [
   "All",
-  "Medical",
+  "Healthcare",
   "Education",
   "Water",
   "Community",
