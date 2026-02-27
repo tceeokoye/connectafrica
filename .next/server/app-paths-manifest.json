@@ -1,6 +1,6 @@
 {
   "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/v1/admin/campaign/get/route": "app/api/v1/admin/campaign/get/route.js",
-  "/api/v1/user/newsletter/subscribe/route": "app/api/v1/user/newsletter/subscribe/route.js"
+  "/admin/subscribers/page": "app/admin/subscribers/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js"
 }

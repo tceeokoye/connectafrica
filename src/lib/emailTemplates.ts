@@ -4,7 +4,7 @@ export function donationReceiptTemplate({ name, reference, amountPaid, donationT
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.5;">
     <!-- Header with Logo -->
     <div style="max-width:680px;margin:0 auto;background:linear-gradient(135deg, #059669 0%, #047857 100%);padding:32px 24px;border-radius:8px 8px 0 0;text-align:center;">
-      <img src="https://connectwithafrica.org/logo.png" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
+      <img src="https://connectwithafrica.org/logo2.jpg" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
       <h1 style="color:#fff;margin:0;font-size:28px;">Connect Africa</h1>
       <p style="color:#d1fae5;margin:8px 0 0 0;font-size:14px;">Bringing Healthcare to Every Community</p>
     </div>
@@ -57,7 +57,7 @@ export function newsletterWelcomeTemplate({ unsubscribeToken }:{ unsubscribeToke
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.5;">
     <!-- Header with Logo -->
     <div style="max-width:680px;margin:0 auto;background:linear-gradient(135deg, #059669 0%, #047857 100%);padding:32px 24px;border-radius:8px 8px 0 0;text-align:center;">
-      <img src="https://connectwithafrica.org/logo.png" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
+      <img src="https://connectwithafrica.org/logo2.jpg" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
       <h1 style="color:#fff;margin:0;font-size:28px;">Connect Africa</h1>
       <p style="color:#d1fae5;margin:8px 0 0 0;font-size:14px;">Bringing Healthcare to Every Community</p>
     </div>
@@ -98,7 +98,7 @@ export function newsletterConfirmationTemplate({ verificationToken }:{ verificat
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.5;">
     <!-- Header with Logo -->
     <div style="max-width:680px;margin:0 auto;background:linear-gradient(135deg, #059669 0%, #047857 100%);padding:32px 24px;border-radius:8px 8px 0 0;text-align:center;">
-      <img src="https://connectwithafrica.org/logo.png" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
+      <img src="https://connectwithafrica.org/logo2.jpg" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
       <h1 style="color:#fff;margin:0;font-size:28px;">Connect Africa</h1>
       <p style="color:#d1fae5;margin:8px 0 0 0;font-size:14px;">Bringing Healthcare to Every Community</p>
     </div>
@@ -137,7 +137,7 @@ export function campaignNotificationTemplate({ campaignTitle, campaignDescriptio
   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; line-height:1.5;">
     <!-- Header with Logo -->
     <div style="max-width:680px;margin:0 auto;background:linear-gradient(135deg, #059669 0%, #047857 100%);padding:32px 24px;border-radius:8px 8px 0 0;text-align:center;">
-      <img src="https://connectwithafrica.org/logo.png" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
+      <img src="https://connectwithafrica.org/logo2.jpg" alt="Connect Africa" style="height:50px;margin-bottom:16px;" />
       <h1 style="color:#fff;margin:0;font-size:28px;">Connect Africa</h1>
       <p style="color:#d1fae5;margin:8px 0 0 0;font-size:14px;">Bringing Healthcare to Every Community</p>
     </div>
