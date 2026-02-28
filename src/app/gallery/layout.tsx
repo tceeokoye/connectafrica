@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 
 export const metadata = {
-  title: 'Gallery — Connect Africa',
+  title: 'Gallery — Connect with Africa',
   description: 'Photos from our work and partners.'
 }
 

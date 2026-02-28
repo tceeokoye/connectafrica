@@ -7,6 +7,7 @@ import { donationReceiptTemplate } from "@/lib/emailTemplates";
 export const dynamic = "force-dynamic";
 
 import { ALLOWED_ORIGINS } from "@/config/cors";
+import { getMailer } from "@/lib/mail/transport";
 
 export async function POST(req: NextRequest) {
   try {
@@ -108,24 +109,17 @@ export async function POST(req: NextRequest) {
 
       // Send confirmation email
       try {
-        console.log("📧 Attempting to send confirmation email...");
-        console.log("   To:", donation.email);
-        console.log("   Gmail User:", process.env.GMAIL_USER);
-        console.log("   Has Gmail Pass:", !!process.env.GMAIL_PASS);
+        // console.log("📧 Attempting to send confirmation email...");
+        // console.log("   To:", donation.email);
+        // console.log("   Gmail User:", process.env.GMAIL_USER);
+        // console.log("   Has Gmail Pass:", !!process.env.GMAIL_PASS);
 
-        if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
-          console.error("❌ Gmail credentials not configured");
-          throw new Error("Email service not configured");
-        }
+        // if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
+        //   console.error("❌ Gmail credentials not configured");
+        //   throw new Error("Email service not configured");
+        // }
 
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_PASS,
-          },
-        });
-
+        const transporter = getMailer()
         // Test connection
         await transporter.verify();
         console.log("✅ Gmail connection verified");
@@ -139,7 +133,7 @@ export async function POST(req: NextRequest) {
         });
 
         const mailResult = await transporter.sendMail({
-          from: process.env.GMAIL_USER,
+          from: `"Connect Africa" <support@connectwithafrica.org>`,
           to: donation.email,
           subject,
           html,

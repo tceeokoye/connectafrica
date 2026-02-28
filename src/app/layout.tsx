@@ -5,11 +5,11 @@ import RootWrapper from "../components/RootWrapper";
 import { Toaster } from "sonner";
 
 export const metadata = {
-  title: "Connect Africa",
+  title: "Connect with Africa",
   description:
-    "Connect Africa is a mission-driven platform dedicated to supporting healthcare, education, clean water, and community development initiatives across Africa. We connect donors, partners, and communities to create sustainable impact and lasting change.",
+    "Connect with Africa is a mission-driven platform dedicated to supporting healthcare, education, clean water, and community development initiatives across Africa. We connect donors, partners, and communities to create sustainable impact and lasting change.",
   openGraph: {
-    title: "Connect Africa",
+    title: "Connect with Africa",
     description:
       "A mission-driven charity platform supporting healthcare, education, clean water, and community development across Africa.",
   },

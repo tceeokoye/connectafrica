@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
 import nodemailer from "nodemailer";
+import { getMailer } from "@/lib/mail/transport";
 
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get("origin");
@@ -177,13 +178,7 @@ export async function POST(req: NextRequest) {
 
     /* ================= Send Confirmation Email ================= */
     try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASS,
-        },
-      });
+      const transporter = getMailer()
 
       const { subject, html } = donationReceiptTemplate({
         name: donation.firstName
@@ -196,7 +191,7 @@ export async function POST(req: NextRequest) {
       });
 
       await transporter.sendMail({
-        from: process.env.GMAIL_USER,
+        from: `"Connect Africa" <support@connectwithafrica.org>`,
         to: donation.email,
         subject,
         html,

@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const metadata = {
-  title: 'Admin Login — Connect Africa',
+  title: 'Admin Login — Connect with Africa',
   description: 'Sign in to the admin dashboard'
 }
 

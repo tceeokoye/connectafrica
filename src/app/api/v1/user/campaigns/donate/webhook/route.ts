@@ -3,6 +3,7 @@ import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 import nodemailer from "nodemailer";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
+import { getMailer } from "@/lib/mail/transport";
 
 export const dynamic = "force-dynamic";
 
@@ -243,13 +244,7 @@ export async function POST(req: NextRequest) {
     try {
       console.log("📧 Sending confirmation email to:", donation.email);
       
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASS,
-        },
-      });
+      const transporter = getMailer()
 
       const { subject, html } = donationReceiptTemplate({
         name: donation.firstName
@@ -262,7 +257,7 @@ export async function POST(req: NextRequest) {
       });
 
       await transporter.sendMail({
-        from: process.env.GMAIL_USER,
+         from: `"Connect Africa" <support@connectwithafrica.org>`,
         to: donation.email,
         subject,
         html,

@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 import clientPromise from "@/lib/db";
 import { ALLOWED_ORIGINS } from "@/config/cors";
+import { getMailer } from "@/lib/mail/transport";
 
 export const dynamic = "force-dynamic";
 
@@ -77,17 +78,10 @@ export async function POST(req: NextRequest) {
 
     /* ========== EMAIL (NON-CRITICAL) ========== */
     try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASS,
-        },
-      });
-
+      const transporter = getMailer();
       await transporter.sendMail({
-        from: `"Connect Africa" <${process.env.GMAIL_USER}>`,
-        to: "tceeservices@gmail.com",
+        from: `"Connect with Africa" <no-reply@connectwithafrica.org>`,
+        to: "support@connectwithafrica.org",
         replyTo: data.email,
         subject: `Contact Us - ${data.subject}`,
         html: `

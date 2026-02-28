@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
           application_context: {
             return_url: `${backendUrl}/donate/success`,
             cancel_url: `${backendUrl}/donate`,
-            brand_name: "Connect Africa",
+            brand_name: "Connect with Africa",
             locale: "en-US",
             landing_page: "BILLING",
             user_action: "PAY_NOW",

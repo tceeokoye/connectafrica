@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 // allowed origins for CORS
 import { ALLOWED_ORIGINS } from "@/config/cors";
+import { getMailer } from "@/lib/mail/transport";
 
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get("origin");
@@ -70,13 +71,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create email transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS,
-      },
-    });
+    const transporter  = getMailer()
 
     const campaignLink = `${process.env.NEXT_PUBLIC_BACKEND_URL || "https://connectafrica.org"}/campaigns/${campaignId}`;
     let emailsSent = 0;
@@ -94,7 +89,7 @@ export async function POST(req: NextRequest) {
         });
 
         await transporter.sendMail({
-          from: process.env.GMAIL_USER,
+           from: `"Connect with Africa" <support@connectwithafrica.org>`,
           to: subscriber.email,
           subject,
           html,

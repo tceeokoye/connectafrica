@@ -81,7 +81,7 @@ export default function VerifyPage() {
               </h2>
               <p className="text-slate-600 mb-6">{message}</p>
               <p className="text-sm text-slate-500 mb-6">
-                Check your inbox for your welcome email with all the details about our newsletter and how to stay updated with Connect Africa's impact.
+                Check your inbox for your welcome email with all the details about our newsletter and how to stay updated with Connect with Africa's impact.
               </p>
               <div className="flex gap-3 justify-center">
                 <button

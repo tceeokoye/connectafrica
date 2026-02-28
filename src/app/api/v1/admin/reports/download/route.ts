@@ -67,7 +67,7 @@ stream
 BT
 /F1 24 Tf
 50 750 Td
-(Connect Africa Annual Report ${year}) Tj
+(Connect with Africa Annual Report ${year}) Tj
 0 -40 Td
 /F1 12 Tf
 (Financial Summary) Tj

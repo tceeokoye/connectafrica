@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import nodemailer from "nodemailer";
 import { newsletterWelcomeTemplate } from "@/lib/emailTemplates";
+import { getMailer } from "@/lib/mail/transport";
 
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get("origin");
@@ -65,18 +66,12 @@ export async function GET(req: NextRequest) {
 
     // Send welcome email
     try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASS,
-        },
-      });
+      const transporter =  getMailer()
 
       const { subject, html } = newsletterWelcomeTemplate({ unsubscribeToken: subscriber.unsubscribeToken });
 
-      await transporter.sendMail({
-        from: process.env.GMAIL_USER,
+     await transporter.sendMail({
+        from: `"Connect with Africa" <support@connectwithafrica.org>`,
         to: subscriber.email,
         subject,
         html,
@@ -88,7 +83,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Email verified successfully! Welcome to Connect Africa Newsletter.",
+      message: "Email verified successfully! Welcome to Connect with Africa Newsletter.",
     });
   } catch (err: any) {
     console.error("Newsletter verification error:", err);

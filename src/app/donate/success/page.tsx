@@ -405,7 +405,7 @@ export default function DonationSuccessPage() {
                   </Link>
                   <button
                     onClick={() => {
-                      const text = `I just donated $${donation.amount?.toLocaleString() || 0} to support crucial medical initiatives in Africa through Connect Africa! 🤝❤️ #ConnectAfrica #GlobalHealth`;
+                      const text = `I just donated $${donation.amount?.toLocaleString() || 0} to support crucial medical initiatives in Africa through Connect with Africa! 🤝❤️ #ConnectAfrica #GlobalHealth`;
                       const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.origin)}`;
                       window.open(url, "_blank");
                     }}

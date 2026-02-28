@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const metadata = {
-  title: 'Contact — Connect Africa',
+  title: 'Contact — Connect with Africa',
   description: 'Contact us for questions, partnerships and donations.'
 }
 
