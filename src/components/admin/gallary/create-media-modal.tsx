@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { X } from "lucide-react";
 import { toast } from "sonner";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
@@ -36,6 +36,7 @@ interface GalleryMediaModalProps {
   media?: MediaItem; // edit mode
   onSave?: () => Promise<void>;
 }
+
 const categories = [
   "Outreach",
   "Team",
@@ -49,6 +50,10 @@ const categories = [
   "Events",
   "Others",
 ];
+
+const MAX_VIDEO_DURATION_MIN = 30; // 30 minutes
+const MAX_VIDEO_SIZE_MB = 100; // 100MB
+
 export default function GalleryMediaModal({
   isOpen,
   onClose,
@@ -61,8 +66,8 @@ export default function GalleryMediaModal({
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [videoUrl, setVideoUrl] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
+  const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Populate for edit
@@ -72,23 +77,67 @@ export default function GalleryMediaModal({
       setTitle(media.title);
       setCategory(media.category);
       setPreview(media.type === "image" ? media.src : media.thumbnail || null);
-      setVideoUrl(media.type === "video" ? media.src : "");
+      setThumbnail(media.thumbnail || null);
     } else {
       setType("image");
       setTitle("");
       setCategory("");
       setFile(null);
       setPreview(null);
-      setVideoUrl("");
+      setThumbnail(null);
     }
   }, [media]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
-    if (selected) {
-      setFile(selected);
-      setPreview(URL.createObjectURL(selected));
+    if (!selected) return;
+
+    // Check video file size
+    if (type === "video" && selected.size / (1024 * 1024) > MAX_VIDEO_SIZE_MB) {
+      toast.error(`Video too large! Maximum size is ${MAX_VIDEO_SIZE_MB}MB.`);
+      setFile(null);
+      setPreview(null);
+      setThumbnail(null);
+      return;
     }
+
+    if (type === "video") {
+      const video = document.createElement("video");
+      video.src = URL.createObjectURL(selected);
+
+      video.addEventListener("loadedmetadata", () => {
+        const durationMinutes = video.duration / 60;
+        if (durationMinutes > MAX_VIDEO_DURATION_MIN) {
+          toast.error(
+            `Video too long! Maximum duration is ${MAX_VIDEO_DURATION_MIN} minutes.`
+          );
+          setFile(null);
+          setPreview(null);
+          setThumbnail(null);
+          return;
+        }
+
+        // Generate thumbnail at 2 seconds
+        video.currentTime = 2;
+        video.addEventListener("seeked", () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageUrl = canvas.toDataURL("image/png");
+
+          setThumbnail(imageUrl); // separate thumbnail state
+          setPreview(imageUrl);   // optional UI preview
+        });
+      });
+    } else if (type === "image") {
+      setPreview(URL.createObjectURL(selected));
+      setThumbnail(null);
+    }
+
+    setFile(selected);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -106,27 +155,31 @@ export default function GalleryMediaModal({
       return;
     }
 
-    if (
-      !title ||
-      !category ||
-      (type === "image" && !file && !media) ||
-      (type === "video" && !videoUrl)
-    ) {
+    if (!title || !category || (!file && !media)) {
       toast.error("Please fill all required fields");
       setLoading(false);
       return;
     }
 
     try {
-      let imageBase64 = preview;
+      let imageBase64: string | undefined = undefined;
+      let videoBase64: string | undefined = undefined;
+      let thumbnailBase64: string | undefined = undefined;
 
       if (file) {
-        imageBase64 = await new Promise<string>((resolve, reject) => {
+        const readerResult = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = () => resolve(reader.result as string);
           reader.onerror = reject;
         });
+
+        if (type === "image") {
+          imageBase64 = readerResult;
+        } else if (type === "video") {
+          videoBase64 = readerResult;
+          thumbnailBase64 = thumbnail || undefined;
+        }
       }
 
       const method = media ? "PUT" : "POST";
@@ -144,9 +197,9 @@ export default function GalleryMediaModal({
           type,
           title,
           category,
-          imageBase64: type === "image" ? imageBase64 : undefined,
-          videoUrl: type === "video" ? videoUrl : undefined,
-          thumbnailBase64: type === "video" ? imageBase64 : undefined,
+          imageBase64,
+          videoBase64,
+          thumbnailBase64,
         }),
       });
 
@@ -202,7 +255,6 @@ export default function GalleryMediaModal({
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-
                 <SelectContent
                   position="popper"
                   className="max-h-60 overflow-y-auto"
@@ -228,40 +280,33 @@ export default function GalleryMediaModal({
                 </SelectContent>
               </Select>
 
-              {type === "image" ? (
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                />
-              ) : (
-                <>
-                  <Input
-                    placeholder="YouTube / Video embed URL"
-                    value={videoUrl}
-                    onChange={(e) => setVideoUrl(e.target.value)}
-                  />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </>
-              )}
+              <input
+                type="file"
+                accept={type === "image" ? "image/*" : "video/*"}
+                onChange={handleFileChange}
+              />
 
-              {preview && (
+              {preview && type === "image" && (
                 <img
                   src={preview}
                   className="w-full h-40 object-cover rounded-xl"
+                  alt="Preview"
                 />
               )}
 
+              {preview && type === "video" && (
+                <div className="relative">
+                  <video
+                    src={file ? URL.createObjectURL(file) : undefined}
+                    poster={thumbnail || undefined}
+                    controls
+                    className="w-full h-40 object-cover rounded-xl"
+                  />
+                </div>
+              )}
+
               <Button type="submit" disabled={loading} className="w-full">
-                {loading
-                  ? "Saving..."
-                  : media
-                  ? "Update Media"
-                  : "Upload Media"}
+                {loading ? "Saving..." : media ? "Update Media" : "Upload Media"}
               </Button>
             </form>
           </motion.div>

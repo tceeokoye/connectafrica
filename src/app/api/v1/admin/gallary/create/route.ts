@@ -3,7 +3,9 @@ import clientPromise from "@/lib/db";
 import cloudinary from "@/lib/cloudinary";
 import jwt from "jsonwebtoken";
 import { ALLOWED_ORIGINS } from "@/config/cors";
+
 export const dynamic = "force-dynamic";
+
 const ALLOWED_CATEGORIES = [
   "Outreach",
   "Team",
@@ -55,7 +57,7 @@ export async function POST(req: NextRequest) {
       category,
       type, // "image" | "video"
       imageBase64,
-      videoUrl,
+      videoBase64,
       thumbnailBase64,
     } = await req.json();
 
@@ -84,14 +86,15 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
 
-    if (type === "video" && !videoUrl)
+    if (type === "video" && !videoBase64)
       return NextResponse.json(
-        { success: false, message: "Video URL is required" },
+        { success: false, message: "Video file is required" },
         { status: 400 }
       );
 
     // --- CLOUDINARY ---
     let imageUrl: string | null = null;
+    let videoUrl: string | null = null;
     let thumbnailUrl: string | null = null;
 
     if (type === "image") {
@@ -102,12 +105,22 @@ export async function POST(req: NextRequest) {
       imageUrl = upload.secure_url;
     }
 
-    if (type === "video" && thumbnailBase64) {
-      const thumbUpload = await cloudinary.uploader.upload(thumbnailBase64, {
-        folder: "gallery/thumbnails",
-        resource_type: "image",
+    if (type === "video") {
+      // upload video
+      const videoUpload = await cloudinary.uploader.upload(videoBase64, {
+        folder: "gallery/videos",
+        resource_type: "video",
       });
-      thumbnailUrl = thumbUpload.secure_url;
+      videoUrl = videoUpload.secure_url;
+
+      // upload optional thumbnail
+      if (thumbnailBase64) {
+        const thumbUpload = await cloudinary.uploader.upload(thumbnailBase64, {
+          folder: "gallery/thumbnails",
+          resource_type: "image",
+        });
+        thumbnailUrl = thumbUpload.secure_url;
+      }
     }
 
     // --- DATABASE ---
