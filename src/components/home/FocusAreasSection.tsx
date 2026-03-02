@@ -6,7 +6,7 @@ const focusAreas = [
     icon: Stethoscope,
     title: "Healthcare Support",
     description:
-      "Delivering medical supplies, basic equipment, and protective gear to clinics and health centers that are critically under-resourced.",
+      "Delivering medical supplies, basic equipment, and protective gear to clinics and health centers that are critically under-resourced",
     color: "primary",
   },
   {
@@ -48,7 +48,7 @@ export const FocusAreasSection = () => {
           className="text-center max-w-3xl mx-auto mb-16"
         >
           <span className="inline-block px-5 py-2 rounded-full bg-red-500/10 text-red-500 text-sm font-semibold mb-6">
-            Our Focus
+            Our Focus Areas
           </span>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
             Areas of Impact

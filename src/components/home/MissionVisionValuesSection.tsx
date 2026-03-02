@@ -7,15 +7,13 @@ const missionVisionValues = [
   {
     icon: Target,
     title: "Our Mission",
-    description:
-      "Bridge the gap between global generosity and local needs by delivering essential resources and support to underserved communities across Africa with integrity, transparency, and cultural sensitivity.",
+    description:"our mission is simple: equip those who serve on the frontlines so they can save lives with dignity.",
     color: "emerald",
   },
   {
     icon: Eye,
     title: "Our Vision",
-    description:
-      "A world where every African community has equitable access to quality healthcare, education, and economic opportunities, powered by meaningful global partnerships and local leadership.",
+    description:"To build a future where every African community has equitable access to quality healthcare and sustainable development through global partnership, local empowerment, and compassionate action",
     color: "blue",
   },
 ];
@@ -46,10 +44,10 @@ export const MissionVisionValuesSection = () => {
           className="text-center mb-20"
         >
           <h2 className="font-display text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-            Who We Are & What We Stand For
+            Who We Are 
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Our mission, vision, and core values guide every decision we make and every project we undertake.
+           Connect with Africa is a humanitarian initiative dedicated to bridging global generosity with local needs across African communities. We work alongside clinics, community leaders, and development partners to deliver medical supplies, support healthcare workers, and create pathways for long-term change.
           </p>
         </motion.div>
 

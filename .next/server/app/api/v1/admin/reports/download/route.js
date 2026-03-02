@@ -1,75 +1,76 @@
-"use strict";(()=>{var e={};e.id=9909,e.ids=[9909],e.modules={20399:e=>{e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},30517:e=>{e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},94716:(e,t,n)=>{n.r(t),n.d(t,{originalPathname:()=>f,patchFetch:()=>j,requestAsyncStorage:()=>u,routeModule:()=>l,serverHooks:()=>m,staticGenerationAsyncStorage:()=>T});var r={};n.r(r),n.d(r,{GET:()=>c,dynamic:()=>p});var o=n(49303),a=n(88716),s=n(60670),i=n(87070),d=n(61986);let p="force-dynamic";async function c(e){try{let t=e.headers.get("origin");if(t&&!d.T.includes(t))return i.NextResponse.json({success:!1,message:"CORS policy: Origin not allowed"},{status:403});let{searchParams:n}=new URL(e.url),r=n.get("year")||"2024",o=function(e){let t=`
-%PDF-1.4
-1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
-endobj
-2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
-endobj
-3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >>
-endobj
-4 0 obj
-<< /Length 1000 >>
-stream
-BT
-/F1 24 Tf
-50 750 Td
-(Connect with Africa Annual Report ${e}) Tj
-0 -40 Td
-/F1 12 Tf
-(Financial Summary) Tj
-0 -30 Td
-/F1 10 Tf
-(Total Funds Raised: $50,000,000) Tj
-0 -20 Td
-(Programs Implemented: 15) Tj
-0 -20 Td
-(Communities Served: 25+) Tj
-0 -20 Td
-(Healthcare Facilities Equipped: 12) Tj
-0 -40 Td
-/F1 12 Tf
-(Impact Highlights) Tj
-0 -30 Td
-/F1 10 Tf
-(- Delivered 500+ medical equipment sets) Tj
-0 -20 Td
-(- Trained 100+ healthcare workers) Tj
-0 -20 Td
-(- Distributed emergency medical supplies) Tj
-0 -20 Td
-(- Established 3 new health centers) Tj
-0 -40 Td
-/F1 12 Tf
-(Fund Allocation) Tj
-0 -30 Td
-/F1 10 Tf
-(Program Delivery: 86%) Tj
-0 -20 Td
-(Operations: 10%) Tj
-0 -20 Td
-(Fundraising: 4%) Tj
-0 -40 Td
-/F1 10 Tf
-(Generated on: ${new Date().toLocaleDateString()}) Tj
-ET
-endstream
-endobj
-5 0 obj
-<< /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> >> >>
-endobj
-xref
-0 6
-0000000000 65535 f
-0000000009 00000 n
-0000000058 00000 n
-0000000115 00000 n
-0000000214 00000 n
-0000001267 00000 n
-trailer
-<< /Size 6 /Root 1 0 R >>
-startxref
-1363
-%%EOF
-  `;return Buffer.from(t,"utf-8")}(r),a=new Uint8Array(o);return new i.NextResponse(a,{status:200,headers:{"Content-Type":"application/pdf","Content-Disposition":`attachment; filename="Connect_Africa_Annual_Report_${r}.pdf"`,"Cache-Control":"no-cache, no-store, must-revalidate"}})}catch(e){return console.error("Report download error:",e),i.NextResponse.json({success:!1,message:e.message||"Failed to download report"},{status:500})}}let l=new o.AppRouteRouteModule({definition:{kind:a.x.APP_ROUTE,page:"/api/v1/admin/reports/download/route",pathname:"/api/v1/admin/reports/download",filename:"route",bundlePath:"app/api/v1/admin/reports/download/route"},resolvedPagePath:"C:\\Users\\HP\\OneDrive\\Desktop\\project2\\connect africa\\src\\app\\api\\v1\\admin\\reports\\download\\route.ts",nextConfigOutput:"",userland:r}),{requestAsyncStorage:u,staticGenerationAsyncStorage:T,serverHooks:m}=l,f="/api/v1/admin/reports/download/route";function j(){return(0,s.patchFetch)({serverHooks:m,staticGenerationAsyncStorage:T})}},61986:(e,t,n)=>{n.d(t,{T:()=>r});let r=["http://localhost:3000","https://connectafrica-fawn.vercel.app","https://www.connectwithafrica.org","https://connectwithafrica.org"]}};var t=require("../../../../../../webpack-runtime.js");t.C(e);var n=e=>t(t.s=e),r=t.X(0,[9276,5972],()=>n(94716));module.exports=r})();
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+(() => {
+var exports = {};
+exports.id = "app/api/v1/admin/reports/download/route";
+exports.ids = ["app/api/v1/admin/reports/download/route"];
+exports.modules = {
+
+/***/ "next/dist/compiled/next-server/app-page.runtime.dev.js":
+/*!*************************************************************************!*\
+  !*** external "next/dist/compiled/next-server/app-page.runtime.dev.js" ***!
+  \*************************************************************************/
+/***/ ((module) => {
+
+module.exports = require("next/dist/compiled/next-server/app-page.runtime.dev.js");
+
+/***/ }),
+
+/***/ "next/dist/compiled/next-server/app-route.runtime.dev.js":
+/*!**************************************************************************!*\
+  !*** external "next/dist/compiled/next-server/app-route.runtime.dev.js" ***!
+  \**************************************************************************/
+/***/ ((module) => {
+
+module.exports = require("next/dist/compiled/next-server/app-route.runtime.dev.js");
+
+/***/ }),
+
+/***/ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&page=%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute.ts&appDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa%5Csrc%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&page=%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute.ts&appDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa%5Csrc%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D! ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   originalPathname: () => (/* binding */ originalPathname),\n/* harmony export */   patchFetch: () => (/* binding */ patchFetch),\n/* harmony export */   requestAsyncStorage: () => (/* binding */ requestAsyncStorage),\n/* harmony export */   routeModule: () => (/* binding */ routeModule),\n/* harmony export */   serverHooks: () => (/* binding */ serverHooks),\n/* harmony export */   staticGenerationAsyncStorage: () => (/* binding */ staticGenerationAsyncStorage)\n/* harmony export */ });\n/* harmony import */ var next_dist_server_future_route_modules_app_route_module_compiled__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/dist/server/future/route-modules/app-route/module.compiled */ \"(rsc)/./node_modules/next/dist/server/future/route-modules/app-route/module.compiled.js\");\n/* harmony import */ var next_dist_server_future_route_modules_app_route_module_compiled__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(next_dist_server_future_route_modules_app_route_module_compiled__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var next_dist_server_future_route_kind__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/dist/server/future/route-kind */ \"(rsc)/./node_modules/next/dist/server/future/route-kind.js\");\n/* harmony import */ var next_dist_server_lib_patch_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/dist/server/lib/patch-fetch */ \"(rsc)/./node_modules/next/dist/server/lib/patch-fetch.js\");\n/* harmony import */ var next_dist_server_lib_patch_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_dist_server_lib_patch_fetch__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var C_Users_HP_OneDrive_Desktop_project2_connect_africa_src_app_api_v1_admin_reports_download_route_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./src/app/api/v1/admin/reports/download/route.ts */ \"(rsc)/./src/app/api/v1/admin/reports/download/route.ts\");\n\n\n\n\n// We inject the nextConfigOutput here so that we can use them in the route\n// module.\nconst nextConfigOutput = \"\"\nconst routeModule = new next_dist_server_future_route_modules_app_route_module_compiled__WEBPACK_IMPORTED_MODULE_0__.AppRouteRouteModule({\n    definition: {\n        kind: next_dist_server_future_route_kind__WEBPACK_IMPORTED_MODULE_1__.RouteKind.APP_ROUTE,\n        page: \"/api/v1/admin/reports/download/route\",\n        pathname: \"/api/v1/admin/reports/download\",\n        filename: \"route\",\n        bundlePath: \"app/api/v1/admin/reports/download/route\"\n    },\n    resolvedPagePath: \"C:\\\\Users\\\\HP\\\\OneDrive\\\\Desktop\\\\project2\\\\connect africa\\\\src\\\\app\\\\api\\\\v1\\\\admin\\\\reports\\\\download\\\\route.ts\",\n    nextConfigOutput,\n    userland: C_Users_HP_OneDrive_Desktop_project2_connect_africa_src_app_api_v1_admin_reports_download_route_ts__WEBPACK_IMPORTED_MODULE_3__\n});\n// Pull out the exports that we need to expose from the module. This should\n// be eliminated when we've moved the other routes to the new format. These\n// are used to hook into the route.\nconst { requestAsyncStorage, staticGenerationAsyncStorage, serverHooks } = routeModule;\nconst originalPathname = \"/api/v1/admin/reports/download/route\";\nfunction patchFetch() {\n    return (0,next_dist_server_lib_patch_fetch__WEBPACK_IMPORTED_MODULE_2__.patchFetch)({\n        serverHooks,\n        staticGenerationAsyncStorage\n    });\n}\n\n\n//# sourceMappingURL=app-route.js.map//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC9kaXN0L2J1aWxkL3dlYnBhY2svbG9hZGVycy9uZXh0LWFwcC1sb2FkZXIuanM/bmFtZT1hcHAlMkZhcGklMkZ2MSUyRmFkbWluJTJGcmVwb3J0cyUyRmRvd25sb2FkJTJGcm91dGUmcGFnZT0lMkZhcGklMkZ2MSUyRmFkbWluJTJGcmVwb3J0cyUyRmRvd25sb2FkJTJGcm91dGUmYXBwUGF0aHM9JnBhZ2VQYXRoPXByaXZhdGUtbmV4dC1hcHAtZGlyJTJGYXBpJTJGdjElMkZhZG1pbiUyRnJlcG9ydHMlMkZkb3dubG9hZCUyRnJvdXRlLnRzJmFwcERpcj1DJTNBJTVDVXNlcnMlNUNIUCU1Q09uZURyaXZlJTVDRGVza3RvcCU1Q3Byb2plY3QyJTVDY29ubmVjdCUyMGFmcmljYSU1Q3NyYyU1Q2FwcCZwYWdlRXh0ZW5zaW9ucz10c3gmcGFnZUV4dGVuc2lvbnM9dHMmcGFnZUV4dGVuc2lvbnM9anN4JnBhZ2VFeHRlbnNpb25zPWpzJnJvb3REaXI9QyUzQSU1Q1VzZXJzJTVDSFAlNUNPbmVEcml2ZSU1Q0Rlc2t0b3AlNUNwcm9qZWN0MiU1Q2Nvbm5lY3QlMjBhZnJpY2EmaXNEZXY9dHJ1ZSZ0c2NvbmZpZ1BhdGg9dHNjb25maWcuanNvbiZiYXNlUGF0aD0mYXNzZXRQcmVmaXg9Jm5leHRDb25maWdPdXRwdXQ9JnByZWZlcnJlZFJlZ2lvbj0mbWlkZGxld2FyZUNvbmZpZz1lMzAlM0QhIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7OztBQUFzRztBQUN2QztBQUNjO0FBQ2lFO0FBQzlJO0FBQ0E7QUFDQTtBQUNBLHdCQUF3QixnSEFBbUI7QUFDM0M7QUFDQSxjQUFjLHlFQUFTO0FBQ3ZCO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsS0FBSztBQUNMO0FBQ0E7QUFDQSxZQUFZO0FBQ1osQ0FBQztBQUNEO0FBQ0E7QUFDQTtBQUNBLFFBQVEsaUVBQWlFO0FBQ3pFO0FBQ0E7QUFDQSxXQUFXLDRFQUFXO0FBQ3RCO0FBQ0E7QUFDQSxLQUFLO0FBQ0w7QUFDdUg7O0FBRXZIIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vY29ubmVjdC1hZnJpY2EtbmV4dC8/NzkxOSJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBBcHBSb3V0ZVJvdXRlTW9kdWxlIH0gZnJvbSBcIm5leHQvZGlzdC9zZXJ2ZXIvZnV0dXJlL3JvdXRlLW1vZHVsZXMvYXBwLXJvdXRlL21vZHVsZS5jb21waWxlZFwiO1xuaW1wb3J0IHsgUm91dGVLaW5kIH0gZnJvbSBcIm5leHQvZGlzdC9zZXJ2ZXIvZnV0dXJlL3JvdXRlLWtpbmRcIjtcbmltcG9ydCB7IHBhdGNoRmV0Y2ggYXMgX3BhdGNoRmV0Y2ggfSBmcm9tIFwibmV4dC9kaXN0L3NlcnZlci9saWIvcGF0Y2gtZmV0Y2hcIjtcbmltcG9ydCAqIGFzIHVzZXJsYW5kIGZyb20gXCJDOlxcXFxVc2Vyc1xcXFxIUFxcXFxPbmVEcml2ZVxcXFxEZXNrdG9wXFxcXHByb2plY3QyXFxcXGNvbm5lY3QgYWZyaWNhXFxcXHNyY1xcXFxhcHBcXFxcYXBpXFxcXHYxXFxcXGFkbWluXFxcXHJlcG9ydHNcXFxcZG93bmxvYWRcXFxccm91dGUudHNcIjtcbi8vIFdlIGluamVjdCB0aGUgbmV4dENvbmZpZ091dHB1dCBoZXJlIHNvIHRoYXQgd2UgY2FuIHVzZSB0aGVtIGluIHRoZSByb3V0ZVxuLy8gbW9kdWxlLlxuY29uc3QgbmV4dENvbmZpZ091dHB1dCA9IFwiXCJcbmNvbnN0IHJvdXRlTW9kdWxlID0gbmV3IEFwcFJvdXRlUm91dGVNb2R1bGUoe1xuICAgIGRlZmluaXRpb246IHtcbiAgICAgICAga2luZDogUm91dGVLaW5kLkFQUF9ST1VURSxcbiAgICAgICAgcGFnZTogXCIvYXBpL3YxL2FkbWluL3JlcG9ydHMvZG93bmxvYWQvcm91dGVcIixcbiAgICAgICAgcGF0aG5hbWU6IFwiL2FwaS92MS9hZG1pbi9yZXBvcnRzL2Rvd25sb2FkXCIsXG4gICAgICAgIGZpbGVuYW1lOiBcInJvdXRlXCIsXG4gICAgICAgIGJ1bmRsZVBhdGg6IFwiYXBwL2FwaS92MS9hZG1pbi9yZXBvcnRzL2Rvd25sb2FkL3JvdXRlXCJcbiAgICB9LFxuICAgIHJlc29sdmVkUGFnZVBhdGg6IFwiQzpcXFxcVXNlcnNcXFxcSFBcXFxcT25lRHJpdmVcXFxcRGVza3RvcFxcXFxwcm9qZWN0MlxcXFxjb25uZWN0IGFmcmljYVxcXFxzcmNcXFxcYXBwXFxcXGFwaVxcXFx2MVxcXFxhZG1pblxcXFxyZXBvcnRzXFxcXGRvd25sb2FkXFxcXHJvdXRlLnRzXCIsXG4gICAgbmV4dENvbmZpZ091dHB1dCxcbiAgICB1c2VybGFuZFxufSk7XG4vLyBQdWxsIG91dCB0aGUgZXhwb3J0cyB0aGF0IHdlIG5lZWQgdG8gZXhwb3NlIGZyb20gdGhlIG1vZHVsZS4gVGhpcyBzaG91bGRcbi8vIGJlIGVsaW1pbmF0ZWQgd2hlbiB3ZSd2ZSBtb3ZlZCB0aGUgb3RoZXIgcm91dGVzIHRvIHRoZSBuZXcgZm9ybWF0LiBUaGVzZVxuLy8gYXJlIHVzZWQgdG8gaG9vayBpbnRvIHRoZSByb3V0ZS5cbmNvbnN0IHsgcmVxdWVzdEFzeW5jU3RvcmFnZSwgc3RhdGljR2VuZXJhdGlvbkFzeW5jU3RvcmFnZSwgc2VydmVySG9va3MgfSA9IHJvdXRlTW9kdWxlO1xuY29uc3Qgb3JpZ2luYWxQYXRobmFtZSA9IFwiL2FwaS92MS9hZG1pbi9yZXBvcnRzL2Rvd25sb2FkL3JvdXRlXCI7XG5mdW5jdGlvbiBwYXRjaEZldGNoKCkge1xuICAgIHJldHVybiBfcGF0Y2hGZXRjaCh7XG4gICAgICAgIHNlcnZlckhvb2tzLFxuICAgICAgICBzdGF0aWNHZW5lcmF0aW9uQXN5bmNTdG9yYWdlXG4gICAgfSk7XG59XG5leHBvcnQgeyByb3V0ZU1vZHVsZSwgcmVxdWVzdEFzeW5jU3RvcmFnZSwgc3RhdGljR2VuZXJhdGlvbkFzeW5jU3RvcmFnZSwgc2VydmVySG9va3MsIG9yaWdpbmFsUGF0aG5hbWUsIHBhdGNoRmV0Y2gsICB9O1xuXG4vLyMgc291cmNlTWFwcGluZ1VSTD1hcHAtcm91dGUuanMubWFwIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&page=%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute.ts&appDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa%5Csrc%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!\n");
+
+/***/ }),
+
+/***/ "(rsc)/./src/app/api/v1/admin/reports/download/route.ts":
+/*!********************************************************!*\
+  !*** ./src/app/api/v1/admin/reports/download/route.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   GET: () => (/* binding */ GET),\n/* harmony export */   dynamic: () => (/* binding */ dynamic)\n/* harmony export */ });\n/* harmony import */ var next_server__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/server */ \"(rsc)/./node_modules/next/dist/api/server.js\");\n/* harmony import */ var _config_cors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/config/cors */ \"(rsc)/./src/config/cors.ts\");\n\nconst dynamic = \"force-dynamic\";\n// allowed origins for CORS\n\nasync function GET(req) {\n    try {\n        /* ================= CORS ================= */ const origin = req.headers.get(\"origin\");\n        if (origin && !_config_cors__WEBPACK_IMPORTED_MODULE_1__.ALLOWED_ORIGINS.includes(origin)) {\n            return next_server__WEBPACK_IMPORTED_MODULE_0__.NextResponse.json({\n                success: false,\n                message: \"CORS policy: Origin not allowed\"\n            }, {\n                status: 403\n            });\n        }\n        const { searchParams } = new URL(req.url);\n        const year = searchParams.get(\"year\") || \"2024\";\n        // For now, return a sample PDF or create a dynamic one\n        // In production, you would fetch from a database or cloud storage\n        const reportContent = generateAnnualReportPDF(year);\n        // Convert Buffer to Uint8Array for NextResponse compatibility\n        const pdfArray = new Uint8Array(reportContent);\n        return new next_server__WEBPACK_IMPORTED_MODULE_0__.NextResponse(pdfArray, {\n            status: 200,\n            headers: {\n                \"Content-Type\": \"application/pdf\",\n                \"Content-Disposition\": `attachment; filename=\"Connect_Africa_Annual_Report_${year}.pdf\"`,\n                \"Cache-Control\": \"no-cache, no-store, must-revalidate\"\n            }\n        });\n    } catch (err) {\n        console.error(\"Report download error:\", err);\n        return next_server__WEBPACK_IMPORTED_MODULE_0__.NextResponse.json({\n            success: false,\n            message: err.message || \"Failed to download report\"\n        }, {\n            status: 500\n        });\n    }\n}\nfunction generateAnnualReportPDF(year) {\n    // Create a simple PDF-like document\n    // In production, use a library like pdfkit or jspdf\n    const pdfContent = `\r\n%PDF-1.4\r\n1 0 obj\r\n<< /Type /Catalog /Pages 2 0 R >>\r\nendobj\r\n2 0 obj\r\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\r\nendobj\r\n3 0 obj\r\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources 5 0 R >>\r\nendobj\r\n4 0 obj\r\n<< /Length 1000 >>\r\nstream\r\nBT\r\n/F1 24 Tf\r\n50 750 Td\r\n(Connect with Africa Annual Report ${year}) Tj\r\n0 -40 Td\r\n/F1 12 Tf\r\n(Financial Summary) Tj\r\n0 -30 Td\r\n/F1 10 Tf\r\n(Total Funds Raised: $50,000,000) Tj\r\n0 -20 Td\r\n(Programs Implemented: 15) Tj\r\n0 -20 Td\r\n(Communities Served: 25+) Tj\r\n0 -20 Td\r\n(Healthcare Facilities Equipped: 12) Tj\r\n0 -40 Td\r\n/F1 12 Tf\r\n(Impact Highlights) Tj\r\n0 -30 Td\r\n/F1 10 Tf\r\n(- Delivered 500+ medical equipment sets) Tj\r\n0 -20 Td\r\n(- Trained 100+ healthcare workers) Tj\r\n0 -20 Td\r\n(- Distributed emergency medical supplies) Tj\r\n0 -20 Td\r\n(- Established 3 new health centers) Tj\r\n0 -40 Td\r\n/F1 12 Tf\r\n(Fund Allocation) Tj\r\n0 -30 Td\r\n/F1 10 Tf\r\n(Program Delivery: 86%) Tj\r\n0 -20 Td\r\n(Operations: 10%) Tj\r\n0 -20 Td\r\n(Fundraising: 4%) Tj\r\n0 -40 Td\r\n/F1 10 Tf\r\n(Generated on: ${new Date().toLocaleDateString()}) Tj\r\nET\r\nendstream\r\nendobj\r\n5 0 obj\r\n<< /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> >> >>\r\nendobj\r\nxref\r\n0 6\r\n0000000000 65535 f\r\n0000000009 00000 n\r\n0000000058 00000 n\r\n0000000115 00000 n\r\n0000000214 00000 n\r\n0000001267 00000 n\r\ntrailer\r\n<< /Size 6 /Root 1 0 R >>\r\nstartxref\r\n1363\r\n%%EOF\r\n  `;\n    return Buffer.from(pdfContent, \"utf-8\");\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9zcmMvYXBwL2FwaS92MS9hZG1pbi9yZXBvcnRzL2Rvd25sb2FkL3JvdXRlLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBd0Q7QUFJakQsTUFBTUMsVUFBVSxnQkFBZ0I7QUFFdkMsMkJBQTJCO0FBQ3FCO0FBRXpDLGVBQWVFLElBQUlDLEdBQWdCO0lBQ3hDLElBQUk7UUFDRiw0Q0FBNEMsR0FDNUMsTUFBTUMsU0FBU0QsSUFBSUUsT0FBTyxDQUFDQyxHQUFHLENBQUM7UUFDL0IsSUFBSUYsVUFBVSxDQUFDSCx5REFBZUEsQ0FBQ00sUUFBUSxDQUFDSCxTQUFTO1lBQy9DLE9BQU9MLHFEQUFZQSxDQUFDUyxJQUFJLENBQ3RCO2dCQUFFQyxTQUFTO2dCQUFPQyxTQUFTO1lBQWtDLEdBQzdEO2dCQUFFQyxRQUFRO1lBQUk7UUFFbEI7UUFFQSxNQUFNLEVBQUVDLFlBQVksRUFBRSxHQUFHLElBQUlDLElBQUlWLElBQUlXLEdBQUc7UUFDeEMsTUFBTUMsT0FBT0gsYUFBYU4sR0FBRyxDQUFDLFdBQVc7UUFFekMsdURBQXVEO1FBQ3ZELGtFQUFrRTtRQUVsRSxNQUFNVSxnQkFBZ0JDLHdCQUF3QkY7UUFDOUMsOERBQThEO1FBQzlELE1BQU1HLFdBQVcsSUFBSUMsV0FBV0g7UUFDaEMsT0FBTyxJQUFJakIscURBQVlBLENBQUNtQixVQUFVO1lBQ2hDUCxRQUFRO1lBQ1JOLFNBQVM7Z0JBQ1AsZ0JBQWdCO2dCQUNoQix1QkFBdUIsQ0FBQyxtREFBbUQsRUFBRVUsS0FBSyxLQUFLLENBQUM7Z0JBQ3hGLGlCQUFpQjtZQUNuQjtRQUNGO0lBQ0YsRUFBRSxPQUFPSyxLQUFVO1FBQ2pCQyxRQUFRQyxLQUFLLENBQUMsMEJBQTBCRjtRQUN4QyxPQUFPckIscURBQVlBLENBQUNTLElBQUksQ0FDdEI7WUFDRUMsU0FBUztZQUNUQyxTQUFTVSxJQUFJVixPQUFPLElBQUk7UUFDMUIsR0FDQTtZQUFFQyxRQUFRO1FBQUk7SUFFbEI7QUFDRjtBQUVBLFNBQVNNLHdCQUF3QkYsSUFBWTtJQUMzQyxvQ0FBb0M7SUFDcEMsb0RBQW9EO0lBQ3BELE1BQU1RLGFBQWEsQ0FBQzs7Ozs7Ozs7Ozs7Ozs7Ozs7bUNBaUJhLEVBQUVSLEtBQUs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7ZUFxQzNCLEVBQUUsSUFBSVMsT0FBT0Msa0JBQWtCLEdBQUc7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0VBb0IvQyxDQUFDO0lBRUQsT0FBT0MsT0FBT0MsSUFBSSxDQUFDSixZQUFZO0FBQ2pDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vY29ubmVjdC1hZnJpY2EtbmV4dC8uL3NyYy9hcHAvYXBpL3YxL2FkbWluL3JlcG9ydHMvZG93bmxvYWQvcm91dGUudHM/NGQ3MiJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBOZXh0UmVxdWVzdCwgTmV4dFJlc3BvbnNlIH0gZnJvbSBcIm5leHQvc2VydmVyXCI7XHJcbmltcG9ydCBmcyBmcm9tIFwiZnNcIjtcclxuaW1wb3J0IHBhdGggZnJvbSBcInBhdGhcIjtcclxuXHJcbmV4cG9ydCBjb25zdCBkeW5hbWljID0gXCJmb3JjZS1keW5hbWljXCI7XHJcblxyXG4vLyBhbGxvd2VkIG9yaWdpbnMgZm9yIENPUlNcclxuaW1wb3J0IHsgQUxMT1dFRF9PUklHSU5TIH0gZnJvbSBcIkAvY29uZmlnL2NvcnNcIjtcclxuXHJcbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBHRVQocmVxOiBOZXh0UmVxdWVzdCkge1xyXG4gIHRyeSB7XHJcbiAgICAvKiA9PT09PT09PT09PT09PT09PSBDT1JTID09PT09PT09PT09PT09PT09ICovXHJcbiAgICBjb25zdCBvcmlnaW4gPSByZXEuaGVhZGVycy5nZXQoXCJvcmlnaW5cIik7XHJcbiAgICBpZiAob3JpZ2luICYmICFBTExPV0VEX09SSUdJTlMuaW5jbHVkZXMob3JpZ2luKSkge1xyXG4gICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oXHJcbiAgICAgICAgeyBzdWNjZXNzOiBmYWxzZSwgbWVzc2FnZTogXCJDT1JTIHBvbGljeTogT3JpZ2luIG5vdCBhbGxvd2VkXCIgfSxcclxuICAgICAgICB7IHN0YXR1czogNDAzIH1cclxuICAgICAgKTtcclxuICAgIH1cclxuXHJcbiAgICBjb25zdCB7IHNlYXJjaFBhcmFtcyB9ID0gbmV3IFVSTChyZXEudXJsKTtcclxuICAgIGNvbnN0IHllYXIgPSBzZWFyY2hQYXJhbXMuZ2V0KFwieWVhclwiKSB8fCBcIjIwMjRcIjtcclxuXHJcbiAgICAvLyBGb3Igbm93LCByZXR1cm4gYSBzYW1wbGUgUERGIG9yIGNyZWF0ZSBhIGR5bmFtaWMgb25lXHJcbiAgICAvLyBJbiBwcm9kdWN0aW9uLCB5b3Ugd291bGQgZmV0Y2ggZnJvbSBhIGRhdGFiYXNlIG9yIGNsb3VkIHN0b3JhZ2VcclxuICAgIFxyXG4gICAgY29uc3QgcmVwb3J0Q29udGVudCA9IGdlbmVyYXRlQW5udWFsUmVwb3J0UERGKHllYXIpO1xyXG4gICAgLy8gQ29udmVydCBCdWZmZXIgdG8gVWludDhBcnJheSBmb3IgTmV4dFJlc3BvbnNlIGNvbXBhdGliaWxpdHlcclxuICAgIGNvbnN0IHBkZkFycmF5ID0gbmV3IFVpbnQ4QXJyYXkocmVwb3J0Q29udGVudCk7XHJcbiAgICByZXR1cm4gbmV3IE5leHRSZXNwb25zZShwZGZBcnJheSwge1xyXG4gICAgICBzdGF0dXM6IDIwMCxcclxuICAgICAgaGVhZGVyczoge1xyXG4gICAgICAgIFwiQ29udGVudC1UeXBlXCI6IFwiYXBwbGljYXRpb24vcGRmXCIsXHJcbiAgICAgICAgXCJDb250ZW50LURpc3Bvc2l0aW9uXCI6IGBhdHRhY2htZW50OyBmaWxlbmFtZT1cIkNvbm5lY3RfQWZyaWNhX0FubnVhbF9SZXBvcnRfJHt5ZWFyfS5wZGZcImAsXHJcbiAgICAgICAgXCJDYWNoZS1Db250cm9sXCI6IFwibm8tY2FjaGUsIG5vLXN0b3JlLCBtdXN0LXJldmFsaWRhdGVcIixcclxuICAgICAgfSxcclxuICAgIH0pO1xyXG4gIH0gY2F0Y2ggKGVycjogYW55KSB7XHJcbiAgICBjb25zb2xlLmVycm9yKFwiUmVwb3J0IGRvd25sb2FkIGVycm9yOlwiLCBlcnIpO1xyXG4gICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKFxyXG4gICAgICB7XHJcbiAgICAgICAgc3VjY2VzczogZmFsc2UsXHJcbiAgICAgICAgbWVzc2FnZTogZXJyLm1lc3NhZ2UgfHwgXCJGYWlsZWQgdG8gZG93bmxvYWQgcmVwb3J0XCIsXHJcbiAgICAgIH0sXHJcbiAgICAgIHsgc3RhdHVzOiA1MDAgfVxyXG4gICAgKTtcclxuICB9XHJcbn1cclxuXHJcbmZ1bmN0aW9uIGdlbmVyYXRlQW5udWFsUmVwb3J0UERGKHllYXI6IHN0cmluZyk6IEJ1ZmZlciB7XHJcbiAgLy8gQ3JlYXRlIGEgc2ltcGxlIFBERi1saWtlIGRvY3VtZW50XHJcbiAgLy8gSW4gcHJvZHVjdGlvbiwgdXNlIGEgbGlicmFyeSBsaWtlIHBkZmtpdCBvciBqc3BkZlxyXG4gIGNvbnN0IHBkZkNvbnRlbnQgPSBgXHJcbiVQREYtMS40XHJcbjEgMCBvYmpcclxuPDwgL1R5cGUgL0NhdGFsb2cgL1BhZ2VzIDIgMCBSID4+XHJcbmVuZG9ialxyXG4yIDAgb2JqXHJcbjw8IC9UeXBlIC9QYWdlcyAvS2lkcyBbMyAwIFJdIC9Db3VudCAxID4+XHJcbmVuZG9ialxyXG4zIDAgb2JqXHJcbjw8IC9UeXBlIC9QYWdlIC9QYXJlbnQgMiAwIFIgL01lZGlhQm94IFswIDAgNjEyIDc5Ml0gL0NvbnRlbnRzIDQgMCBSIC9SZXNvdXJjZXMgNSAwIFIgPj5cclxuZW5kb2JqXHJcbjQgMCBvYmpcclxuPDwgL0xlbmd0aCAxMDAwID4+XHJcbnN0cmVhbVxyXG5CVFxyXG4vRjEgMjQgVGZcclxuNTAgNzUwIFRkXHJcbihDb25uZWN0IHdpdGggQWZyaWNhIEFubnVhbCBSZXBvcnQgJHt5ZWFyfSkgVGpcclxuMCAtNDAgVGRcclxuL0YxIDEyIFRmXHJcbihGaW5hbmNpYWwgU3VtbWFyeSkgVGpcclxuMCAtMzAgVGRcclxuL0YxIDEwIFRmXHJcbihUb3RhbCBGdW5kcyBSYWlzZWQ6ICQ1MCwwMDAsMDAwKSBUalxyXG4wIC0yMCBUZFxyXG4oUHJvZ3JhbXMgSW1wbGVtZW50ZWQ6IDE1KSBUalxyXG4wIC0yMCBUZFxyXG4oQ29tbXVuaXRpZXMgU2VydmVkOiAyNSspIFRqXHJcbjAgLTIwIFRkXHJcbihIZWFsdGhjYXJlIEZhY2lsaXRpZXMgRXF1aXBwZWQ6IDEyKSBUalxyXG4wIC00MCBUZFxyXG4vRjEgMTIgVGZcclxuKEltcGFjdCBIaWdobGlnaHRzKSBUalxyXG4wIC0zMCBUZFxyXG4vRjEgMTAgVGZcclxuKC0gRGVsaXZlcmVkIDUwMCsgbWVkaWNhbCBlcXVpcG1lbnQgc2V0cykgVGpcclxuMCAtMjAgVGRcclxuKC0gVHJhaW5lZCAxMDArIGhlYWx0aGNhcmUgd29ya2VycykgVGpcclxuMCAtMjAgVGRcclxuKC0gRGlzdHJpYnV0ZWQgZW1lcmdlbmN5IG1lZGljYWwgc3VwcGxpZXMpIFRqXHJcbjAgLTIwIFRkXHJcbigtIEVzdGFibGlzaGVkIDMgbmV3IGhlYWx0aCBjZW50ZXJzKSBUalxyXG4wIC00MCBUZFxyXG4vRjEgMTIgVGZcclxuKEZ1bmQgQWxsb2NhdGlvbikgVGpcclxuMCAtMzAgVGRcclxuL0YxIDEwIFRmXHJcbihQcm9ncmFtIERlbGl2ZXJ5OiA4NiUpIFRqXHJcbjAgLTIwIFRkXHJcbihPcGVyYXRpb25zOiAxMCUpIFRqXHJcbjAgLTIwIFRkXHJcbihGdW5kcmFpc2luZzogNCUpIFRqXHJcbjAgLTQwIFRkXHJcbi9GMSAxMCBUZlxyXG4oR2VuZXJhdGVkIG9uOiAke25ldyBEYXRlKCkudG9Mb2NhbGVEYXRlU3RyaW5nKCl9KSBUalxyXG5FVFxyXG5lbmRzdHJlYW1cclxuZW5kb2JqXHJcbjUgMCBvYmpcclxuPDwgL0ZvbnQgPDwgL0YxIDw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UeXBlMSAvQmFzZUZvbnQgL0hlbHZldGljYSA+PiA+PiA+PlxyXG5lbmRvYmpcclxueHJlZlxyXG4wIDZcclxuMDAwMDAwMDAwMCA2NTUzNSBmXHJcbjAwMDAwMDAwMDkgMDAwMDAgblxyXG4wMDAwMDAwMDU4IDAwMDAwIG5cclxuMDAwMDAwMDExNSAwMDAwMCBuXHJcbjAwMDAwMDAyMTQgMDAwMDAgblxyXG4wMDAwMDAxMjY3IDAwMDAwIG5cclxudHJhaWxlclxyXG48PCAvU2l6ZSA2IC9Sb290IDEgMCBSID4+XHJcbnN0YXJ0eHJlZlxyXG4xMzYzXHJcbiUlRU9GXHJcbiAgYDtcclxuXHJcbiAgcmV0dXJuIEJ1ZmZlci5mcm9tKHBkZkNvbnRlbnQsIFwidXRmLThcIik7XHJcbn1cclxuIl0sIm5hbWVzIjpbIk5leHRSZXNwb25zZSIsImR5bmFtaWMiLCJBTExPV0VEX09SSUdJTlMiLCJHRVQiLCJyZXEiLCJvcmlnaW4iLCJoZWFkZXJzIiwiZ2V0IiwiaW5jbHVkZXMiLCJqc29uIiwic3VjY2VzcyIsIm1lc3NhZ2UiLCJzdGF0dXMiLCJzZWFyY2hQYXJhbXMiLCJVUkwiLCJ1cmwiLCJ5ZWFyIiwicmVwb3J0Q29udGVudCIsImdlbmVyYXRlQW5udWFsUmVwb3J0UERGIiwicGRmQXJyYXkiLCJVaW50OEFycmF5IiwiZXJyIiwiY29uc29sZSIsImVycm9yIiwicGRmQ29udGVudCIsIkRhdGUiLCJ0b0xvY2FsZURhdGVTdHJpbmciLCJCdWZmZXIiLCJmcm9tIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(rsc)/./src/app/api/v1/admin/reports/download/route.ts\n");
+
+/***/ }),
+
+/***/ "(rsc)/./src/config/cors.ts":
+/*!****************************!*\
+  !*** ./src/config/cors.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   ALLOWED_ORIGINS: () => (/* binding */ ALLOWED_ORIGINS)\n/* harmony export */ });\n// Central CORS origins config\nconst ALLOWED_ORIGINS = [\n    \"http://localhost:3000\",\n    \"https://connectafrica-fawn.vercel.app\",\n    \"https://www.connectwithafrica.org\",\n    \"https://connectwithafrica.org\"\n];\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9zcmMvY29uZmlnL2NvcnMudHMiLCJtYXBwaW5ncyI6Ijs7OztBQUFBLDhCQUE4QjtBQUN2QixNQUFNQSxrQkFBa0I7SUFDN0I7SUFDQTtJQUNBO0lBQ0E7Q0FDRCxDQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vY29ubmVjdC1hZnJpY2EtbmV4dC8uL3NyYy9jb25maWcvY29ycy50cz8xMjQ5Il0sInNvdXJjZXNDb250ZW50IjpbIi8vIENlbnRyYWwgQ09SUyBvcmlnaW5zIGNvbmZpZ1xyXG5leHBvcnQgY29uc3QgQUxMT1dFRF9PUklHSU5TID0gW1xyXG4gIFwiaHR0cDovL2xvY2FsaG9zdDozMDAwXCIsXHJcbiAgXCJodHRwczovL2Nvbm5lY3RhZnJpY2EtZmF3bi52ZXJjZWwuYXBwXCIsXHJcbiAgXCJodHRwczovL3d3dy5jb25uZWN0d2l0aGFmcmljYS5vcmdcIixcclxuICBcImh0dHBzOi8vY29ubmVjdHdpdGhhZnJpY2Eub3JnXCIsXHJcbl07Il0sIm5hbWVzIjpbIkFMTE9XRURfT1JJR0lOUyJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(rsc)/./src/config/cors.ts\n");
+
+/***/ })
+
+};
+;
+
+// load runtime
+var __webpack_require__ = require("../../../../../../webpack-runtime.js");
+__webpack_require__.C(exports);
+var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next"], () => (__webpack_exec__("(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&page=%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute&appPaths=&pagePath=private-next-app-dir%2Fapi%2Fv1%2Fadmin%2Freports%2Fdownload%2Froute.ts&appDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa%5Csrc%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=C%3A%5CUsers%5CHP%5COneDrive%5CDesktop%5Cproject2%5Cconnect%20africa&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!")));
+module.exports = __webpack_exports__;
+
+})();
