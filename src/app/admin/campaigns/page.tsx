@@ -46,6 +46,16 @@ export default function AdminCampaigns() {
     return Math.min((collected / campaign.amount) * 100, 100);
   };
 
+    if (loading) {
+      return (
+        <AdminLayout>
+          <div className="flex items-center justify-center h-screen">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        </AdminLayout>
+      );
+    }
+
   return (
     <AdminLayout>
     <div className="space-y-6">

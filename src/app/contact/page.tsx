@@ -99,7 +99,7 @@ export default function ContactPage() {
   };
 
   return (
-    <Layout>
+    <Layout className="overflow-x-hidden">
       {/* Professional Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-20">
         <div className="absolute inset-0 overflow-hidden">
