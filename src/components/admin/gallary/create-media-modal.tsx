@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { X } from "lucide-react";
 import { toast } from "sonner";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
