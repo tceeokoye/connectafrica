@@ -29,6 +29,7 @@ async function verifyPayPalWebhook(
     const certUrl = req.headers.get("paypal-cert-url");
     const transmissionSig = req.headers.get("paypal-transmission-sig");
     const webhookId = process.env.PAYPAL_WEBHOOK_ID; 
+    
 
     if (!transmissionId || !transmissionTime || !certUrl || !transmissionSig || !webhookId) {
       console.error("Missing PayPal webhook headers");
