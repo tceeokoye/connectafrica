@@ -17,13 +17,13 @@ const transparencyItems = [
     icon: FileText,
     title: "Annual Reports",
     description: "Comprehensive yearly reports detailing programs, outcomes, and financial statements.",
-    details: ["2024 Annual Report", "2023 Annual Report", "2022 Annual Report"],
+    details: ["2024 Annual Report", "2025 Annual Report"],
   },
   {
     icon: Shield,
     title: "Certifications",
     description: "Maintain rigorous international standards and compliance certifications.",
-    details: ["ISO 9001:2015", "NGO Quality Standard", "Tax Exempt Status"],
+    details: ["NGO Quality Standard", "Tax Exempt Status"],
   },
   {
     icon: Award,
@@ -82,10 +82,10 @@ export const TransparencySection = () => {
             Trust & Accountability
           </span>
           <h2 className="font-display text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-            Commitment to Transparency
+            Our commitment to Transparency
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            We believe transparency builds trust. Here's how we operate with complete accountability to our donors and communities.
+           Connect with Africa works with trusted partners for sourcing, shipping, and on-the-ground distribution. Each shipment is documented, and we share updates and photos with our donors and partners so you can see the impact of your support
           </p>
         </motion.div>
 
@@ -128,34 +128,35 @@ export const TransparencySection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-3xl p-12 md:p-16 text-white text-center"
         >
-          <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">Download Annual Reports</h3>
+          <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">Request for Annual Reports</h3>
           <p className="text-emerald-100 mb-10 max-w-2xl mx-auto">
             Access our complete financial records, impact assessments, and governance documents to verify our work and see the difference your donations are making.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <button
-              onClick={() => handleDownloadReport("2024")}
+              // onClick={() => handleDownloadReport("2024")}
               disabled={downloading}
               className="inline-flex items-center justify-center gap-2 bg-white text-emerald-600 hover:bg-emerald-50 px-8 py-3 rounded-xl font-bold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Download className="w-5 h-5" />
-              {downloading ? "Downloading..." : "2024 Report"}
+              {/* {downloading ? "Downloading..." : "2024 Report"} */}
+               2024 Report Available
             </button>
             <button
-              onClick={() => handleDownloadReport("2023")}
+              // onClick={() => handleDownloadReport("2023")}
               disabled={downloading}
               className="inline-flex items-center justify-center gap-2 border-2 border-white/50 text-white hover:border-white px-8 py-3 rounded-xl font-bold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Download className="w-5 h-5" />
-              2023 Report
+              {/* <Download className="w-5 h-5" /> */}
+              2025 Report Available
             </button>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">
               <button className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white px-8 py-3 rounded-xl font-bold transition-all hover:scale-105">
-                Request More Documents
+                Request For Documents
               </button>
             </Link>
           </div>

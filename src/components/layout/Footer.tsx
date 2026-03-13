@@ -64,14 +64,14 @@ export const Footer = () => {
             <div className="mb-8 space-y-3 text-sm">
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-emerald-500" />
-                <a href="mailto:connectwithafrica@gmail.com" className="hover:text-emerald-400 transition-colors">
-                  connectwithafrica@gmail.com
+                <a href="mailto:connectwithafrica1@gmail.com" className="hover:text-emerald-400 transition-colors">
+                  connectwithafrica1@gmail.com
                 </a>
               </div>
-              <div className="flex items-center gap-3">
+              {/* <div className="flex items-center gap-3">
                 <Globe className="w-5 h-5 text-emerald-500" />
                 <span>Organization Registration #: CWA-2024-001</span>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex gap-4">
@@ -175,10 +175,10 @@ export const Footer = () => {
         >
           <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
             <div className="flex flex-wrap gap-6 text-sm">
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full" />
                 <span className="text-gray-400">ISO 9001:2015 Certified</span>
-              </div>
+              </div> */}
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full" />
                 <span className="text-gray-400">Tax Exempt NGO</span>

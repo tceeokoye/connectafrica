@@ -19,10 +19,10 @@ interface CampaignDonationModalProps {
 }
 
 const AMOUNT_PRESETS = [
-  { amount: 25, label: "$25" },
-  { amount: 50, label: "$50" },
   { amount: 100, label: "$100" },
+  { amount: 200, label: "$200" },
   { amount: 250, label: "$250" },
+  { amount: 300, label: "$300" },
   { amount: 500, label: "$500" },
 ];
 

@@ -53,7 +53,10 @@ export const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <motion.div whileHover={{ scale: 1.03 }} className="flex items-center">
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              className="flex items-center"
+            >
               <Image
                 src={logo}
                 alt="Connect with Africa"
@@ -70,14 +73,18 @@ export const Navbar = () => {
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (
-                <Link key={link.href} href={link.href} className="relative group">
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative group"
+                >
                   <span
                     className={`text-sm font-semibold tracking-wide transition-colors ${
                       active
                         ? "text-red-500"
                         : headerScrolled
-                        ? "text-white/80 hover:text-emerald-300"
-                        : "text-black/80 hover:text-emerald-600"
+                          ? "text-white/80 hover:text-emerald-300"
+                          : "text-black/80 hover:text-emerald-600"
                     }`}
                   >
                     {link.label}
@@ -99,10 +106,17 @@ export const Navbar = () => {
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
             <Link href="/donate">
-              <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.95 }}>
-                <Button className="bg-red-600 hover:bg-red-700 text-white rounded-xl px-6 shadow-lg flex items-center gap-2">
+              <motion.div
+                whileHover={{ scale: 1.07 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button className="bg-red-600 hover:bg-red-700 text-white rounded-xl py-2 px-6 shadow-lg flex items-center gap-2">
                   <Heart className="w-4 h-4" />
-                  Donate Now
+                  <p className="flex flex-col">
+                    <span>Donate Now</span>
+                    
+                    <span>why your gift matters</span>
+                </p>
                 </Button>
               </motion.div>
             </Link>

@@ -16,7 +16,7 @@ export default function Setting() {
   const [settings, setSettings] = useState({
     siteName: "Connect with Africa",
     siteDescription: "Bridging global generosity with local needs across African communities.",
-    email: "connectwithafrica@gmail.com",
+    email: "connectwithafrica1@gmail.com",
     phone: "",
     address: "United States",
     socialFacebook: "",

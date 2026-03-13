@@ -14,15 +14,15 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    value: "connectwithafrica@gmail.com",
-    href: "mailto:connectwithafrica@gmail.com",
+    value: "connectwithafrica1@gmail.com",
+    href: "mailto:connectwithafrica1@gmail.com",
     description: "Our team responds within 24 hours",
   },
   {
     icon: Phone,
     title: "Phone",
-    value: "+1 (555) 123-4567",
-    href: "tel:+15551234567",
+    value: "+1 (818) 300-5881",
+    href: "tel:+18183005881",
     description: "Available Monday-Friday, 9AM-5PM EST",
   },
   {
