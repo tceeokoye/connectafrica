@@ -2,37 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import crypto from "crypto";
 import { ObjectId } from "mongodb";
+import Stripe from "stripe";
+import { ALLOWED_ORIGINS } from "@/config/cors";
 
 export const dynamic = "force-dynamic";
 
-// allowed origins for CORS
-import { ALLOWED_ORIGINS } from "@/config/cors";
-
-// Get PayPal access token
-async function getPayPalAccessToken(): Promise<string> {
-  const auth = Buffer.from(
-    `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
-  ).toString("base64");
-
-  const response = await fetch(
-    `${process.env.PAYPAL_API_URL}/v1/oauth2/token`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Basic ${auth}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: "grant_type=client_credentials",
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to get PayPal access token");
-  }
-
-  const data = await response.json();
-  return data.access_token;
-}
+// Initialize Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2026-03-25.dahlia" as any,
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -121,77 +99,43 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get PayPal access token
-    let accessToken: string;
+    const reference = `CAM_${Date.now()}_${crypto.randomUUID()}`;
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://www.connectwithafrica.org";
+
+    // Create Stripe Session
+    let session;
     try {
-      accessToken = await getPayPalAccessToken();
-    } catch (error) {
-      console.error("PayPal auth error:", error);
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: `Campaign Donation: ${campaign.title}`,
+              },
+              unit_amount: Math.round(Number(amount) * 100), // Stripe amount is in cents
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        success_url: `${backendUrl}/donate/success?reference=${reference}`,
+        cancel_url: `${backendUrl}/campaigns`,
+        client_reference_id: reference,
+        customer_email: email,
+      });
+    } catch (error: any) {
+      console.error("Stripe session creation error:", error);
       return NextResponse.json(
-        { success: false, message: "Payment service unavailable" },
+        { success: false, message: "Payment service unavailable: " + error.message },
         { status: 500 }
       );
     }
 
-    // Create PayPal Order
-    const reference = `CAM_${Date.now()}_${crypto.randomUUID()}`;
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://www.connectwithafrica.org";
-
-    const orderResponse = await fetch(
-      `${process.env.PAYPAL_API_URL}/v2/checkout/orders`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          intent: "CAPTURE",
-          purchase_units: [
-            {
-              amount: {
-                currency_code: "USD",
-                value: String(Number(amount).toFixed(2)),
-              },
-              description: `Campaign Donation: ${campaign.title}`,
-              custom_id: reference,
-            },
-          ],
-          payer: {
-            name: {
-              given_name: firstName,
-              surname: lastName,
-            },
-            email_address: email,
-          },
-          application_context: {
-            return_url: `${backendUrl}/donate/success?reference=${reference}`,
-            cancel_url: `${backendUrl}/campaigns`,
-            brand_name: "Connect with Africa",
-            locale: "en-US",
-            landing_page: "BILLING",
-            user_action: "PAY_NOW",
-          },
-        }),
-      }
-    );
-
-    const orderData = await orderResponse.json();
-
-    if (!orderResponse.ok) {
-      console.error("PayPal order creation error:", orderData);
+    if (!session.url) {
       return NextResponse.json(
-        { success: false, message: orderData.message || "Payment initialization failed" },
-        { status: 400 }
-      );
-    }
-
-    // Find approval link
-    const approvalLink = orderData.links?.find((link: any) => link.rel === "approve")?.href;
-
-    if (!approvalLink) {
-      return NextResponse.json(
-        { success: false, message: "Failed to get PayPal checkout link" },
+        { success: false, message: "Failed to get Stripe checkout link" },
         { status: 400 }
       );
     }
@@ -203,7 +147,7 @@ export async function POST(req: NextRequest) {
       const insertResult = await donations.insertOne({
         campaignId: new ObjectId(campaignId),
         reference,
-        paypalOrderId: orderData.id,
+        stripeSessionId: session.id,
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim().toLowerCase(),
@@ -216,7 +160,7 @@ export async function POST(req: NextRequest) {
 
       console.log("💾 Donation saved successfully!");
       console.log("   Reference:", reference);
-      console.log("   PayPal Order ID:", orderData.id);
+      console.log("   Stripe Session ID:", session.id);
       console.log("   ID:", insertResult.insertedId);
       console.log("   Amount: $" + amount);
       console.log("   Email:", email.trim().toLowerCase());
@@ -230,8 +174,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      checkoutUrl: approvalLink,
-      reference: orderData.id,
+      checkoutUrl: session.url,
+      reference: session.id,
     });
   } catch (err: any) {
     console.error("❌ Campaign donate init error:", err);

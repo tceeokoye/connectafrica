@@ -156,7 +156,7 @@ export default function CampaignDonationModal({
         );
 
         console.log("✅ Donation initiated, redirecting to checkout");
-        // Redirect to PayPal
+        // Redirect to Checkout
         window.location.href = data.checkoutUrl;
       } else {
         setError(data.message || "Failed to process donation. Please try again.");

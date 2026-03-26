@@ -22,7 +22,7 @@ export default function DonationSuccessPage() {
       try {
         setLoading(true);
 
-        // Get the full URL to handle malformed query strings (PayPal callback)
+        // Get the full URL to handle malformed query strings
         const fullUrl = window.location.href;
         console.log("🔗 Full URL:", fullUrl);
 
@@ -93,9 +93,9 @@ export default function DonationSuccessPage() {
             reference: data.donation.reference || reference,
           });
 
-          // If donation is still pending, try to confirm payment with Monnify
+          // If donation is still pending, try to confirm payment
           if (data.donation.status === "pending") {
-            console.log("⏳ Donation is pending, processing PayPal confirmation...");
+            console.log("⏳ Donation is pending, processing confirmation...");
             try {
               const confirmResponse = await fetch(
                 "/api/v1/user/donations/confirm-payment",
@@ -328,7 +328,7 @@ export default function DonationSuccessPage() {
             <p className="text-xl text-gray-600 text-center mb-8">
               {donation.status === "completed"
                 ? "Your donation has been successfully processed"
-                : "We're confirming your payment with PayPal. This usually takes a few seconds..."}
+                : "We're confirming your payment. This usually takes a few seconds..."}
             </p>
 
             {/* Donation Details */}

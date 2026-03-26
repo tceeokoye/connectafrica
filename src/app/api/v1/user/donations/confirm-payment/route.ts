@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
-import nodemailer from "nodemailer";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
+import { ALLOWED_ORIGINS } from "@/config/cors";
+import { getMailer } from "@/lib/mail/transport";
+import Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
 
-import { ALLOWED_ORIGINS } from "@/config/cors";
-import { getMailer } from "@/lib/mail/transport";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2026-03-25.dahlia" as any,
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -54,8 +57,27 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    /* ================= Verify with Stripe ================= */
+    // Since client can easily abuse this endpoint, we check Stripe directly
+    if (!donation.stripeSessionId) {
+      return NextResponse.json(
+        { success: false, message: "No checkout session associated with this donation." },
+        { status: 400 }
+      );
+    }
+
+    const session = await stripe.checkout.sessions.retrieve(donation.stripeSessionId);
+    if (session.payment_status !== "paid") {
+      return NextResponse.json(
+        { success: false, message: "Payment has not been completed yet." },
+        { status: 400 }
+      );
+    }
+
     /* ================= Payment Confirmed - Mark as Completed ================= */
     console.log("✅ Payment successful! Updating donation to completed...");
+
+    const amountPaid = session.amount_total ? session.amount_total / 100 : donation.amount;
 
     const updateDonationResult = await donations.updateOne(
       { reference },
@@ -63,101 +85,83 @@ export async function POST(req: NextRequest) {
         $set: {
           status: "completed",
           completedAt: new Date(),
-          amountPaid: donation.amount,
+          amountPaid: amountPaid,
+          stripeStatus: session.payment_status,
         },
       }
     );
 
     console.log("✅ Donation marked as completed:", {
       reference,
-      amount: donation.amount,
+      amount: amountPaid,
       modified: updateDonationResult.modifiedCount,
     });
 
     // Get campaign and update it
-    const campaign = await campaigns.findOne({
-      _id: new ObjectId(donation.campaignId),
-    });
-
-    if (campaign) {
-      // Use the stored amount as the confirmation
-      const amountPaid = donation.amount;
-      const newDonatedAmount = (campaign.donatedAmount || 0) + Number(amountPaid);
-      const campaignStatus =
-        newDonatedAmount >= campaign.amount ? "completed" : "inprogress";
-
-      console.log("💵 Updating Campaign:", {
-        title: campaign.title,
-        previousAmount: campaign.donatedAmount || 0,
-        newAmount: newDonatedAmount,
-        newStatus: campaignStatus,
+    let campaign = null;
+    if (donation.campaignId) {
+      campaign = await campaigns.findOne({
+        _id: new ObjectId(donation.campaignId),
       });
 
-      const updateResult = await campaigns.updateOne(
-        { _id: campaign._id },
-        {
-          $set: {
-            donatedAmount: newDonatedAmount,
-            status: campaignStatus,
-            updatedAt: new Date(),
-          },
-          $inc: { volunteers: 1 },
-        }
-      );
+      if (campaign) {
+        const newDonatedAmount = (campaign.donatedAmount || 0) + Number(amountPaid);
+        const campaignStatus =
+          newDonatedAmount >= campaign.amount ? "completed" : "inprogress";
 
-      console.log("✅ Campaign updated successfully, modified:", updateResult.modifiedCount);
-
-      // Send confirmation email
-      try {
-        // console.log("📧 Attempting to send confirmation email...");
-        // console.log("   To:", donation.email);
-        // console.log("   Gmail User:", process.env.GMAIL_USER);
-        // console.log("   Has Gmail Pass:", !!process.env.GMAIL_PASS);
-
-        // if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
-        //   console.error("❌ Gmail credentials not configured");
-        //   throw new Error("Email service not configured");
-        // }
-
-        const transporter = getMailer()
-        // Test connection
-        await transporter.verify();
-        console.log("✅ Gmail connection verified");
-
-        const { subject, html } = donationReceiptTemplate({
-          name: `${donation.firstName} ${donation.lastName}`,
-          reference: donation.reference,
-          amountPaid: donation.amount,
-          donationType: "one-time",
-          designation: campaign.title,
+        console.log("💵 Updating Campaign:", {
+          title: campaign.title,
+          previousAmount: campaign.donatedAmount || 0,
+          newAmount: newDonatedAmount,
+          newStatus: campaignStatus,
         });
 
-        const mailResult = await transporter.sendMail({
-          from: `"Connect Africa" <support@connectwithafrica.org>`,
-          to: donation.email,
-          subject,
-          html,
-        });
+        const updateResult = await campaigns.updateOne(
+          { _id: campaign._id },
+          {
+            $set: {
+              donatedAmount: newDonatedAmount,
+              status: campaignStatus,
+              updatedAt: new Date(),
+            },
+            $inc: { volunteers: 1 },
+          }
+        );
 
-        console.log("✅ Email sent successfully!");
-        console.log("   Message ID:", mailResult.messageId);
-        console.log("   Response:", mailResult.response);
-      } catch (emailErr: any) {
-        console.error("❌ Email sending failed:");
-        console.error("   Error:", emailErr.message);
-        console.error("   Code:", emailErr.code);
-        console.error("   Full error:", emailErr);
-        // Continue anyway - donation still processed
+        console.log("✅ Campaign updated successfully, modified:", updateResult.modifiedCount);
       }
+    }
+
+    // Send confirmation email
+    try {
+      const transporter = getMailer();
+      await transporter.verify();
+      
+      const { subject, html } = donationReceiptTemplate({
+        name: donation.firstName ? `${donation.firstName} ${donation.lastName}` : (donation.name || "Friend"),
+        reference: donation.reference,
+        amountPaid: amountPaid,
+        donationType: donation.donationType || "one-time",
+        designation: campaign ? campaign.title : (donation.designation || "where-most-needed"),
+      });
+
+      await transporter.sendMail({
+        from: `"Connect Africa" <support@connectwithafrica.org>`,
+        to: donation.email,
+        subject,
+        html,
+      });
+
+      console.log("✅ Email sent successfully to " + donation.email);
+    } catch (emailErr: any) {
+      console.error("❌ Email sending failed:", emailErr.message);
+      // Continue anyway - donation still processed
     }
 
     // Get updated donation
     const updatedDonation = await donations.findOne({ reference });
 
     console.log("✅ PAYMENT CONFIRMATION COMPLETE");
-    console.log("   Reference:", reference);
-    console.log("   Amount: ₦" + donation.amount);
-    console.log("   Campaign: " + campaign?.title);
     console.log("\n");
 
     return NextResponse.json({

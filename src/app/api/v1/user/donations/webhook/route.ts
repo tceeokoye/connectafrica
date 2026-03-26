@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/db";
 import { donationReceiptTemplate } from "@/lib/emailTemplates";
-import nodemailer from "nodemailer";
 import { getMailer } from "@/lib/mail/transport";
+import Stripe from "stripe";
 
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get("origin");
@@ -11,107 +11,56 @@ export async function OPTIONS(req: NextRequest) {
     headers: {
       "Access-Control-Allow-Origin": origin || "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, stripe-signature",
     },
   });
 }
 
 export const dynamic = "force-dynamic";
 
-// Verify PayPal webhook signature
-async function verifyPayPalWebhook(
-  req: NextRequest,
-  rawBody: string
-): Promise<boolean> {
-  try {
-    const transmissionId = req.headers.get("paypal-transmission-id");
-    const transmissionTime = req.headers.get("paypal-transmission-time");
-    const certUrl = req.headers.get("paypal-cert-url");
-    const transmissionSig = req.headers.get("paypal-transmission-sig");
-    const webhookId = process.env.PAYPAL_WEBHOOK_ID; 
-    
-
-    if (!transmissionId || !transmissionTime || !certUrl || !transmissionSig || !webhookId) {
-      console.error("Missing PayPal webhook headers");
-      return false;
-    }
-
-    const auth = Buffer.from(
-      `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
-    ).toString("base64");
-
-    const tokenResponse = await fetch(
-      `${process.env.PAYPAL_API_URL}/v1/oauth2/token`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${auth}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: "grant_type=client_credentials",
-      }
-    );
-
-    const tokenData = await tokenResponse.json();
-    const accessToken = tokenData.access_token;
-
-    // Verify webhook with PayPal
-    const verifyResponse = await fetch(
-      `${process.env.PAYPAL_API_URL}/v1/notifications/verify-webhook-signature`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          transmission_id: transmissionId,
-          transmission_time: transmissionTime,
-          cert_url: certUrl,
-          auth_algo: "SHA256withRSA",
-          transmission_sig: transmissionSig,
-          webhook_id: webhookId,
-          webhook_event: JSON.parse(rawBody),
-        }),
-      }
-    );
-
-    const verifyData = await verifyResponse.json();
-    return verifyData.verification_status === "SUCCESS";
-  } catch (error) {
-    console.error("PayPal webhook verification error:", error);
-    return false;
-  }
-}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2026-03-25.dahlia" as any,
+});
 
 export async function POST(req: NextRequest) {
-  let rawBody = "";
+  let event: Stripe.Event;
+  
   try {
-    /* ================= Verify Signature ================= */
-    rawBody = await req.text();
-    const isValid = await verifyPayPalWebhook(req, rawBody);
+    const rawBody = await req.text();
+    const signature = req.headers.get("stripe-signature");
 
-    if (!isValid) {
-      console.error("Invalid PayPal webhook signature");
+    if (!signature) {
+      console.error("Missing Stripe signature");
       return NextResponse.json(
-        { success: false, message: "Invalid signature" },
-        { status: 401 }
+        { success: false, message: "Missing signature" },
+        { status: 400 }
       );
     }
 
-    const event = JSON.parse(rawBody);
+    try {
+      event = stripe.webhooks.constructEvent(
+        rawBody,
+        signature,
+        (process.env.STRIPE_WEBHOOK_SECRET_DONATION || process.env.STRIPE_WEBHOOK_SECRET) as string
+      );
+    } catch (err: any) {
+      console.error("Stripe webhook verification error:", err.message);
+      return NextResponse.json(
+        { success: false, message: "Webhook signature verification failed" },
+        { status: 400 }
+      );
+    }
 
-    /* ================= Validate Event ================= */
-    // PayPal sends "CHECKOUT.ORDER.COMPLETED" event
-    if (event.event_type !== "CHECKOUT.ORDER.COMPLETED") {
-      console.log("Ignoring event type:", event.event_type);
+    if (event.type !== "checkout.session.completed") {
+      console.log("Ignoring event type:", event.type);
       return NextResponse.json({ message: "Event type ignored" });
     }
 
-    const order = event.resource;
-    if (!order || !order.id) {
+    const session = event.data.object as Stripe.Checkout.Session;
+    
+    if (!session || !session.id) {
       return NextResponse.json(
-        { success: false, message: "Missing order data" },
+        { success: false, message: "Missing session data" },
         { status: 400 }
       );
     }
@@ -121,35 +70,35 @@ export async function POST(req: NextRequest) {
     const db = client.db("connect_africa");
     const donations = db.collection("donations");
 
-    // Find the pending donation by PayPal Order ID
+    // Find the pending donation by Stripe Session ID
     const donation = await donations.findOne({
-      paypalOrderId: order.id,
+      stripeSessionId: session.id,
       status: { $ne: "completed" },
     });
 
     if (!donation) {
-      console.log("Donation not found or already processed:", order.id);
+      console.log("Donation not found or already processed:", session.id);
       return NextResponse.json({ message: "Donation not found or already processed" });
     }
 
-    // Get the payout amount from the order
-    const amount = order.purchase_units?.[0]?.amount?.value || donation.amount;
+    // Get the payout amount from the session (in cents, converting back to dollars/standard unit)
+    const amount = session.amount_total ? session.amount_total / 100 : donation.amount;
 
     // Update donation status to completed
     const updateResult = await donations.updateOne(
-      { paypalOrderId: order.id },
+      { stripeSessionId: session.id },
       {
         $set: {
           status: "completed",
           completedAt: new Date(),
           amountPaid: Number(amount),
-          paypalStatus: order.status,
+          stripeStatus: session.payment_status,
         },
       }
     );
 
     if (updateResult.modifiedCount === 0) {
-      console.error("Failed to update donation:", order.id);
+      console.error("Failed to update donation:", session.id);
       return NextResponse.json(
         { success: false, message: "Failed to update donation" },
         { status: 500 }
@@ -185,7 +134,7 @@ export async function POST(req: NextRequest) {
         name: donation.firstName
           ? `${donation.firstName} ${donation.lastName}`
           : donation.name || "Friend",
-        reference: order.id,
+        reference: donation.reference || session.id,
         amountPaid: Number(amount),
         donationType: donation.donationType || "one-time",
         designation: donation.designation || "where-most-needed",
@@ -207,7 +156,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Donation processed successfully",
-      reference: order.id,
+      reference: session.id,
     });
   } catch (err: any) {
     console.error("Donation webhook error:", err);
@@ -221,4 +170,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
