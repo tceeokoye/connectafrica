@@ -5,13 +5,13 @@ import RootWrapper from "../components/RootWrapper";
 import { Toaster } from "sonner";
 
 export const metadata = {
-  title: "Connect with Africa",
+  title: "Connect with Africa | Empowering Those Who Serve. Saving Lives Across Africa.",
   description:
-    "Connect with Africa is a mission-driven platform dedicated to supporting healthcare, education, clean water, and community development initiatives across Africa. We connect donors, partners, and communities to create sustainable impact and lasting change.",
+    "Connect with Africa is a humanitarian initiative dedicated to bridging global generosity with local needs across African communities. We work alongside clinics, healthcare workers, community leaders, and development partners to deliver critical medical supplies, strengthen frontline healthcare, and create pathways for sustainable community development.",
   openGraph: {
-    title: "Connect with Africa",
+    title: "Connect with Africa - Connecting Global Generosity. Empowering African Communities.",
     description:
-      "A mission-driven charity platform supporting healthcare, education, clean water, and community development across Africa.",
+      "A humanitarian initiative dedicated to bridging global generosity with local needs across African communities.",
   },
 };
 

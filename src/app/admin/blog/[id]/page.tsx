@@ -12,6 +12,8 @@ import { Blog } from "@/types/global";
 import BlogPostModal from "@/components/admin/blog/blog-post-modal";
 import { setBlogs } from "@/store/slices/blogSlice";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminBlogView() {
   const router = useRouter();
   const params = useParams();
@@ -21,9 +23,9 @@ export default function AdminBlogView() {
 
   const [loading, setLoading] = useState(true);
 
-  const blogSlug = params.slug as string;
+  const blogId = (params?.id || params?.slug) as string;
 
-  const blogDetails = blogs.find((blog) => blog.slug === blogSlug);
+  const blogDetails = blogs.find((blog) => blog._id === blogId || blog.slug === blogId);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState<Blog | undefined>(undefined);
@@ -41,7 +43,6 @@ export default function AdminBlogView() {
       const data = await res.json();
       if (!data.success)
         throw new Error(data.message || "Failed to fetch blogs");
-      console.log("dtatata", data.blogs);
       dispatch(setBlogs(data.blogs));
     } catch (err: any) {
       toast.error(err.message || "Failed to load blogs");

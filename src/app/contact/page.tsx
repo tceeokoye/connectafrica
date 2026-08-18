@@ -1,91 +1,103 @@
 "use client";
+
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Layout from "../../components/layout/Layout";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
-import { Mail, Globe, MapPin, Phone, Send, CheckCircle2, Clock, Users, Shield } from "lucide-react";
+import {
+  Mail,
+  Globe,
+  MapPin,
+  Phone,
+  Send,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react";
 import { useContact } from "../../hooks/useContact";
 import { toast } from "sonner";
+import heroBg from "@/assets/hospitalSuply.jpeg";
 
-const contactInfo = [
+const helpOptions = [
+  "I want to donate",
+  "I want to donate medical supplies",
+  "I want to volunteer",
+  "I want to become a partner",
+  "I want to sponsor a program",
+  "I want to learn more",
+  "Other",
+];
+
+const contactDetails = [
   {
     icon: Mail,
     title: "Email",
     value: "connectwithafrica1@gmail.com",
     href: "mailto:connectwithafrica1@gmail.com",
-    description: "Our team responds within 24 hours",
   },
   {
     icon: Phone,
     title: "Phone",
     value: "+1 (818) 300-5881",
     href: "tel:+18183005881",
-    description: "Available Monday-Friday, 9AM-5PM EST",
-  },
-  {
-    icon: MapPin,
-    title: "Location",
-    value: "United States",
-    href: null,
-    description: "Operating across multiple regions",
   },
   {
     icon: Globe,
     title: "Website",
     value: "www.connectwithafrica.org",
     href: "https://www.connectwithafrica.org",
-    description: "Visit our site for more information",
   },
-];
-
-const inquiryTypes = [
-  { value: "general", label: "General Inquiry", icon: "💬" },
-  { value: "donation", label: "Donation Support", icon: "❤️" },
-  { value: "partnership", label: "Partnership", icon: "🤝" },
-  { value: "volunteer", label: "Volunteer", icon: "👥" },
-  { value: "corporate", label: "Corporate Giving", icon: "🏢" },
-  { value: "media", label: "Media/Press", icon: "📰" },
-];
-
-const responseMetrics = [
-  { icon: Clock, label: "Quick Response", value: "24 hours average" },
-  { icon: CheckCircle2, label: "High Resolution Rate", value: "95% satisfaction" },
-  { icon: Users, label: "Dedicated Team", value: "Always available" },
-  { icon: Shield, label: "Confidential", value: "All info secure" },
+  {
+    icon: MapPin,
+    title: "Official Mailing Address",
+    value: "Connect with Africa, United States",
+    href: null,
+  },
 ];
 
 export default function ContactPage() {
   const { sendContactMessage, loading } = useContact();
   const [formData, setFormData] = useState({
     name: "",
+    organization: "",
     email: "",
     phone: "",
-    subject: "",
+    country: "",
+    helpChoice: "I want to learn more",
     message: "",
-    type: "general",
   });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await sendContactMessage(formData);
-      toast.success("Message sent successfully! We'll be in touch soon.");
+      await sendContactMessage({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: `[${formData.helpChoice}] from ${formData.name} (${formData.country || "General"})`,
+        message: `Organization: ${formData.organization || "N/A"}\nCountry: ${formData.country || "N/A"}\nReason: ${formData.helpChoice}\n\nMessage:\n${formData.message}`,
+        type: formData.helpChoice,
+      });
+      toast.success("Thank you! Your message has been sent.");
       setSubmitted(true);
       setFormData({
         name: "",
+        organization: "",
         email: "",
         phone: "",
-        subject: "",
+        country: "",
+        helpChoice: "I want to learn more",
         message: "",
-        type: "general",
       });
-      setTimeout(() => setSubmitted(false), 3000);
+      setTimeout(() => setSubmitted(false), 5000);
     } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || "Failed to send message. Please try again.";
+      const errorMessage =
+        err?.response?.data?.message ||
+        "Failed to send message. Please try again or email us directly.";
       toast.error(errorMessage);
     }
   };
@@ -100,368 +112,268 @@ export default function ContactPage() {
 
   return (
     <Layout className="overflow-x-hidden">
-      {/* Professional Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-20">
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 8, repeat: Infinity }}
-            className="absolute top-20 right-1/4 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl"
+      {/* ================= HERO WITH BACKGROUND IMAGE ================= */}
+      <section className="relative pt-36 pb-28 overflow-hidden bg-slate-950 text-white">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={heroBg}
+            alt="Connecting with African communities"
+            fill
+            className="object-cover object-center opacity-40 scale-105"
+            priority
           />
-          <motion.div
-            animate={{ opacity: [0.2, 0.5, 0.2] }}
-            transition={{ duration: 10, repeat: Infinity, delay: 2 }}
-            className="absolute -bottom-40 left-1/3 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"
-          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-emerald-950/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/60" />
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <motion.span
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-block px-4 py-2 bg-emerald-600/20 text-emerald-300 rounded-full text-sm font-medium mb-6 border border-emerald-500/30"
-            >
-              We're Here to Listen
-            </motion.span>
-            <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-6">
-              Get in Touch
-            </h1>
-            <p className="text-slate-300 text-xl leading-relaxed max-w-2xl mx-auto">
-              Have questions about our mission? Want to partner with us? Or ready to make a difference? Let's connect.
-            </p>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Response Metrics */}
-      <section className="py-16 bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            {responseMetrics.map((metric, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
-                  <metric.icon className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="font-semibold text-slate-900 mb-1">{metric.label}</h3>
-                <p className="text-slate-600 text-sm">{metric.value}</p>
-              </motion.div>
-            ))}
+        <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
+            <Sparkles className="w-4 h-4" />
+            CONTACT
           </div>
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            Let&apos;s Connect
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed">
+            Whether you want to donate, volunteer, partner with us, donate medical supplies, or learn more about our work, we would love to hear from you.
+          </p>
         </div>
       </section>
 
-      {/* Main Contact Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Contact Methods */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-1"
-            >
-              <h2 className="font-display text-2xl font-bold text-slate-900 mb-8">
-                Contact Information
-              </h2>
+      {/* ================= MAIN CONTACT FORM & INFO ================= */}
+      <section className="py-20 md:py-28 bg-slate-50 text-gray-900">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-12 items-start">
+            {/* Left: Contact Info */}
+            <div className="lg:col-span-5 space-y-8">
+              <div className="bg-white border border-gray-200 rounded-3xl p-8 sm:p-10 shadow-lg space-y-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    Contact Information
+                  </h2>
+                  <p className="text-emerald-700 font-semibold text-base">
+                    Connect with Africa
+                  </p>
+                </div>
 
-              <div className="space-y-4">
-                {contactInfo.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="group relative"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/0 to-emerald-600/0 group-hover:from-emerald-600/10 group-hover:to-emerald-600/5 rounded-xl transition-all duration-300" />
-                    <div className="relative p-5 bg-white border border-gray-200 rounded-xl hover:border-emerald-300 transition-all duration-300 hover:shadow-lg">
-                      <div className="flex gap-4">
-                        <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                          <item.icon className="w-6 h-6 text-emerald-600" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-slate-900 mb-1">
-                            {item.title}
-                          </h3>
-                          {item.href ? (
-                            <a
-                              href={item.href}
-                              target={item.href.startsWith("http") ? "_blank" : undefined}
-                              rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                              className="text-emerald-600 hover:text-emerald-700 font-medium text-sm break-all"
-                            >
-                              {item.value}
-                            </a>
-                          ) : (
-                            <p className="text-slate-600 text-sm">{item.value}</p>
-                          )}
-                          <p className="text-slate-500 text-xs mt-2">
-                            {item.description}
-                          </p>
-                        </div>
+                <div className="space-y-6 pt-2">
+                  {contactDetails.map((item) => (
+                    <div key={item.title} className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                        <item.icon className="w-5 h-5" />
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Corporate Giving CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mt-8 p-6 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl text-white"
-              >
-                <h3 className="font-display text-lg font-bold mb-3">
-                  Corporate Partnerships
-                </h3>
-                <p className="text-emerald-100 text-sm mb-4">
-                  Looking to make a corporate donation or potential partnership? Our corporate giving team would love to discuss how we can work together.
-                </p>
-                <Button
-                  className="w-full bg-white text-emerald-600 hover:bg-emerald-50 font-semibold"
-                >
-                  Explore Partnership Options
-                </Button>
-              </motion.div>
-            </motion.div>
-
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-2"
-            >
-              <AnimatePresence mode="wait">
-                {submitted ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="h-full flex items-center justify-center"
-                  >
-                    <div className="text-center py-12">
-                      <motion.div
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 0.6 }}
-                        className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4"
-                      >
-                        <CheckCircle2 className="w-8 h-8 text-emerald-600" />
-                      </motion.div>
-                      <h3 className="font-display text-2xl font-bold text-slate-900 mb-2">
-                        Message Sent!
-                      </h3>
-                      <p className="text-slate-600">
-                        Thank you for reaching out. Our team will get back to you within 24 hours.
-                      </p>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <h2 className="font-display text-2xl font-bold text-slate-900 mb-2">
-                      Send Us a Message
-                    </h2>
-                    <p className="text-slate-600 mb-8">
-                      Fill out the form below and we'll get back to you as soon as possible.
-                    </p>
-
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      {/* Inquiry Type Selection */}
                       <div>
-                        <Label className="text-base font-semibold text-slate-900 mb-4 block">
-                          What can we help you with?
-                        </Label>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          {inquiryTypes.map((type) => (
-                            <motion.button
-                              key={type.value}
-                              type="button"
-                              onClick={() => setFormData({ ...formData, type: type.value })}
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              className={`relative p-4 rounded-lg border-2 transition-all duration-300 text-center ${
-                                formData.type === type.value
-                                  ? "border-emerald-600 bg-emerald-50"
-                                  : "border-gray-200 bg-white hover:border-emerald-300"
-                              }`}
-                            >
-                              <div className="text-2xl mb-2">{type.icon}</div>
-                              <div className="text-sm font-medium text-slate-900">
-                                {type.label}
-                              </div>
-                            </motion.button>
-                          ))}
-                        </div>
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
+                          {item.title}
+                        </h3>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            className="text-gray-900 hover:text-emerald-600 font-semibold text-sm sm:text-base transition-colors"
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="text-gray-900 font-semibold text-sm sm:text-base">
+                            {item.value}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-6 border-t border-gray-100">
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    Recognized 501(c)(3) humanitarian organization dedicated to equipping frontline clinics and empowering African communities.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Contact Form */}
+            <div className="lg:col-span-7">
+              <div className="bg-white border border-gray-200 rounded-3xl p-8 sm:p-12 shadow-xl">
+                <AnimatePresence mode="wait">
+                  {submitted ? (
+                    <motion.div
+                      key="success"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="text-center py-12 space-y-4"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                        <CheckCircle2 className="w-10 h-10" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        Message Sent Successfully!
+                      </h3>
+                      <p className="text-gray-600 text-base max-w-md mx-auto">
+                        Thank you for reaching out to Connect with Africa. Our team will review your message and connect with you soon.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <motion.form
+                      key="form"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onSubmit={handleSubmit}
+                      className="space-y-6"
+                    >
+                      <div className="border-b border-gray-100 pb-4 mb-6">
+                        <h2 className="text-2xl font-bold text-gray-900">
+                          Contact Form
+                        </h2>
+                        <p className="text-gray-500 text-sm mt-1">
+                          Fill out the fields below and our team will get in touch.
+                        </p>
                       </div>
 
-                      {/* Name & Email Grid */}
-                      <div className="grid md:grid-cols-2 gap-6">
+                      {/* Name & Organization */}
+                      <div className="grid sm:grid-cols-2 gap-6">
                         <div>
-                          <Label htmlFor="name" className="font-semibold text-slate-900 mb-2 block">
-                            Full Name *
+                          <Label htmlFor="name" className="text-sm font-bold text-gray-700 mb-2 block">
+                            Name *
                           </Label>
                           <Input
                             id="name"
-                            type="text"
                             name="name"
+                            required
+                            placeholder="Your full name"
                             value={formData.name}
                             onChange={handleChange}
-                            required
-                            placeholder="John Doe"
-                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"
+                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl"
                           />
                         </div>
+
                         <div>
-                          <Label htmlFor="email" className="font-semibold text-slate-900 mb-2 block">
-                            Email Address *
+                          <Label htmlFor="organization" className="text-sm font-bold text-gray-700 mb-2 block">
+                            Organization
                           </Label>
                           <Input
-                            id="email"
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                            id="organization"
+                            name="organization"
+                            placeholder="Clinic, NGO, Company, etc."
+                            value={formData.organization}
                             onChange={handleChange}
-                            placeholder="you@example.com"
-                            required
-                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"
+                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl"
                           />
                         </div>
                       </div>
 
-                      {/* Phone & Subject Grid */}
-                      <div className="grid md:grid-cols-2 gap-6">
+                      {/* Email & Phone */}
+                      <div className="grid sm:grid-cols-2 gap-6">
                         <div>
-                          <Label htmlFor="phone" className="font-semibold text-slate-900 mb-2 block">
-                            Phone Number
+                          <Label htmlFor="email" className="text-sm font-bold text-gray-700 mb-2 block">
+                            Email *
+                          </Label>
+                          <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            required
+                            placeholder="name@example.com"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="phone" className="text-sm font-bold text-gray-700 mb-2 block">
+                            Phone
                           </Label>
                           <Input
                             id="phone"
-                            type="tel"
                             name="phone"
+                            type="tel"
+                            placeholder="+1 (555) 000-0000"
                             value={formData.phone}
                             onChange={handleChange}
-                            placeholder="+1 (555) 000-0000"
-                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"
+                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl"
                           />
                         </div>
+                      </div>
+
+                      {/* Country & How Can We Help Dropdown */}
+                      <div className="grid sm:grid-cols-2 gap-6">
                         <div>
-                          <Label htmlFor="subject" className="font-semibold text-slate-900 mb-2 block">
-                            Subject *
+                          <Label htmlFor="country" className="text-sm font-bold text-gray-700 mb-2 block">
+                            Country
                           </Label>
                           <Input
-                            id="subject"
-                            type="text"
-                            name="subject"
-                            value={formData.subject}
+                            id="country"
+                            name="country"
+                            placeholder="Your country"
+                            value={formData.country}
                             onChange={handleChange}
-                            placeholder="How can we assist?"
-                            required
-                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500"
+                            className="h-12 border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl"
                           />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="helpChoice" className="text-sm font-bold text-gray-700 mb-2 block">
+                            How Can We Help? *
+                          </Label>
+                          <select
+                            id="helpChoice"
+                            name="helpChoice"
+                            value={formData.helpChoice}
+                            onChange={handleChange}
+                            required
+                            className="w-full h-12 px-4 rounded-xl border border-gray-300 bg-white text-gray-900 font-medium focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm"
+                          >
+                            {helpOptions.map((opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       </div>
 
                       {/* Message */}
                       <div>
-                        <Label htmlFor="message" className="font-semibold text-slate-900 mb-2 block">
+                        <Label htmlFor="message" className="text-sm font-bold text-gray-700 mb-2 block">
                           Message *
                         </Label>
                         <Textarea
                           id="message"
                           name="message"
+                          required
+                          rows={5}
+                          placeholder="Write your message here..."
                           value={formData.message}
                           onChange={handleChange}
-                          placeholder="Please share your message or inquiry with us..."
-                          rows={6}
-                          required
-                          className="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 resize-none"
+                          className="border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl resize-none"
                         />
                       </div>
 
-                      {/* Privacy Notice */}
-                      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p className="text-sm text-blue-900">
-                          <span className="font-semibold">Privacy Promise:</span> We respect your privacy. Your contact information will never be shared with third parties and will only be used to respond to your inquiry.
-                        </p>
-                      </div>
-
-                      {/* Submit Button */}
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
+                      {/* Submit */}
+                      <div>
                         <Button
                           type="submit"
                           disabled={loading}
-                          className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold text-base rounded-lg transition-all duration-300"
+                          className="w-full h-14 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base rounded-xl shadow-lg flex items-center justify-center gap-2"
                         >
                           {loading ? (
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{
-                                duration: 1,
-                                repeat: Infinity,
-                                ease: "linear",
-                              }}
-                              className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                            />
+                            <span>Submitting...</span>
                           ) : (
                             <>
-                              <Send className="mr-2 w-5 h-5 inline" />
-                              Send Message
+                              <Send className="w-5 h-5" />
+                              <span>SUBMIT</span>
                             </>
                           )}
                         </Button>
-                      </motion.div>
-                    </form>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+                      </div>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* FAQ CTA Section */}
-      <section className="py-20 bg-slate-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h2 className="font-display text-3xl font-bold text-white mb-4">
-              Frequently Asked Questions?
-            </h2>
-            <p className="text-slate-300 mb-8">
-              Explore our resource center for answers to common questions about our programs, donations, and partnerships.
-            </p>
-            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold">
-              Visit Our FAQ
-            </Button>
-          </motion.div>
         </div>
       </section>
     </Layout>

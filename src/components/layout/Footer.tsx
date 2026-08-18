@@ -1,217 +1,188 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Mail, Globe, Facebook, Twitter, Instagram, Linkedin, FileText, Shield } from "lucide-react";
+import { Mail, Phone, Globe, Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import logo from "@/assets/logo.png";
 
-const footerLinks = {
-  quickLinks: [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About Us" },
-    { href: "/campaigns", label: "Our Work" },
-    { href: "/blog", label: "Blog & Resources" },
-    { href: "/donate", label: "Donate" },
-    { href: "/contact", label: "Contact" },
-  ],
-  resources: [
-    { href: "/", label: "Annual Reports" },
-    { href: "/", label: "Financial Statements" },
-    { href: "/", label: "Audit Reports" },
-    { href: "/", label: "Impact Stories" },
-  ],
-  compliance: [
-    { href: "/", label: "Privacy Policy" },
-    { href: "/", label: "Terms of Service" },
-    { href: "/", label: "Compliance" },
-    { href: "/", label: "Governance" },
-  ],
-};
+const quickLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About Us" },
+  { href: "/about#mission", label: "Our Mission" },
+  { href: "/programs", label: "Programs" },
+  { href: "/#impact", label: "Impact" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/partners", label: "Partners" },
+  { href: "/donate", label: "Donate" },
+  { href: "/contact", label: "Contact" },
+];
+
+const getInvolvedLinks = [
+  { href: "/donate", label: "Donate" },
+  { href: "/get-involved#volunteer", label: "Volunteer" },
+  { href: "/get-involved#donate-supplies", label: "Donate Medical Supplies" },
+  { href: "/get-involved#corporate-partner", label: "Become a Partner" },
+  { href: "/get-involved#fundraise", label: "Fundraise" },
+];
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
+  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
 ];
 
 export const Footer = () => {
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-black text-gray-100">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
-          {/* Brand */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2"
-          >
-            <Link href="/" className="block mb-4">
-              <Image 
-                src={logo} 
-                alt="Connect with Africa" 
-                className="h-12 w-auto bg-white rounded-lg p-1"
+    <footer className="bg-gradient-to-b from-slate-950 via-slate-900 to-black text-gray-200 border-t border-emerald-900/20">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
+          {/* Brand Info */}
+          <div className="lg:col-span-4 space-y-5">
+            <Link href="/" className="inline-block">
+              <Image
+                src={logo}
+                alt="Connect with Africa"
+                className="h-12 w-auto drop-shadow-md"
                 priority={false}
               />
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed mb-8">
-              Bridging global generosity with local needs. We deliver essential resources 
-              to underserved communities across Africa with integrity and transparency.
+            <h3 className="text-xl font-bold text-white tracking-wide">
+              CONNECT WITH AFRICA
+            </h3>
+            <p className="text-emerald-400 font-medium text-sm leading-relaxed">
+              Connecting Global Generosity. Empowering African Communities.
             </p>
-            
-            {/* Organization Info */}
-            <div className="mb-8 space-y-3 text-sm">
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Connect with Africa is a humanitarian initiative dedicated to bridging global generosity with local needs across African communities. We work alongside clinics, healthcare workers, community leaders, and development partners to deliver critical medical supplies, strengthen frontline healthcare, and create pathways for sustainable community development.
+            </p>
+
+            <div className="pt-2 space-y-2 text-sm text-gray-300">
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-emerald-500" />
-                <a href="mailto:connectwithafrica1@gmail.com" className="hover:text-emerald-400 transition-colors">
+                <Mail className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <a href="mailto:connectwithafrica1@gmail.com" className="hover:text-emerald-300 transition-colors">
                   connectwithafrica1@gmail.com
                 </a>
               </div>
-              {/* <div className="flex items-center gap-3">
-                <Globe className="w-5 h-5 text-emerald-500" />
-                <span>Organization Registration #: CWA-2024-001</span>
-              </div> */}
-            </div>
-
-            <div className="flex gap-4">
-              {socialLinks.map((social) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  title={social.label}
-                  className="w-10 h-10 rounded-full bg-gray-800 hover:bg-emerald-600 flex items-center justify-center transition-colors"
-                >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <h4 className="font-semibold text-white mb-6 flex items-center gap-2">
-              <span className="w-1 h-6 bg-emerald-500 rounded" />
-              Navigation
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.quickLinks.map((link) => (
-                <li key={link.href + link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Resources & Transparency */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h4 className="font-semibold text-white mb-6 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-emerald-500" />
-              Transparency
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.resources.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Compliance & Legal */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <h4 className="font-semibold text-white mb-6 flex items-center gap-2">
-              <Shield className="w-4 h-4 text-emerald-500" />
-              Compliance
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.compliance.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        </div>
-
-        {/* Certifications & Bottom Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 pt-8 border-t border-gray-800"
-        >
-          <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
-            <div className="flex flex-wrap gap-6 text-sm">
-              {/* <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full" />
-                <span className="text-gray-400">ISO 9001:2015 Certified</span>
-              </div> */}
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full" />
-                <span className="text-gray-400">Tax Exempt NGO</span>
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <a href="tel:+18183005881" className="hover:text-emerald-300 transition-colors">
+                  +1 (818) 300-5881
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <Globe className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <Link href="/" className="hover:text-emerald-300 transition-colors">
+                  www.connectwithafrica.org
+                </Link>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4 border-t border-gray-800">
-            <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} Connect with Africa. All rights reserved. | Registered 501(c)(3) Organization
-            </p>
-            <div className="flex gap-6 text-sm">
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-emerald-400 transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-emerald-400 transition-colors"
-              >
-                Terms of Service
-              </Link>
-              <Link
-                href="/"
-                className="text-gray-500 hover:text-emerald-400 transition-colors"
-              >
-                Sitemap
+          {/* Quick Links */}
+          <div className="lg:col-span-3">
+            <h4 className="font-bold text-white text-base uppercase tracking-wider mb-5 flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-emerald-500 rounded" />
+              Quick Links
+            </h4>
+            <ul className="grid grid-cols-1 gap-2.5">
+              {quickLinks.map((link) => (
+                <li key={link.href + link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm flex items-center gap-2"
+                  >
+                    <span className="text-emerald-500 text-xs">›</span>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Get Involved */}
+          <div className="lg:col-span-3">
+            <h4 className="font-bold text-white text-base uppercase tracking-wider mb-5 flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-emerald-500 rounded" />
+              Get Involved
+            </h4>
+            <ul className="space-y-2.5">
+              {getInvolvedLinks.map((link) => (
+                <li key={link.href + link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-emerald-400 transition-colors text-sm flex items-center gap-2"
+                  >
+                    <span className="text-emerald-500 text-xs">›</span>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8">
+              <Link href="/donate">
+                <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all">
+                  <span>DONATE NOW</span>
+                </button>
               </Link>
             </div>
           </div>
-        </motion.div>
+
+          {/* Follow Us */}
+          <div className="lg:col-span-2">
+            <h4 className="font-bold text-white text-base uppercase tracking-wider mb-5 flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-emerald-500 rounded" />
+              Follow Us
+            </h4>
+            <div className="flex flex-wrap gap-3 mb-6">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="w-10 h-10 rounded-xl bg-slate-800 hover:bg-emerald-600 text-gray-300 hover:text-white flex items-center justify-center transition-all duration-200 shadow-md"
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Disclaimer & Legal */}
+        <div className="mt-14 pt-8 border-t border-slate-800/80 space-y-6">
+          <div className="bg-slate-900/60 rounded-2xl p-6 border border-slate-800">
+            <h5 className="font-semibold text-white text-sm mb-2">Nonprofit & Tax-Exemption Notice</h5>
+            <p className="text-gray-400 text-xs leading-relaxed">
+              Connect with Africa is a nonprofit organization recognized as tax-exempt under Section 501(c)(3) of the Internal Revenue Code. Contributions may be tax-deductible to the extent permitted by law. Consult your tax advisor regarding your individual circumstances.
+            </p>
+            <p className="text-emerald-400 text-xs font-semibold mt-2">
+              EIN: [Insert EIN]
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+            <p>
+              © 2026 Connect with Africa. All Rights Reserved.
+            </p>
+            <div className="flex flex-wrap gap-4 sm:gap-6">
+              <Link href="/privacy-policy" className="hover:text-emerald-400 transition-colors">
+                Privacy Policy
+              </Link>
+              <span className="text-gray-700">|</span>
+              <Link href="/terms-of-use" className="hover:text-emerald-400 transition-colors">
+                Terms of Use
+              </Link>
+              <span className="text-gray-700">|</span>
+              <Link href="/donor-privacy-policy" className="hover:text-emerald-400 transition-colors">
+                Donor Privacy Policy
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );

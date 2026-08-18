@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Layout from "../../components/layout/Layout";
 import { Button } from "../../components/ui/button";
@@ -8,41 +9,81 @@ import {
   Heart,
   Target,
   Eye,
+  Shield,
   Users,
-  Globe,
-  ArrowRight,
   CheckCircle2,
+  Sparkles,
+  ArrowRight,
+  Globe2,
+  Layers,
+  Award,
 } from "lucide-react";
-import AboutHero from "@/assets/gbazgo-clinic.jpeg"; // Replace with outside clinic photo
-import CampaignImage from "@/assets/inside-clinic.jpeg"; // Replace with treatment room photo
-import Image from "next/image";
-import Founder from "@/assets/Founder.jpeg";
-import CampaignSection from "@/components/home/CampaignSection";
+import AboutHero from "@/assets/gbazgo-clinic.jpeg";
+import ClinicInside from "@/assets/inside-clinic.jpeg";
+import AboutImg from "@/assets/aboutImage.jpeg";
 
-const focusAreas = [
+const approaches = [
   {
-    icon: Target,
-    title: "Healthcare Support",
-    description:
-      "Delivering medical supplies, basic equipment, and protective gear to clinics and health centers that are critically under-resourced.",
+    step: "01",
+    title: "Listen",
+    description: "We begin by listening to communities and understanding their needs.",
+    color: "emerald",
   },
   {
+    step: "02",
+    title: "Connect",
+    description: "We then connect those needs with individuals and organizations capable of providing resources.",
+    color: "teal",
+  },
+  {
+    step: "03",
+    title: "Deliver",
+    description: "We work with local partners to facilitate responsible delivery and distribution.",
+    color: "blue",
+  },
+  {
+    step: "04",
+    title: "Empower",
+    description: "Most importantly, we seek to create lasting impact rather than temporary relief.",
+    color: "indigo",
+  },
+];
+
+const coreValues = [
+  {
+    title: "Compassion",
+    description: "We put people at the center of everything we do.",
+    icon: Heart,
+  },
+  {
+    title: "Dignity",
+    description: "Every person deserves access to healthcare and humanitarian assistance with dignity and respect.",
+    icon: Award,
+  },
+  {
+    title: "Partnership",
+    description: "We believe lasting change happens when communities, donors, organizations, and institutions work together.",
     icon: Users,
-    title: "Community Partnerships",
-    description:
-      "Working directly with local leaders, nurses, and administrators to ensure supplies reach the people who need them most.",
   },
   {
+    title: "Accountability",
+    description: "We are committed to responsible stewardship of donated resources.",
+    icon: Shield,
+  },
+  {
+    title: "Transparency",
+    description: "We strive to communicate openly about our programs, partnerships, activities, and impact.",
     icon: Eye,
-    title: "Education & Training (Future Focus)",
-    description:
-      "Supporting capacity building, health education, and partnerships that strengthen systems beyond a single shipment.",
   },
   {
-    icon: Globe,
-    title: "Diaspora & Global Engagement",
-    description:
-      "Connecting individuals, companies, and institutions around the world to meaningful, trackable projects in Africa.",
+    title: "Sustainability",
+    description: "We seek solutions that strengthen communities beyond one-time donations.",
+    icon: Layers,
+  },
+  {
+    title: "Service",
+    description: "Our work is ultimately about serving people.",
+    icon: CheckCircle2,
   },
 ];
 
@@ -50,170 +91,271 @@ export default function About() {
   return (
     <Layout className="overflow-x-hidden">
       {/* ================= HERO ================= */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800 text-white">
-        <div className="absolute inset-0 opacity-30">
+      <section className="relative pt-36 pb-28 overflow-hidden bg-slate-950 text-white">
+        <div className="absolute inset-0 z-0">
           <Image
             src={AboutHero}
             alt="Gbazgo Primary Healthcare Center"
             fill
-            className="object-cover"
+            className="object-cover object-center opacity-45 scale-105"
+            priority
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-emerald-950/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/60" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-emerald-900/60 to-black/80" />
 
-        <div className="relative z-10 container mx-auto px-4 max-w-4xl text-center">
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Connecting Compassion to Communities in Need
+        <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
+            <Globe2 className="w-4 h-4" />
+            ABOUT US
+          </div>
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            Bridging Global Generosity With Local Needs
           </h1>
-          <p className="text-xl text-emerald-50 max-w-2xl mx-auto leading-relaxed">
-            Strengthening African clinics, schools, and communities with
-            life-saving supplies, sustainable partnerships, and hope in action.
+          <p className="text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
+            Connecting donors, healthcare institutions, and communities to equip frontline workers and save lives across Africa with dignity.
           </p>
         </div>
       </section>
 
-      {/* ================= ABOUT ================= */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
-            About Connect with Africa
-          </h2>
-          <p className="text-gray-700 text-lg leading-relaxed text-center">
-            Connect with Africa is a humanitarian initiative dedicated to
-            bridging global generosity with local needs across African
-            communities. We work alongside clinics, community leaders, and
-            development partners to deliver medical supplies, support healthcare
-            workers, and create pathways for long-term change.
-          </p>
-          <p className="text-gray-700 text-lg leading-relaxed text-center mt-6">
-            From primary healthcare centers in Nigeria to rural communities with
-            limited access to care, our mission is simple:{" "}
-            <strong>
-              equip those who serve on the frontlines so they can save lives
-              with dignity.
-            </strong>
-          </p>
-        </div>
-      </section>
-
-      {/* ================= FOCUS AREAS ================= */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-16 text-center">
-            Our Focus Areas
-          </h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {focusAreas.map((item, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all"
-              >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center mb-5">
-                  <item.icon className="w-7 h-7 text-emerald-600" />
-                </div>
-                <h3 className="font-bold text-gray-900 text-lg mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {item.description}
+      {/* ================= WHO WE ARE WITH IMAGES ================= */}
+      <section className="py-20 md:py-28 bg-white text-gray-900">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-12 items-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-7 space-y-6"
+            >
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-semibold uppercase tracking-wider">
+                Who We Are
+              </span>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+                Generosity Should Not Stop at Borders
+              </h2>
+              <div className="space-y-4 text-base sm:text-lg text-gray-700 leading-relaxed">
+                <p className="font-semibold text-gray-900 text-lg sm:text-xl">
+                  Connect with Africa is a humanitarian initiative dedicated to bridging global generosity with local needs across African communities.
                 </p>
+                <p>
+                  We believe that generosity should not stop at borders. Every year, individuals, healthcare organizations, businesses, hospitals, nonprofits, and communities have resources that can make a difference somewhere else.
+                </p>
+                <p>
+                  At the same time, communities across Africa face healthcare challenges that cannot be solved by goodwill alone. Connect with Africa exists to help bridge that gap.
+                </p>
+                <div className="p-6 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 font-medium">
+                  We identify needs, build partnerships, coordinate resources, support logistics, and connect donors with trusted community and healthcare partners.
+                </div>
               </div>
+            </motion.div>
+
+            {/* Visual Images of Frontline Support */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-5 grid grid-cols-1 gap-6"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-gray-200 h-64">
+                <Image
+                  src={ClinicInside}
+                  alt="Inside primary healthcare clinic"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white text-xs font-semibold">
+                  Primary Healthcare Center Clinic Ward
+                </div>
+              </div>
+
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-gray-200 h-64">
+                <Image
+                  src={AboutImg}
+                  alt="Healthcare workers and supplies"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white text-xs font-semibold">
+                  Supplies and Frontline Clinical Assistance
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= OUR APPROACH ================= */}
+      <section className="py-20 md:py-28 bg-slate-900 text-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-4">
+              Our Approach
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+              Listen. Connect. Deliver. Empower.
+            </h2>
+            <p className="text-gray-400 text-base sm:text-lg">
+              A structured, community-first framework built for sustainable and dignified humanitarian assistance.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {approaches.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-slate-800/80 border border-slate-700/80 rounded-3xl p-8 shadow-lg hover:border-emerald-500/40 transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <span className="text-4xl font-extrabold text-emerald-400/40 block mb-4">
+                    {item.step}
+                  </span>
+                  <h3 className="text-2xl font-bold text-white mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ================= MEDICAL CONTAINER CAMPAIGN ================= */}
-      <CampaignSection />
+      {/* ================= OUR VISION & OUR MISSION ================= */}
+      <section className="py-20 md:py-28 bg-white text-gray-900" id="mission">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 grid md:grid-cols-2 gap-10 items-stretch">
+          {/* Vision */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-gradient-to-br from-slate-900 to-emerald-950 text-white rounded-3xl p-8 sm:p-12 shadow-xl flex flex-col justify-between"
+          >
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold uppercase tracking-wider">
+                <Eye className="w-4 h-4" />
+                OUR VISION
+              </div>
+              <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-tight">
+                A Future Where Every Community Has the Resources to Care.
+              </h3>
+              <p className="text-gray-300 text-base leading-relaxed">
+                We envision African communities where healthcare workers have the tools they need, clinics have access to essential resources, and families can receive care with dignity regardless of where they live.
+              </p>
+            </div>
+          </motion.div>
 
-      {/* ================= IMPACT STORY ================= */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            “Now We Can Treat Our Patients with Dignity”
-          </h2>
-          <p className="text-gray-700 text-lg leading-relaxed">
-            Last year, Connect with Africa coordinated the delivery of a
-            container of medical supplies to Northern Nigeria. As the nurses
-            unpacked the boxes, many of them wept.
-          </p>
-          <p className="text-gray-700 text-lg leading-relaxed mt-6">
-            “Now we can treat our patients with dignity,” they said.
-          </p>
-          <p className="text-gray-700 text-lg leading-relaxed mt-6">
-            What seemed like simple items — gloves, dressings, basic tools —
-            became the difference between turning patients away and providing
-            safe, respectful care.
-          </p>
-          <p className="text-gray-700 text-lg leading-relaxed mt-6">
-            Your support makes stories like this possible.
-          </p>
+          {/* Mission */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-md flex flex-col justify-between"
+          >
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold uppercase tracking-wider">
+                <Target className="w-4 h-4" />
+                OUR MISSION
+              </div>
+              <h3 className="font-display text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
+                Equip the Frontlines. Empower Communities. Transform Lives.
+              </h3>
+              <p className="text-gray-700 text-base leading-relaxed">
+                From primary healthcare centers in Nigeria to rural communities with limited access to essential healthcare, our mission is simple: <strong>Equip those who serve on the frontlines so they can save lives with dignity.</strong>
+              </p>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                We believe that communities should not have to wait for a crisis before receiving basic medical resources. Connect with Africa works to move essential supplies, resources, knowledge, and partnerships to communities where they are urgently needed.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ================= FOUNDER ================= */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 max-w-5xl grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative w-full sm:w-[300px] md:w-[320px] lg:w-[400px] ">
-            <div className="absolute -inset-2 bg-gradient-to-tr from-primary/20 via-gold/20 to-accent/20 rounded-2xl blur-xl" />
-            <div className="relative rounded-2xl overflow-hidden shadow-lg">
-              <Image
-                src={Founder}
-                alt="Cajetan Onu - Founder"
-                width={500}
-                height={420}
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          </div>
-
-          <div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Meet Our Founder
+      {/* ================= OUR CORE VALUES ================= */}
+      <section className="py-20 md:py-28 bg-slate-50 text-gray-900">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-4">
+              <Sparkles className="w-4 h-4" />
+              OUR CORE VALUES
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+              The Principles That Guide Our Work
             </h2>
-            <h3 className="text-emerald-600 font-bold text-xl mb-6">
-              Cajetan Onu, JD
-            </h3>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              Cajetan Onu, JD, is the Founder and Executive Director of Connect
-              with Africa. With a background in law, compliance, and community
-              development, he has dedicated his work to building bridges between
-              global partners and underserved African communities.
-            </p>
-            <p className="text-gray-700 text-lg leading-relaxed mt-6">
-              His recent visits to primary healthcare centers in Nigeria inform
-              and guide every aspect of this mission. Seeing firsthand the
-              challenges faced by nurses and midwives continues to shape Connect
-              with Africa’s focus on dignity, accountability, and long-term
-              impact.
-            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {coreValues.map((val, index) => (
+              <motion.div
+                key={val.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className={`bg-white border border-gray-200 rounded-3xl p-7 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all ${
+                  index === 6 ? "sm:col-span-2 lg:col-span-3 xl:col-span-1" : ""
+                }`}
+              >
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-5">
+                  <val.icon className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {val.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {val.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ================= FINAL CTA ================= */}
-      <section className="py-20 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-center">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-            Join Us in Filling Two Containers of Hope
+      <section className="py-20 bg-gradient-to-r from-emerald-600 to-teal-700 text-white text-center">
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 space-y-6">
+          <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
+            Join Us in Connecting Resources With Need
           </h2>
-          <p className="text-emerald-50 text-lg mb-10 leading-relaxed">
-            Whether you are an individual donor, corporate partner, healthcare
-            institution, or advocate, your support helps equip frontline
-            healthcare workers with the tools they need to save lives safely and
-            effectively. Together, we can transform under-resourced clinics into
-            places of dignity, safety, and hope.
+          <p className="text-emerald-100 text-lg max-w-2xl mx-auto leading-relaxed">
+            Whether you want to donate funds, provide medical supplies, volunteer, or partner with our programs, your support makes life-saving care possible.
           </p>
-          <Link href="/donate">
-            <Button className="bg-white h-fit text-emerald-600 hover:bg-emerald-50 px-8 py-3 text-lg font-bold rounded-lg">
-                <p className="flex flex-col">
-                    <span>Donate Now</span>
-                    
-                    <span className="text-emerald-600/50">why your gift matters</span>
-                </p>
-            </Button>
-          </Link>
+          <div className="pt-4 flex justify-center gap-4 flex-wrap">
+            <Link href="/donate">
+              <Button className="bg-white hover:bg-gray-100 text-emerald-900 font-bold px-8 py-3.5 rounded-xl shadow-lg text-base">
+                DONATE NOW
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="outline" className="bg-emerald-950/30 border-white/30 text-white hover:bg-emerald-950/50 px-8 py-3.5 rounded-xl text-base">
+                Contact Our Team
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </Layout>
