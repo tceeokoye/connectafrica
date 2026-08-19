@@ -15,7 +15,7 @@ const heroSlides = [
       "Every donation delivers critical medical supplies directly into the hands of healthcare workers who need them most across African communities.",
   },
   {
-    image: "/assets/hero-img/community-development-hero.jpg",
+    image: "/assets/hero-img/healthcare-workers-hero.jpg",
     tag: "Frontline Healthcare Workers",
     tagIcon: Stethoscope,
     headline: "Equipping Nurses & Healthcare Staff Across Africa",
@@ -23,7 +23,7 @@ const heroSlides = [
       "We partner with clinics and hospitals to ensure frontline workers have the tools they need to provide dignified, effective care.",
   },
   {
-    image: "/assets/hero-img/clean-water-hero.jpg",
+    image: "/assets/hero-img/rural-clinic-hero.jpg",
     tag: "Rural Clinic Support",
     tagIcon: Droplets,
     headline: "Bridging Critical Resource Shortages in Underserved Areas",
@@ -31,7 +31,7 @@ const heroSlides = [
       "Remote and rural communities deserve the same quality of care. We connect generous donors with clinics that need support the most.",
   },
   {
-    image: "/assets/hero-img/education-support-hero.jpg",
+    image: "/assets/hero-img/community-health-hero.jpg",
     tag: "Sustainable Community Health",
     tagIcon: GraduationCap,
     headline: "Creating Long-Term Pathways for Community Health & Dignity",
