@@ -7,6 +7,8 @@ import { useHttp } from "@/hooks/useHttp";
 import { useToast } from "@/hooks/use-toast";
 import { useDispatch } from "react-redux";
 import { tokenActions } from "@/store/slices/authSlice";
+import Image from "next/image";
+import logo from "@/assets/logo.png";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -18,7 +20,7 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,10 +44,8 @@ export default function AdminLogin() {
         data: { email, password },
       });
 
-    
-       dispatch(tokenActions.setToken(data.token));
+      dispatch(tokenActions.setToken(data.token));
 
-   
       if (data.name) localStorage.setItem("admin_name", data.name);
 
       toast({
@@ -62,42 +62,58 @@ export default function AdminLogin() {
     }
   };
 
-  const inputBaseClasses =
-    "w-full px-4 py-3 rounded-xl border transition-all duration-200 text-gray-700 focus:outline-none focus:ring-1 focus:ring-indigo-500";
-
   return (
-    <section className="h-dvh flex justify-center items-center bg-gradient-to-br from-indigo-50 to-indigo-100">
-      <div className="max-w-md w-full mx-auto bg-white p-10 rounded-2xl shadow-xl border border-gray-200">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Admin Login
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <label className="block text-gray-600 mb-2 font-medium">Email</label>
+    <section className="min-h-dvh flex justify-center items-center bg-gradient-to-br from-secondary via-background to-muted px-4">
+      <div className="max-w-md w-full mx-auto bg-card border border-border p-10 rounded-2xl shadow-xl">
+        {/* Logo / Brand */}
+        <div className="flex flex-col items-center mb-8">
+          <Image
+            src={logo}
+            alt="Connect with Africa"
+            className="h-16 w-auto mb-4 drop-shadow-sm"
+            priority
+          />
+          <h1 className="text-2xl font-bold text-foreground text-center">
+            Admin Login
+          </h1>
+          <p className="text-muted-foreground text-sm mt-1 text-center">
+            Sign in to the Connect with Africa dashboard
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Email Address
+            </label>
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
-              placeholder="admin@example.com"
-              className={`${inputBaseClasses} ${error && !email ? "border-red-500" : "border-gray-300"}`}
+              placeholder="admin@connectwithafrica.org"
+              className="w-full px-4 py-3 rounded-xl border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
               required
             />
           </div>
 
-          <div className="relative">
-            <label className="block text-gray-600 mb-2 font-medium">Password</label>
+          {/* Password */}
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Password
+            </label>
             <div className="relative">
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}
-                placeholder="********"
-                className={`${inputBaseClasses} ${error && !password ? "border-red-500" : "border-gray-300"} pr-12`}
+                placeholder="••••••••"
+                className="w-full px-4 py-3 pr-12 rounded-xl border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200"
                 required
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-500 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <HiEyeOff size={22} /> : <HiEye size={22} />}
@@ -105,19 +121,22 @@ export default function AdminLogin() {
             </div>
           </div>
 
-          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+          {/* Error */}
+          {error && (
+            <p className="text-destructive text-sm bg-destructive/10 border border-destructive/20 px-3 py-2 rounded-lg">
+              {error}
+            </p>
+          )}
 
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1"
-            >
-              {loading ? "Signing In..." : "Sign In"}
-            </button>
-          </div>
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 text-primary-foreground font-semibold py-3 rounded-xl shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          >
+            {loading ? "Signing In…" : "Sign In"}
+          </button>
         </form>
-       
       </div>
     </section>
   );

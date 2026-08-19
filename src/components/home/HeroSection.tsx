@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
+import { ArrowRight, Heart, Stethoscope, Droplets, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -9,22 +9,34 @@ const heroSlides = [
   {
     image: "/assets/hero-img/hospitalSuply.jpeg",
     tag: "Direct Medical Delivery",
-    caption: "Supplying frontline clinics with life-saving equipment",
+    tagIcon: Heart,
+    headline: "Supplying Frontline Clinics With Life-Saving Equipment",
+    subheading:
+      "Every donation delivers critical medical supplies directly into the hands of healthcare workers who need them most across African communities.",
   },
   {
     image: "/assets/hero-img/community-development-hero.jpg",
     tag: "Frontline Healthcare Workers",
-    caption: "Equipping nurses and healthcare staff across African communities",
+    tagIcon: Stethoscope,
+    headline: "Equipping Nurses & Healthcare Staff Across Africa",
+    subheading:
+      "We partner with clinics and hospitals to ensure frontline workers have the tools they need to provide dignified, effective care.",
   },
   {
     image: "/assets/hero-img/clean-water-hero.jpg",
     tag: "Rural Clinic Support",
-    caption: "Bridging critical resource shortages in underserved areas",
+    tagIcon: Droplets,
+    headline: "Bridging Critical Resource Shortages in Underserved Areas",
+    subheading:
+      "Remote and rural communities deserve the same quality of care. We connect generous donors with clinics that need support the most.",
   },
   {
     image: "/assets/hero-img/education-support-hero.jpg",
     tag: "Sustainable Community Health",
-    caption: "Creating long-term pathways for community health and dignity",
+    tagIcon: GraduationCap,
+    headline: "Creating Long-Term Pathways for Community Health & Dignity",
+    subheading:
+      "Beyond one-time deliveries, we build lasting partnerships that strengthen healthcare systems and empower African communities.",
   },
 ];
 
@@ -41,65 +53,98 @@ export default function HeroSection() {
   const currentSlide = heroSlides[index];
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-slate-950 text-white pt-28 pb-20">
-      {/* Background Image Carousel with Cinematic Motion */}
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-green-950 text-white pt-28 pb-20">
+      {/* Background Image Carousel */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide.image}
-          initial={{ opacity: 0, scale: 1.15 }}
+          initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.05 }}
+          exit={{ opacity: 0, scale: 1.04 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className="absolute inset-0 z-0"
         >
           <div
-            className="absolute inset-0 bg-cover bg-center transition-all duration-1000"
+            className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url('${currentSlide.image}')` }}
           />
-          {/* Rich Gradient Overlays for High Legibility while Keeping Photos Visible */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-black/60" />
+          {/* Semi-transparent overlays — image shows through clearly */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 
       {/* Decorative Orbs */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-green-500/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-red-500/15 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 w-full py-8">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Text Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-7 space-y-8"
-          >
-            
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-white">
-              Empowering Those Who Serve.{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200">
-                Saving Lives Across Africa.
-              </span>
-            </h1>
+          {/* Left Text Content — changes with each slide */}
+          <div className="lg:col-span-7 space-y-8">
 
-            <div className="space-y-4 max-w-2xl text-gray-200 text-base sm:text-lg md:text-xl leading-relaxed">
-              <p className="font-medium text-white/95">
-                Connect with Africa is a humanitarian initiative dedicated to bridging global generosity with local needs across African communities.
-              </p>
-              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                We work alongside clinics, healthcare workers, community leaders, and development partners to deliver critical medical supplies, strengthen frontline healthcare, and create pathways for sustainable community development.
-              </p>
-            </div>
+            {/* Tag Badge — slides in/out with image */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`tag-${index}`}
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 12 }}
+                transition={{ duration: 0.5 }}
+              >
+                {(() => {
+                  const Icon = currentSlide.tagIcon;
+                  return (
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/25 border border-green-400/40 text-green-300 text-xs sm:text-sm font-bold uppercase tracking-widest backdrop-blur-md">
+                      <Icon className="w-4 h-4" />
+                      {currentSlide.tag}
+                    </div>
+                  );
+                })()}
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Call to Action Buttons */}
-            <div className="pt-2 flex flex-col sm:flex-row gap-4 sm:items-center">
+            {/* Headline — animates per slide */}
+            <AnimatePresence mode="wait">
+              <motion.h1
+                key={`headline-${index}`}
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] text-white"
+              >
+                {currentSlide.headline}
+              </motion.h1>
+            </AnimatePresence>
+
+            {/* Subheading — animates per slide */}
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={`sub-${index}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-white/85 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl"
+              >
+                {currentSlide.subheading}
+              </motion.p>
+            </AnimatePresence>
+
+            {/* CTA Buttons — static, always visible */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="pt-2 flex flex-col sm:flex-row gap-4 sm:items-center"
+            >
               <Link href="/donate">
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-xl shadow-emerald-950/60 flex items-center justify-center gap-3 transition-colors text-base"
+                  className="w-full sm:w-auto px-8 py-4 bg-green-500 hover:bg-green-400 text-white font-bold rounded-xl shadow-xl shadow-green-900/60 flex items-center justify-center gap-3 transition-colors text-base"
                 >
                   <span>DONATE NOW</span>
                   <ArrowRight className="w-5 h-5" />
@@ -110,34 +155,38 @@ export default function HeroSection() {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="w-full sm:w-auto px-8 py-4 bg-slate-900/80 hover:bg-slate-800 text-gray-100 hover:text-white font-semibold rounded-xl border border-slate-700/80 backdrop-blur-md flex items-center justify-center gap-2 transition-colors text-base"
+                  className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/30 backdrop-blur-md flex items-center justify-center gap-2 transition-colors text-base"
                 >
                   <span>SEE OUR IMPACT</span>
                 </motion.button>
               </Link>
-            </div>
-          </motion.div>
-
-          {/* Right Floating 3D Image Card */}
-        
+            </motion.div>
+          </div>
         </div>
 
-        {/* Mobile Slide Dots */}
-        <div className="flex lg:hidden justify-center gap-2 mt-8">
-          {heroSlides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === index
-                  ? "w-6 bg-emerald-400"
-                  : "w-2 bg-white/30 hover:bg-white/50"
-              }`}
-            />
-          ))}
+        {/* Slide Dots + Counter */}
+        <div className="flex items-center gap-4 mt-10">
+          <div className="flex gap-2">
+            {heroSlides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  i === index
+                    ? "w-8 bg-green-400"
+                    : "w-2 bg-white/30 hover:bg-white/60"
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-white/50 text-xs font-mono">
+            {String(index + 1).padStart(2, "0")} / {String(heroSlides.length).padStart(2, "0")}
+          </span>
         </div>
       </div>
     </section>
   );
 }
+
+

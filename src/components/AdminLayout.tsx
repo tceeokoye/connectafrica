@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
-  FileText,
   DollarSign,
   Users,
   Settings,
@@ -14,18 +13,20 @@ import {
   X,
   Heart,
   LogOut,
-
+  Target,
+  BookOpen,
+  ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const sidebarLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/campaigns", label: "Campaigns", icon: FileText },
-  { href: "/admin/blog", label: "Blog", icon: FileText },
-  { href: "/admin/gallery", label: "Gallery", icon: FileText },
+  { href: "/admin/campaigns", label: "Campaigns", icon: Target },
+  { href: "/admin/blog", label: "Blog", icon: BookOpen },
+  { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
   { href: "/admin/donations", label: "Donations", icon: DollarSign },
   { href: "/admin/subscribers", label: "Subscribers", icon: Users },
- 
+  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 interface AdminLayoutProps {

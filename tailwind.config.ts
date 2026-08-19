@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"DM Sans"', "system-ui", "-apple-system", "sans-serif"],
-        display: ['"Playfair Display"', "Georgia", "serif"],
+        sans: ['"Nunito Sans"', "system-ui", "-apple-system", "sans-serif"],
+        display: ['"Oswald"', "Georgia", "serif"],
+        heading: ['"Oswald"', "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -1,4 +1,4 @@
-/* Fonts loaded via index.html */
+/* Fonts loaded via layout.tsx */
 
 @tailwind base;
 @tailwind components;
@@ -7,106 +7,113 @@
 @layer base {
   :root {
     --background: 0 0% 99%;
-    --foreground: 0 0% 15%;
+    --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 15%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 15%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 4 82% 53%;
+    /* Bright vivid red — matches logo */
+    --primary: 4 90% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 140 40% 96%;
-    --secondary-foreground: 0 0% 15%;
+    /* Bright fresh green tint background */
+    --secondary: 142 60% 93%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 145 55% 38%;
+    /* Bright vivid green — matches logo */
+    --accent: 142 72% 42%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 88% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 4 82% 53%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 4 90% 50%;
 
     --radius: 0.75rem;
 
-    --earth: 145 55% 30%;
+    /* Bright deep green */
+    --earth: 142 72% 28%;
     --earth-foreground: 0 0% 100%;
 
-    --gold: 38 95% 55%;
-    --gold-foreground: 0 0% 15%;
+    /* Warm amber/gold accent */
+    --gold: 38 100% 52%;
+    --gold-foreground: 0 0% 10%;
 
-    --terracotta: 4 82% 53%;
+    /* Vivid red */
+    --terracotta: 4 90% 50%;
     --terracotta-foreground: 0 0% 100%;
 
-    --sage: 145 55% 38%;
+    /* Bright mid-green */
+    --sage: 142 72% 42%;
     --sage-foreground: 0 0% 100%;
 
-    --sidebar-background: 145 55% 25%;
+    --sidebar-background: 142 72% 22%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 4 82% 53%;
+    --sidebar-primary: 4 90% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 145 45% 30%;
+    --sidebar-accent: 142 65% 30%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 145 40% 35%;
-    --sidebar-ring: 4 82% 53%;
+    --sidebar-border: 142 50% 35%;
+    --sidebar-ring: 4 90% 50%;
   }
 
   .dark {
-    --background: 0 0% 8%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 7%;
+    --foreground: 0 0% 97%;
 
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 97%;
 
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 97%;
 
-    --primary: 4 82% 58%;
+    --primary: 4 90% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 145 30% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 142 40% 14%;
+    --secondary-foreground: 0 0% 97%;
 
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 68%;
 
-    --accent: 145 50% 45%;
+    --accent: 142 72% 50%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62% 40%;
+    --destructive: 0 70% 45%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 20%;
     --input: 0 0% 20%;
-    --ring: 4 82% 58%;
+    --ring: 4 90% 58%;
 
-    --earth: 145 45% 20%;
-    --earth-foreground: 0 0% 95%;
+    --earth: 142 55% 18%;
+    --earth-foreground: 0 0% 97%;
 
-    --gold: 38 90% 50%;
-    --gold-foreground: 0 0% 10%;
+    --gold: 38 100% 56%;
+    --gold-foreground: 0 0% 8%;
 
-    --terracotta: 4 75% 50%;
+    --terracotta: 4 85% 58%;
     --terracotta-foreground: 0 0% 100%;
 
-    --sage: 145 45% 40%;
+    --sage: 142 65% 48%;
     --sage-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 6%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 4 82% 58%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 97%;
+    --sidebar-primary: 4 90% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 145 30% 15%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 4 82% 58%;
+    --sidebar-accent: 142 40% 14%;
+    --sidebar-accent-foreground: 0 0% 97%;
+    --sidebar-border: 0 0% 14%;
+    --sidebar-ring: 4 90% 58%;
   }
 }
 
@@ -117,7 +124,7 @@
 
   html,
   body {
-    font-family: "Montserrat", system-ui, -apple-system, sans-serif !important;
+    font-family: "Nunito Sans", system-ui, -apple-system, sans-serif !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -137,7 +144,7 @@
   td,
   th,
   div {
-    font-family: "Montserrat", system-ui, -apple-system, sans-serif !important;
+    font-family: "Nunito Sans", system-ui, -apple-system, sans-serif !important;
   }
 
   h1,
@@ -146,7 +153,8 @@
   h4,
   h5,
   h6 {
-    font-family: "Montserrat", Georgia, serif !important;
+    font-family: "Oswald", Georgia, serif !important;
+    letter-spacing: 0.02em;
     @apply font-semibold;
   }
 

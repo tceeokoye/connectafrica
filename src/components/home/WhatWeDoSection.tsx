@@ -38,7 +38,7 @@ const partnersList = [
 
 export const WhatWeDoSection = () => {
   return (
-    <section className="py-20 md:py-28 bg-slate-50 text-gray-900 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-gradient-to-b from-emerald-50 via-green-50 to-white text-gray-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         {/* Header */}
         <motion.div

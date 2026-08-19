@@ -80,7 +80,6 @@ export default function AdminGallery() {
       : mediaItems.filter((item) => item.category === filter);
 
   return (
-    <>
     <AdminLayout>
       <div className="space-y-6 w-full ">
        
@@ -280,6 +279,5 @@ export default function AdminGallery() {
         />
       </div>
       </AdminLayout>
-    </>
   );
 }

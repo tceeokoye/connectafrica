@@ -34,10 +34,10 @@ const impactStories = [
 
 export const ImpactSection = () => {
   return (
-    <section id="impact" className="py-20 md:py-28 bg-slate-900 text-white relative overflow-hidden">
+    <section id="impact" className="py-20 md:py-28 bg-gradient-to-br from-green-900 via-emerald-950 to-green-900 text-white relative overflow-hidden">
       {/* Subtle Background Elements */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-green-400/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-red-500/15 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
         {/* Header */}

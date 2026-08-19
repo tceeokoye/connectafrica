@@ -19,7 +19,7 @@ const shortages = [
 
 export const TheChallengeSection = () => {
   return (
-    <section className="py-20 md:py-28 bg-white text-gray-900 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-gradient-to-b from-green-50 via-white to-red-50 text-gray-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         {/* Header */}
         <motion.div
@@ -82,9 +82,9 @@ export const TheChallengeSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="bg-gradient-to-r from-emerald-900 via-slate-900 to-emerald-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden"
+          className="bg-gradient-to-r from-green-700 via-green-800 to-emerald-700 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden"
         >
-          <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-lime-400/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-4xl space-y-6 relative z-10">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs sm:text-sm font-semibold uppercase tracking-wider">

@@ -16,11 +16,14 @@ export default function RootWrapper({
   const [showFirstVisit, setShowFirstVisit] = useState(false);
   const [showWireframe, setShowWireframe] = useState(false);
 
+  // Skip loaders entirely on admin routes
+  const isAdminRoute = pathname?.startsWith("/admin");
+
   // On mount, check if we need to show FirstVisitLoader
   useEffect(() => {
     setHydrated(true);
 
-    if (pathname === "/") {
+    if (pathname === "/" && !isAdminRoute) {
       try {
         const seen = sessionStorage.getItem("cwa_seen_first_visit");
         if (!seen) {
@@ -37,9 +40,9 @@ export default function RootWrapper({
     setShowFirstVisit(false);
   };
 
-  // Wireframe loader for route changes (except first load)
+  // Wireframe loader for route changes (except first load and admin pages)
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || isAdminRoute) return;
 
     // Only show wireframe for page transitions, not initial load
     if (pathname !== "/" || (pathname === "/" && showFirstVisit === false)) {
@@ -47,9 +50,14 @@ export default function RootWrapper({
       const timer = setTimeout(() => setShowWireframe(false), 600); // adjust duration
       return () => clearTimeout(timer);
     }
-  }, [pathname, hydrated, showFirstVisit]);
+  }, [pathname, hydrated, showFirstVisit, isAdminRoute]);
 
   if (!hydrated) return null;
+
+  // Admin routes render instantly — no loaders
+  if (isAdminRoute) {
+    return <>{children}</>;
+  }
 
   return (
     <>

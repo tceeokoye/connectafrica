@@ -113,28 +113,28 @@ export default function ContactPage() {
   return (
     <Layout className="overflow-x-hidden">
       {/* ================= HERO WITH BACKGROUND IMAGE ================= */}
-      <section className="relative pt-36 pb-28 overflow-hidden bg-slate-950 text-white">
+      <section className="relative pt-36 pb-28 overflow-hidden bg-green-950 text-white">
         <div className="absolute inset-0 z-0">
           <Image
             src={heroBg}
             alt="Connecting with African communities"
             fill
-            className="object-cover object-center opacity-40 scale-105"
+            className="object-cover object-center opacity-85 scale-105"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-emerald-950/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-semibold uppercase tracking-wider backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/25 border border-green-400/40 text-green-300 text-xs sm:text-sm font-bold uppercase tracking-wider backdrop-blur-md">
             <Sparkles className="w-4 h-4" />
             CONTACT
           </div>
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
             Let&apos;s Connect
           </h1>
-          <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
             Whether you want to donate, volunteer, partner with us, donate medical supplies, or learn more about our work, we would love to hear from you.
           </p>
         </div>

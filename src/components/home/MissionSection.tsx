@@ -5,10 +5,10 @@ import { Target, HeartHandshake, Shield, Sparkles } from "lucide-react";
 
 export const MissionSection = () => {
   return (
-    <section id="mission" className="py-20 md:py-28 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 text-white relative overflow-hidden">
+    <section id="mission" className="py-20 md:py-28 bg-gradient-to-b from-green-900 via-green-950 to-emerald-900 text-white relative overflow-hidden">
       {/* Background glow */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-green-400/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-red-500/15 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
         <motion.div

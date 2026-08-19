@@ -20,9 +20,9 @@ const donationItems = [
 
 export const FeaturedInitiativeSection = () => {
   return (
-    <section className="py-20 md:py-28 bg-white text-gray-900 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-gradient-to-b from-white to-green-50 text-gray-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-emerald-950 rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden border border-emerald-900/30">
+        <div className="bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden border border-green-600/30">
           {/* Background Ambient Glow */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
