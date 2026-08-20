@@ -232,22 +232,14 @@ export default function AdminGallery() {
                             <h3 className="text-sm font-bold text-foreground line-clamp-1">
                               {item.title}
                             </h3>
-                            <div className="flex items-center justify-between mt-1">
-                              <p className="text-xs text-muted-foreground font-medium">
+                            <div className="flex items-center justify-between mt-1.5">
+                              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                 {item.category}
-                              </p>
-                              {item.createdAt && (
-                                <p className="text-[11px] text-muted-foreground/80">
-                                  {new Date(item.createdAt).toLocaleDateString(
-                                    "en-GB",
-                                    {
-                                      day: "numeric",
-                                      month: "short",
-                                      year: "numeric",
-                                    }
-                                  )}
-                                </p>
-                              )}
+                              </span>
+                              <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-muted text-foreground border border-border/50">
+                                📅 {item.year || (item.createdAt ? new Date(item.createdAt).getFullYear() : "—")}
+                              </span>
                             </div>
                           </div>
 

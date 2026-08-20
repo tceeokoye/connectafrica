@@ -71,6 +71,7 @@ export async function PUT(
       title,
       category,
       type, // "image" | "video"
+      year,
       imageBase64,
       imagesBase64,
       existingImages,
@@ -158,6 +159,14 @@ export async function PUT(
       }
     }
 
+    // --- DETERMINE YEAR & CREATEDAT ---
+    const selectedYear = year ? String(year).trim() : existing.year || (existing.createdAt ? String(new Date(existing.createdAt).getFullYear()) : String(new Date().getFullYear()));
+    
+    let updatedCreatedAt = existing.createdAt;
+    if (year && String(year) !== (existing.year ? String(existing.year) : String(new Date(existing.createdAt).getFullYear()))) {
+      updatedCreatedAt = new Date(`${selectedYear}-06-15T12:00:00.000Z`);
+    }
+
     // --- UPDATE ---
     await collection.updateOne(
       { _id: new ObjectId(id) },
@@ -166,9 +175,11 @@ export async function PUT(
           title,
           category,
           type,
+          year: selectedYear,
           src: updatedSrc,
           images: type === "image" ? updatedImages : undefined,
           thumbnail: updatedThumbnail,
+          createdAt: updatedCreatedAt,
           updatedAt: new Date(),
         },
       }

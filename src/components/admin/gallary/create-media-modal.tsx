@@ -11,7 +11,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { X, Upload, Plus, Image as ImageIcon, Video, Trash2, CheckCircle2 } from "lucide-react";
+import {
+  X,
+  Upload,
+  Plus,
+  Image as ImageIcon,
+  Video,
+  Trash2,
+  CheckCircle2,
+  Calendar,
+} from "lucide-react";
 import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
@@ -29,6 +38,8 @@ interface MediaItem {
   thumbnail?: string;
   title: string;
   category: string;
+  year?: string | number;
+  createdAt?: string;
 }
 
 interface GalleryMediaModalProps {
@@ -50,6 +61,21 @@ const categories = [
   "Infrastructure",
   "Events",
   "Others",
+];
+
+const availableYears = [
+  "2026",
+  "2025",
+  "2024",
+  "2023",
+  "2022",
+  "2021",
+  "2020",
+  "2019",
+  "2018",
+  "2017",
+  "2016",
+  "2015",
 ];
 
 const MAX_VIDEO_DURATION_MIN = 30; // 30 minutes
@@ -74,6 +100,7 @@ export default function GalleryMediaModal({
   const [type, setType] = useState<"image" | "video">("image");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [year, setYear] = useState(String(new Date().getFullYear()));
   
   // Multi-image state
   const [selectedImages, setSelectedImages] = useState<SelectedImageItem[]>([]);
@@ -92,6 +119,12 @@ export default function GalleryMediaModal({
       setType(media.type);
       setTitle(media.title);
       setCategory(media.category);
+      const itemYear = media.year 
+        ? String(media.year) 
+        : media.createdAt 
+        ? String(new Date(media.createdAt).getFullYear()) 
+        : String(new Date().getFullYear());
+      setYear(itemYear);
       if (media.type === "image") {
         const existingUrls = media.images && media.images.length > 0 
           ? media.images 
@@ -116,6 +149,7 @@ export default function GalleryMediaModal({
       setType("image");
       setTitle("");
       setCategory("");
+      setYear(String(new Date().getFullYear()));
       setSelectedImages([]);
       setVideoFile(null);
       setVideoThumbnail(null);
@@ -279,6 +313,7 @@ export default function GalleryMediaModal({
             type: "image",
             title: title.trim(),
             category,
+            year: year.trim(),
             imagesBase64,
             existingImages: existingImageUrls,
           }),
@@ -322,6 +357,7 @@ export default function GalleryMediaModal({
             type: "video",
             title: title.trim(),
             category,
+            year: year.trim(),
             videoBase64,
             thumbnailBase64,
           }),
@@ -422,26 +458,52 @@ export default function GalleryMediaModal({
                 />
               </div>
 
-              {/* Category Select */}
-              <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">
-                  Category *
-                </label>
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="rounded-xl h-11">
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent
-                    position="popper"
-                    className="max-h-60 overflow-y-auto"
-                  >
-                    {categories.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              {/* Category & Year Select in 2 Columns */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Category Select */}
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">
+                    Category *
+                  </label>
+                  <Select value={category} onValueChange={setCategory}>
+                    <SelectTrigger className="rounded-xl h-11">
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent
+                      position="popper"
+                      className="max-h-60 overflow-y-auto"
+                    >
+                      {categories.map((cat) => (
+                        <SelectItem key={cat} value={cat}>
+                          {cat}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Year Select */}
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5 flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    Year of Posting *
+                  </label>
+                  <Select value={year} onValueChange={setYear}>
+                    <SelectTrigger className="rounded-xl h-11 font-medium">
+                      <SelectValue placeholder="Select Year" />
+                    </SelectTrigger>
+                    <SelectContent
+                      position="popper"
+                      className="max-h-60 overflow-y-auto"
+                    >
+                      {availableYears.map((yr) => (
+                        <SelectItem key={yr} value={yr}>
+                          {yr}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* Image Upload & Multi-Image Gallery Area */}

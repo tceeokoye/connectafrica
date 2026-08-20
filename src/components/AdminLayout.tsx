@@ -1,8 +1,8 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -11,13 +11,22 @@ import {
   Settings,
   Menu,
   X,
-  Heart,
   LogOut,
   Target,
   BookOpen,
   ImageIcon,
+  Globe,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store";
+import { tokenActions } from "@/store/slices/authSlice";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "sonner";
+
+import logo from "@/assets/logo.png";
+import Image from "next/image";
 
 const sidebarLinks = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -33,9 +42,90 @@ interface AdminLayoutProps {
   children: ReactNode;
 }
 
-export default function AdminLayout ({ children }: AdminLayoutProps) {
+export default function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const token = useSelector((state: RootState) => state.token.token);
+
+  // Helper to check token expiration
+  const checkAuth = useCallback(() => {
+    if (!token) {
+      dispatch(tokenActions.deleteToken());
+      setIsAuthorized(false);
+      router.replace("/admin/login");
+      return false;
+    }
+
+    try {
+      const decoded: { exp?: number; role?: string } = jwtDecode(token);
+      
+      // Check if expired
+      if (!decoded.exp || decoded.exp * 1000 <= Date.now()) {
+        dispatch(tokenActions.deleteToken());
+        setIsAuthorized(false);
+        toast.error("Your admin session has expired. Please log in again.");
+        router.replace("/admin/login");
+        return false;
+      }
+
+      setIsAuthorized(true);
+      return true;
+    } catch {
+      dispatch(tokenActions.deleteToken());
+      setIsAuthorized(false);
+      toast.error("Invalid session. Please log in again.");
+      router.replace("/admin/login");
+      return false;
+    }
+  }, [token, dispatch, router]);
+
+  // Initial check & periodic active session monitoring
+  useEffect(() => {
+    const valid = checkAuth();
+    if (!valid) return;
+
+    // Check every 5 seconds while user is on page
+    const interval = setInterval(() => {
+      checkAuth();
+    }, 5000);
+
+    // Check when user tabs back into the window
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        checkAuth();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [checkAuth]);
+
+  // Handle Logout
+  const handleLogout = () => {
+    dispatch(tokenActions.deleteToken());
+    toast.success("Logged out successfully");
+    router.replace("/admin/login");
+  };
+
+  // If still checking initial authentication or unauthorized, show brief loading screen
+  if (isAuthorized === false || isAuthorized === null) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+          <p className="text-sm font-semibold text-muted-foreground">
+            Verifying admin session...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -60,25 +150,27 @@ export default function AdminLayout ({ children }: AdminLayoutProps) {
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
+          <div className="h-16 flex items-center px-4 justify-between bg-white border-b border-sidebar-border">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-sidebar-primary flex items-center justify-center">
-                <Heart className="w-4 h-4 text-sidebar-primary-foreground" />
-              </div>
-              <span className="font-display text-lg font-bold text-sidebar-foreground">
-                ConnectAfrica
-              </span>
+              <Image
+                src={logo}
+                alt="Connect with Africa"
+                width={200}
+                height={120}
+                className="h-[75px] sm:h-[85px] md:h-[60px] w-auto object-contain drop-shadow-md"
+                priority
+              />
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
               className="lg:hidden text-sidebar-foreground"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 text-black" />
             </button>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-2">
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
             {sidebarLinks.map((link) => {
               const isActive = pathname.startsWith(link.href);
 
@@ -87,30 +179,40 @@ export default function AdminLayout ({ children }: AdminLayoutProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors font-medium text-sm ${
                     isActive
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                      ? "bg-sidebar-primary text-sidebar-primary-foreground font-bold shadow-sm"
                       : "text-sidebar-foreground hover:bg-sidebar-accent"
                   }`}
                 >
                   <link.icon className="w-5 h-5" />
-                  <span className="font-medium">{link.label}</span>
+                  <span>{link.label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Footer */}
-          <div className="p-4 border-t border-sidebar-border">
-            <Link href="/">
+          {/* Footer Actions */}
+          <div className="p-4 border-t border-sidebar-border space-y-2 bg-sidebar/50">
+            <Link href="/" target="_blank">
               <Button
                 variant="ghost"
-                className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent"
+                size="sm"
+                className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent text-xs font-medium"
               >
-                <LogOut className="w-5 h-5 mr-3" />
-                Back to Site
+                <Globe className="w-4 h-4 mr-2.5 text-muted-foreground" />
+                View Public Site
               </Button>
             </Link>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLogout}
+              className="w-full justify-start text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 border-red-200 dark:border-red-900/50 text-xs font-bold"
+            >
+              <LogOut className="w-4 h-4 mr-2.5 text-red-600" />
+              Sign Out
+            </Button>
           </div>
         </div>
       </aside>
@@ -134,6 +236,5 @@ export default function AdminLayout ({ children }: AdminLayoutProps) {
       </main>
     </div>
   );
-};
-
+}
 

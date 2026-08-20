@@ -30,19 +30,30 @@ function convertYouTubeURL(url: string) {
   return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
 }
 
-/** Extract the 4-digit year from a date string, or return "Older" */
-function getYear(dateStr?: string): string {
-  if (!dateStr) return "Older";
-  const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return "Older";
-  return String(d.getFullYear());
+/** Extract the 4-digit year from a MediaItem, date string, or return "Older" */
+function getYear(item?: MediaItem | string): string {
+  if (!item) return "Older";
+  if (typeof item === "string") {
+    if (/^\d{4}$/.test(item.trim())) return item.trim();
+    const d = new Date(item);
+    if (!isNaN(d.getTime())) return String(d.getFullYear());
+    return "Older";
+  }
+  if (item.year && /^\d{4}$/.test(String(item.year).trim())) {
+    return String(item.year).trim();
+  }
+  if (item.createdAt) {
+    const d = new Date(item.createdAt);
+    if (!isNaN(d.getTime())) return String(d.getFullYear());
+  }
+  return "Older";
 }
 
 /** Group an array of MediaItems into year buckets, sorted newest year first */
 function groupByYear(items: MediaItem[]): { year: string; items: MediaItem[] }[] {
   const map: Record<string, MediaItem[]> = {};
   for (const item of items) {
-    const y = getYear(item.createdAt);
+    const y = getYear(item);
     if (!map[y]) map[y] = [];
     map[y].push(item);
   }

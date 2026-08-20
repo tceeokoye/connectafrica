@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Add response interceptors with detailed logging
+// Add response interceptors with detailed logging and 401 session expiry handling
 axiosInstance.interceptors.response.use(
   (response) => {
     console.log(
@@ -47,6 +47,25 @@ axiosInstance.interceptors.response.use(
       status: error.response?.status,
       data: error.response?.data,
     });
+
+    // If API returns 401 (token expired/invalid), clear token and redirect admin to login
+    if (error.response?.status === 401) {
+      try {
+        const { tokenActions } = require("@/store/slices/authSlice");
+        store.dispatch(tokenActions.deleteToken());
+      } catch (e) {
+        console.error("Failed to clear auth state:", e);
+      }
+
+      if (
+        typeof window !== "undefined" &&
+        window.location.pathname.startsWith("/admin") &&
+        window.location.pathname !== "/admin/login"
+      ) {
+        window.location.href = "/admin/login";
+      }
+    }
+
     return Promise.reject(error);
   }
 );

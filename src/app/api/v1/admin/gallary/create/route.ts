@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       title,
       category,
       type, // "image" | "video"
+      year,
       imageBase64,
       imagesBase64,
       videoBase64,
@@ -142,14 +143,22 @@ export async function POST(req: NextRequest) {
     const db = client.db("connect_africa");
     const collection = db.collection("gallery");
 
+    // Determine creation date based on selected year
+    const selectedYear = year ? String(year).trim() : String(new Date().getFullYear());
+    const isCurrentYear = selectedYear === String(new Date().getFullYear());
+    const createdAtDate = isCurrentYear
+      ? new Date()
+      : new Date(`${selectedYear}-06-15T12:00:00.000Z`);
+
     const media = {
       title,
       category,
       type,
+      year: selectedYear,
       src: type === "image" ? imageUrl : videoUrl,
       images: type === "image" ? imagesList : undefined,
       thumbnail: thumbnailUrl,
-      createdAt: new Date(),
+      createdAt: createdAtDate,
       updatedAt: new Date(),
     };
 

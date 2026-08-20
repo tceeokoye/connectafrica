@@ -36,6 +36,7 @@ export interface MediaItem {
   title: string;
   category: string;
   description?: string;
+  year?: string | number;
   createdAt?: string;
 }
 interface Campaign {
