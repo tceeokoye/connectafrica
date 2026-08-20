@@ -15,7 +15,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import heroBg from "@/assets/gbazgo-clinic.jpeg";
+import heroBg from "@/assets/partners-hero.jpg";
 
 const partnerCategories = [
   {

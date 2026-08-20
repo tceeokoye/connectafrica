@@ -15,7 +15,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import heroBg from "@/assets/aboutImage.jpeg";
+import heroBg from "@/assets/get-involved-hero.jpg";
 
 const corporatePoints = [
   "Financial sponsorship",

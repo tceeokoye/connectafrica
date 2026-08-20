@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useContact } from "../../hooks/useContact";
 import { toast } from "sonner";
-import heroBg from "@/assets/hospitalSuply.jpeg";
+import heroBg from "@/assets/contact-hero.jpg";
 
 const helpOptions = [
   "I want to donate",

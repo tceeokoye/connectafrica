@@ -30,7 +30,7 @@ export const AboutSection = () => {
               transition={{ duration: 0.5 }}
               className="relative rounded-3xl overflow-hidden shadow-2xl"
             >
-              <Image src={aboutImage} alt="about image" width={500} height={560} className="w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[460px] object-cover"/>
+              <Image src={aboutImage} alt="African doctor using phone to coordinate healthcare delivery" width={500} height={560} className="w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[460px] object-cover"/>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             </motion.div>
             {/* Floating Glass Card */}
