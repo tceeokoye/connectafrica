@@ -11,7 +11,7 @@ export const Layout = ({ children, className = "" }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col w-full">
       <Navbar />
-      <main className={`flex-1 pt-28 w-full ${className}`}>{children}</main>
+      <main className={`flex-1 pt-26 w-full ${className}`}>{children}</main>
       <Footer />
     </div>
   );
