@@ -31,6 +31,7 @@ export interface MediaItem {
   _id?: string;
   type: "image" | "video";
   src: string;
+  images?: string[];
   thumbnail?: string;
   title: string;
   category: string;

@@ -72,6 +72,8 @@ export async function PUT(
       category,
       type, // "image" | "video"
       imageBase64,
+      imagesBase64,
+      existingImages,
       videoUrl,
       thumbnailBase64,
     } = await req.json();
@@ -111,14 +113,33 @@ export async function PUT(
 
     // --- CLOUDINARY ---
     let updatedSrc = existing.src;
+    let updatedImages: string[] = existing.images || (existing.src ? [existing.src] : []);
     let updatedThumbnail = existing.thumbnail || null;
 
-    if (type === "image" && imageBase64) {
-      const upload = await cloudinary.uploader.upload(imageBase64, {
-        folder: "gallery/images",
-        resource_type: "image",
-      });
-      updatedSrc = upload.secure_url;
+    if (type === "image") {
+      if (Array.isArray(existingImages)) {
+        updatedImages = [...existingImages];
+      }
+
+      if (Array.isArray(imagesBase64) && imagesBase64.length > 0) {
+        for (const imgBase64 of imagesBase64) {
+          const upload = await cloudinary.uploader.upload(imgBase64, {
+            folder: "gallery/images",
+            resource_type: "image",
+          });
+          updatedImages.push(upload.secure_url);
+        }
+      } else if (imageBase64) {
+        const upload = await cloudinary.uploader.upload(imageBase64, {
+          folder: "gallery/images",
+          resource_type: "image",
+        });
+        updatedImages = [upload.secure_url];
+      }
+
+      if (updatedImages.length > 0) {
+        updatedSrc = updatedImages[0];
+      }
       updatedThumbnail = null;
     }
 
@@ -146,6 +167,7 @@ export async function PUT(
           category,
           type,
           src: updatedSrc,
+          images: type === "image" ? updatedImages : undefined,
           thumbnail: updatedThumbnail,
           updatedAt: new Date(),
         },

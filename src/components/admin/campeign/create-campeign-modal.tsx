@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import DatePicker from "react-datepicker";

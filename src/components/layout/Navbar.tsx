@@ -44,7 +44,7 @@ export const Navbar = () => {
           : "bg-black/40 backdrop-blur-sm border-b border-white/10"
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center w-full">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0 flex flex-col justify-center w-full">
         <div className="flex items-center justify-between w-full">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">

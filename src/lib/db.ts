@@ -1,4 +1,12 @@
 import { MongoClient } from "mongodb";
+import dns from "dns";
+
+// Fix for Node.js on Windows SRV DNS resolution issues with MongoDB Atlas
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch {
+  // fallback gracefully if unsupported
+}
 
 const uri = process.env.MONGODB_URI as string;
 

@@ -57,6 +57,7 @@ export async function POST(req: NextRequest) {
       category,
       type, // "image" | "video"
       imageBase64,
+      imagesBase64,
       videoBase64,
       thumbnailBase64,
     } = await req.json();
@@ -80,9 +81,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
 
-    if (type === "image" && !imageBase64)
+    const hasImages =
+      (Array.isArray(imagesBase64) && imagesBase64.length > 0) || !!imageBase64;
+
+    if (type === "image" && !hasImages)
       return NextResponse.json(
-        { success: false, message: "Image file is required" },
+        { success: false, message: "At least one image is required" },
         { status: 400 }
       );
 
@@ -94,15 +98,25 @@ export async function POST(req: NextRequest) {
 
     // --- CLOUDINARY ---
     let imageUrl: string | null = null;
+    let imagesList: string[] = [];
     let videoUrl: string | null = null;
     let thumbnailUrl: string | null = null;
 
     if (type === "image") {
-      const upload = await cloudinary.uploader.upload(imageBase64, {
-        folder: "gallery/images",
-        resource_type: "image",
-      });
-      imageUrl = upload.secure_url;
+      const toUpload = Array.isArray(imagesBase64) && imagesBase64.length > 0
+        ? imagesBase64
+        : imageBase64
+        ? [imageBase64]
+        : [];
+
+      for (const imgBase64 of toUpload) {
+        const upload = await cloudinary.uploader.upload(imgBase64, {
+          folder: "gallery/images",
+          resource_type: "image",
+        });
+        imagesList.push(upload.secure_url);
+      }
+      imageUrl = imagesList[0] || null;
     }
 
     if (type === "video") {
@@ -133,6 +147,7 @@ export async function POST(req: NextRequest) {
       category,
       type,
       src: type === "image" ? imageUrl : videoUrl,
+      images: type === "image" ? imagesList : undefined,
       thumbnail: thumbnailUrl,
       createdAt: new Date(),
       updatedAt: new Date(),

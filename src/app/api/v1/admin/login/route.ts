@@ -32,15 +32,15 @@ export async function POST(req: NextRequest) {
     const db = client.db("connect_africa");
     const adminCollection = db.collection("adminauth");
 
-    // Normalize email and ensure role is 'admin'
+    // Normalize email and ensure role is 'admin' (case-insensitive search)
     const admin = await adminCollection.findOne({
-      email: email,
+      email: { $regex: new RegExp(`^${email.trim()}$`, "i") },
       role: "admin",
     });
 
     if (!admin) {
       return NextResponse.json(
-        { success: false, message: "Invalid credentials." },
+        { success: false, message: "Invalid email or password." },
         { status: 401 }
       );
     }
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     if (!passwordMatch) {
       return NextResponse.json(
-        { success: false, message: "Invalid credentials." },
+        { success: false, message: "Invalid email or password." },
         { status: 401 }
       );
     }
@@ -58,8 +58,8 @@ export async function POST(req: NextRequest) {
     // Generate JWT token
     const token = jwt.sign(
       { email: admin.email, role: admin.role, name: admin.name },
-      process.env.JWT_SECRET!,
-      { expiresIn: "1h" }
+      process.env.JWT_SECRET || "default_jwt_secret",
+      { expiresIn: "7d" }
     );
 
     return NextResponse.json({
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
   } catch (err: any) {
     console.error("Login error:", err);
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { success: false, message: err.message || "Internal Server Error" },
       { status: 500 }
     );
   }

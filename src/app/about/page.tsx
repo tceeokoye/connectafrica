@@ -18,9 +18,9 @@ import {
   Layers,
   Award,
 } from "lucide-react";
-import AboutHero from "@/assets/gbazgo-clinic.jpeg";
+import AboutHero from "@/assets/about-hero.jpg";
 import ClinicInside from "@/assets/inside-clinic.jpeg";
-import AboutImg from "@/assets/aboutImage.jpeg";
+import ClinicExterior from "@/assets/gbazgo-clinic.jpeg";
 
 const approaches = [
   {
@@ -95,7 +95,7 @@ export default function About() {
         <div className="absolute inset-0 z-0">
           <Image
             src={AboutHero}
-            alt="Gbazgo Primary Healthcare Center"
+            alt="Connect with Africa humanitarian volunteers and African healthcare team collaborating at community clinic"
             fill
             className="object-cover object-center opacity-85 scale-105"
             priority
@@ -162,7 +162,7 @@ export default function About() {
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-gray-200 h-64">
                 <Image
                   src={ClinicInside}
-                  alt="Inside primary healthcare clinic"
+                  alt="Inside primary healthcare clinic ward"
                   fill
                   className="object-cover"
                 />
@@ -174,14 +174,14 @@ export default function About() {
 
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-gray-200 h-64">
                 <Image
-                  src={AboutImg}
-                  alt="Healthcare workers and supplies"
+                  src={ClinicExterior}
+                  alt="Gbazgo Primary Healthcare Center exterior"
                   fill
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 text-white text-xs font-semibold">
-                  Supplies and Frontline Clinical Assistance
+                  Gbazgo Primary Healthcare Center Facility
                 </div>
               </div>
             </motion.div>
